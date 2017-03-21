@@ -1,0 +1,4 @@
+#Provide a valid RSyslog collector server name
+add_system_alerts_rsyslog_collector: null
+add_system_alerts_rsyslog_collectorPort: 514
+add_system_alerts_rsyslog_collectorLeef: True

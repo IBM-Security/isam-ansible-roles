@@ -1,0 +1,27 @@
+- name: Set a new OAuth 2.0 Client - {{ set_oauth_client_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.api_protection.clients.set
+    isamapi:
+      name          : "{{ set_oauth_client_name }}"
+      definitionName: "{{ set_oauth_client_definitionName }}"
+      companyName   : "{{ set_oauth_client_companyName }}"
+      redirectUri   : "{{ set_oauth_client_redirectUri }}"
+      companyUrl    : "{{ set_oauth_client_companyUrl }}"
+      contactPerson : "{{ set_oauth_client_contactPerson }}"
+      contactType   : "{{ set_oauth_client_contactType }}"
+      email         : "{{ set_oauth_client_email }}"
+      phone         : "{{ set_oauth_client_phone }}"
+      otherInfo     : "{{ set_oauth_client_otherInfo }}"
+      clientId      : "{{ set_oauth_client_clientId }}"
+      clientSecret  : "{{ set_oauth_client_clientSecret }}"
+  when: (set_oauth_client_name is defined and set_oauth_client_definitionName is defined and set_oauth_client_companyName is defined)
+  notify:
+  - Commit Changes
+  
+  

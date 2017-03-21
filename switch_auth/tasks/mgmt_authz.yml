@@ -1,0 +1,12 @@
+- name: Enable Management Authorization (Role Based Access)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.config.set
+    isamapi:
+      enforcing: "{{ switch_auth_enable }}"
+  notify: Commit Changes

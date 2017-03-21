@@ -1,0 +1,13 @@
+- name: Update Hostname for Appliance to {{ set_network_hostname_hostname }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.hostname.set
+    isamapi:
+      hostname: "{{ set_network_hostname_hostname }}"
+  when: set_network_hostname_hostname is defined
+  notify: Commit Changes

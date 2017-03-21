@@ -1,0 +1,30 @@
+- name: Add Additional Server/Port to existing Junction
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions_server.add
+    isamapi:
+      reverseproxy_id:        "{{ add_junction_servers_reverseproxy_id }}"
+      junction_point:         "{{ add_junction_servers_junction_point }}"
+      junction_type:          "{{ add_junction_servers_junction_type }}"
+      server_hostname:        "{{ item.server }}"
+      server_port:            "{{ item.port }}"
+      server_dn:              "{{ add_junction_servers_server_dn }}"
+      stateful_junction:      "{{ add_junction_servers_stateful_junction }}"
+      virtual_hostname:       "{{ add_junction_servers_virtual_hostname }}"
+      virtual_https_hostname: "{{ add_junction_servers_virtual_https_hostname }}"
+      query_contents:         "{{ add_junction_servers_query_contents }}"
+      case_sensitive_urls:    "{{ add_junction_servers_case_sensitive_urls }}"
+      windows_style_urls:     "{{ add_junction_servers_windows_style_urls }}"
+      https_port:             "{{ add_junction_servers_https_port }}"
+      http_port:              "{{ add_junction_servers_http_port }}"
+      proxy_hostname:         "{{ add_junction_servers_proxy_hostname }}"
+      proxy_port:             "{{ add_junction_servers_proxy_port }}"
+      sms_environment:        "{{ add_junction_servers_sms_environment }}"
+      vhost_label:            "{{ add_junction_servers_vhost_label }}"
+  with_items: "{{ add_junction_servers }}"
+  when: add_junction_servers_junction_point is defined and add_junction_servers_reverseproxy_id is defined and add_junction_servers_junction_type is defined and add_junction_servers is defined

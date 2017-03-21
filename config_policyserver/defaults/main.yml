@@ -1,0 +1,27 @@
+# Provide the following minimal values to setup Local Policy Server with Local Embedded LDAP
+#config_policyserver_admin_pwd: "<pwd>"
+#config_policyserver_ldap_pwd: "<pwd>"
+# Usually a good idea to clean the embedded LDAP before configuring to avoid issues
+config_policyserver_clean_ldap: True
+
+# The following are defaults to support local policy server/local embedded ldap
+config_policyserver_ps_mode             : "local"
+config_policyserver_user_registry       : "local"
+config_policyserver_ldap_host           : null
+config_policyserver_ldap_port           : null
+config_policyserver_ldap_dn             : null
+config_policyserver_ldap_ssl_db         : null
+config_policyserver_ldap_ssl_label      : null
+config_policyserver_ldap_suffix         : null
+config_policyserver_domain              : "Default"
+config_policyserver_admin_cert_lifetime : "1460"
+config_policyserver_ssl_compliance      : "none"
+config_policyserver_isam_host           : null
+config_policyserver_isam_port           : "7135"
+
+# By default change the "connection_inacvtivity" to be 270
+# This is meants to be lower than 5mins - when firewall typically close down unused connections
+config_policyserver_connection_inactivity: 270
+
+# Comment to be used for taking snapshot before Policy Server configuration (override if needed)
+config_policyserver_comment: "Execute Snapshot Before Policy Server Configuration"

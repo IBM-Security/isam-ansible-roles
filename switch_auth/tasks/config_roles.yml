@@ -1,0 +1,50 @@
+- name: Setup Global Administrators
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.role_group.set
+    isamapi:
+      name:       "Global Administrator"
+      group_name: "{{ item }}"
+      type:       "ldap"
+  with_items: "{{ switch_auth_admin_group | default([]) }}"
+  when: switch_auth_admin_group is defined
+  notify: Commit Changes
+
+- name: Setup Global Read/Only
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.role_group.set
+    isamapi:
+      name:       "Global Read Only Access"
+      group_name: "{{ item }}"
+      type:       "ldap"
+  with_items: "{{ switch_auth_readonly_group | default([]) }}"
+  when: switch_auth_readonly_group is defined
+  notify: Commit Changes
+
+- name: Setup Security Administrator
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.role_group.set
+    isamapi:
+      name:       "Security Administrator"
+      group_name: "{{ item }}"
+      type:       "ldap"
+  with_items: "{{ switch_auth_security_group | default([]) }}"
+  when: switch_auth_security_group is defined
+  notify: Commit Changes

@@ -1,0 +1,20 @@
+create_reverseproxy_inst_name      : 'default'
+create_reverseproxy_admin_pwd      : 'passw0rd'
+create_reverseproxy_host           : "{{ inventory_hostname.split('.')[0] }}"
+create_reverseproxy_listening_port : 7234
+create_reverseproxy_domain         : 'Default'
+create_reverseproxy_admin_id       : 'sec_master'
+create_reverseproxy_ssl_yn         : 'no'
+create_reverseproxy_key_file       : null
+create_reverseproxy_cert_label     : null
+create_reverseproxy_ssl_port       : null
+create_reverseproxy_http_yn        : 'no'
+create_reverseproxy_http_port      : '80'
+create_reverseproxy_https_yn       : 'yes'
+create_reverseproxy_https_port     : '443'
+create_reverseproxy_nw_interface_yn: 'no'
+create_reverseproxy_ip_address     : 0.0.0.0
+
+# Define a common web root if it is needed to switch to it
+# common_web_root: mywebroot"
+common_web_root_description: "Common Web Root for ACLs/POPs/AuthzRules"

@@ -1,0 +1,20 @@
+# Update existing stanza(s)/entries in reverse proxy config file
+- name: Configure Reverse Proxy for AAC (Updates)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.update
+    isamapi:
+      reverseproxy_id: "{{ update_reverseproxy_conf_reverseproxy_id }}"
+      stanza_id:       "{{ item.stanza_id }}"
+      entry_id:        "{{ item.entry_id }}"
+      value_id:        "{{ item.value_id }}"
+  with_items:          "{{ update_reverseproxy_conf_entries }}"
+  when: update_reverseproxy_conf_entries is defined
+  notify:
+  - Commit Changes
+  - Restart Reverse Proxy

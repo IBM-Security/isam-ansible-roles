@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to load a CA certificate from a server directly into a keystore
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - certificates
+  - load
+  - signer certificates
+
+dependencies:
+  - start_config

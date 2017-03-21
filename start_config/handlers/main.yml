@@ -1,0 +1,127 @@
+# Important: The order of handlers is crucial. See documentation:
+#   http://docs.ansible.com/ansible/glossary.html#notify
+# <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
+- name: Commit Changes
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.appliance.commit_and_restart
+  notify: Await Appliance Commit LMI Response
+
+# Commit and Restart may cause LMI to restart - so wait to be safe
+- name: Await Appliance Commit LMI Response
+  wait_for:
+    host: "{{ inventory_hostname }}"
+    port: "{{ lmi_port }}"
+    delay: 60
+    timeout: "{{ start_config_wait_time }}"
+    state: started
+  when: not ansible_check_mode
+
+- name: Restart Web Runtime
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.process.execute
+    isamapi:
+      operation: "restart"
+
+# This is a two part handler - first one gets all reverse proxies, second one restarts all of them
+# Get all reverse proxies in appliance - also set changed flag to trigegr next handler
+- name: Restart Reverse Proxy
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.get
+  notify: Restart all Reverse Proxys - checks if flagged for restart
+  changed_when: True
+  register: reverseproxy_list
+
+# Note: Restart function will only restart if required - set force to True to avoid that kind of check
+- name: Restart all Reverse Proxys - checks if flagged for restart
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.execute
+    isamapi:
+      id:        "{{ item.id }}"
+      operation: "restart"
+  when: reverseproxy_list is defined and 'data' in reverseproxy_list
+  with_items: "{{ reverseproxy_list['data'] }}"
+
+- name: Reload Liberty Runtime
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.process.execute
+    isamapi:
+      operation: "reload"
+  when: not ansible_check_mode
+
+- name: Restart AAC Runtime
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.process.execute
+    isamapi:
+      operation: "restart"
+  when: not ansible_check_mode
+
+- name: Reboot Appliance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.appliance.reboot
+  notify: Await Appliance LMI Response
+  when: not ansible_check_mode
+
+- name: Restart LMI
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.lmi.restart
+  notify: Await Appliance LMI Response
+  when: not ansible_check_mode
+  # In case reboot happens before LMI restart - ignore errors to play safe
+  ignore_errors: yes
+
+- name: Await Appliance LMI Response
+  wait_for:
+    host: "{{ inventory_hostname }}"
+    port: "{{ lmi_port }}"
+    delay: 60
+    timeout: "{{ start_config_wait_time }}"
+    state: started
+  when: not ansible_check_mode

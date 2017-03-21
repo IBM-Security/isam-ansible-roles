@@ -1,0 +1,3 @@
+# Override the following values as needed
+config_snmp_monitoring_community: "IBM-ISAM"
+config_snmp_monitoring_port: 161

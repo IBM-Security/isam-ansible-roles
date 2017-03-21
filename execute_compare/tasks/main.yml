@@ -1,0 +1,86 @@
+# Compare all features of an appliance that does not need extra parameters
+# By default all features will be compared
+- include: compare_base.yml
+  with_items: "{{ execute_compare_base_features }}"
+  when: execute_compare_base
+
+# Get runtime status for Master
+- name: Get all reverse proxies in {{master_hostname}}
+  isam:
+    appliance: "{{ master_hostname }}"
+    username:  "{{ master_username }}"
+    password:  "{{ master_password }}"
+    lmi_port:  "{{ master_lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.process.get
+  run_once: True
+  register: master_web_runtime
+
+- include: compare_base.yml
+  with_items: "{{ execute_compare_wga_features }}"
+  when: execute_compare_wga and ('wga' in master_web_runtime['ansible_facts']['activations'])
+
+- include: compare_base.yml
+  with_items: "{{ execute_compare_mga_features }}"
+  when: execute_compare_mga and ('mga' in master_web_runtime['ansible_facts']['activations'])
+
+- include: compare_base.yml
+  with_items: "{{ execute_compare_fed_features }}"
+  when: execute_compare_fed and ('federation' in master_web_runtime['ansible_facts']['activations'])
+
+- include: compare_base.yml
+  with_items: "{{ execute_compare_mga_or_fed_features }}"
+  when: (execute_compare_fed and ('federation' in master_web_runtime['ansible_facts']['activations'])) or (execute_compare_mga and ('mga' in master_web_runtime['ansible_facts']['activations']))
+
+# Compare runtime configuration files of an appliance
+- include: compare_runtime_config.yml
+  with_items:
+  - pd.conf
+  - ivmgrd.conf
+  - ldap.conf
+  loop_control:
+    loop_var: resource_id
+  when: execute_compare_web_runtime and master_web_runtime['data']['modecode'] != '-1'
+
+# Get all reverse proxies in master appliance
+- name: Get all reverse proxies in {{master_hostname}}
+  isam:
+    appliance: "{{ master_hostname }}"
+    username:  "{{ master_username }}"
+    password:  "{{ master_password }}"
+    lmi_port:  "{{ master_lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.get
+  when: execute_compare_reverseproxy and master_web_runtime['data']['modecode'] != '-1' and ('wga' in master_web_runtime['ansible_facts']['activations'])
+  ignore_errors: True
+  run_once: True
+  register: master_rps
+
+- include: compare_reverseproxy_config.yml
+  with_items: "{{ master_rps['data'] }}"
+  loop_control:
+    loop_var: reverseproxy
+  when: execute_compare_reverseproxy and master_web_runtime['data']['modecode'] != '-1' and ('wga' in master_web_runtime['ansible_facts']['activations'])
+
+# Get all Certificate Databases in master appliance
+- name: Get all certificate stores in {{master_hostname}}
+  isam:
+    appliance: "{{ master_hostname }}"
+    username:  "{{ master_username }}"
+    password:  "{{ master_password }}"
+    lmi_port:  "{{ master_lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.get_all
+  when: execute_compare_certs
+  ignore_errors: True
+  run_once: True
+  register: master_cert_dbs
+
+- include: compare_certificate_databases.yml
+  with_items: "{{ master_cert_dbs['data'] }}"
+  loop_control:
+    loop_var: cert_db
+  when: execute_compare_certs

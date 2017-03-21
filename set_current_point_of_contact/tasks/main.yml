@@ -1,0 +1,13 @@
+- name: Set Current Point of Contact - {{set_current_point_of_contact_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.point_of_contact.set_current
+    isamapi:
+      name: "{{ set_current_point_of_contact_name }}"
+  when: set_current_point_of_contact_name is defined
+  notify: Commit Changes

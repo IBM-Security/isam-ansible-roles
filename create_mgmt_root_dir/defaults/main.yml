@@ -1,0 +1,6 @@
+# Provide Reverse Proxy instance name
+#create_mgmt_root_dir_instance_id:
+
+# Provide details of directory to be created
+#create_mgmt_root_dir_id: 'management/C'
+#create_mgmt_root_dir_filename: 'test'

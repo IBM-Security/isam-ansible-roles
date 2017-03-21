@@ -1,0 +1,11 @@
+# Please provide the following two variables at the very minimum
+#config_reverseproxy_federation_name:
+#config_reverseproxy_federation_instance_id:
+
+# The following shoul be overriden as needed
+config_reverseproxy_federation_hostname:   "localhost"
+config_reverseproxy_federation_port:        443
+config_reverseproxy_federation_username:    "easuser"
+config_reverseproxy_federation_password:    "passw0rd"
+config_reverseproxy_federation_reuse_certs: True
+config_reverseproxy_federation_reuse_acls:  True

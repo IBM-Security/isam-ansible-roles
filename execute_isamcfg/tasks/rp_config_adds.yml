@@ -1,0 +1,187 @@
+# Add new entries / Stanzas to reverse proxy config file
+
+- name: Configure Reverse Proxy for AAC (Adds)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.add
+    isamapi:
+      reverseproxy_id: "{{ execute_isamcfg_reverseproxy_id }}"
+      stanza_id: "{{ item.stanza }}"
+      entries: "{{ item.entries }}"
+  with_items:
+# - stanza: "ssl"
+#   entries:
+#   - ['listen-interface', "{{ inventory_hostname }}"]
+  - stanza: "authentication-levels"
+    entries:
+    - ['level', 'ext-auth-interface']
+  - stanza: "eai-trigger-urls"
+    entries:
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/session*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/auth*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/authservice/authentication*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/authsvc*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/apiauthsvc*']
+  - stanza: "tfim-cluster:oauth-cluster"
+    entries:
+    - ['server', '9,https://localhost:443/TrustServerWS/SecurityTokenServiceWST13']
+  - stanza: "tfim-cluster:oauth-cluster"
+    entries:
+    - ['basic-auth-user', "{{ execute_isamcfg_basic_auth_user }}"]
+    - ['basic-auth-passwd', "{{ execute_isamcfg_basic_auth_passwd }}"]
+    - ['ssl-keyfile', 'pdsrv.kdb']
+    - ['ssl-keyfile-stash', 'pdsrv.sth']
+  - stanza: "aznapi-configuration"
+    entries:
+    - ['special-eas', 'trigger_rba_eas']
+  - stanza: "azn-decision-info"
+    entries:
+    - ['urn:ibm:security:trusteer:header:rapport-extra', 'header:x-trusteer-rapport-extra']
+    - ['scheme', 'scheme']
+    - ['urn:ibm:security:worklight:adapter:parameters', 'post-data:parameters']
+    - ['urn:ibm:security:trusteer:pinpoint:csid', 'cookie:PD-S-SESSION-ID']
+    - ['User-Agent', 'header:User-Agent']
+    - ['urn:ibm:security:trusteer:header:rapport', 'header:x-trusteer-rapport']
+    - ['Accept-Encoding', 'header:Accept-Encoding']
+    - ['urn:ibm:security:worklight:device:id', 'header:x-wl-device-id']
+    - ['Authorization', 'header:Authorization']
+    - ['urn:ibm:security:worklight:version:app', 'header:x-wl-app-version']
+    - ['Content-Type', 'header:Content-Type']
+    - ['Accept-Charset', 'header:Accept-Charset']
+    - ['rspcode', 'header:rspcode']
+    - ['Transfer-Encoding', 'header:Transfer-Encoding']
+    - ['Accept', 'header:Accept']
+    - ['X-Requested-With', 'header:X-Requested-With']
+    - ['method', 'method']
+    - ['urn:ibm:security:worklight:version:platform', 'header:x-wl-platform-version']
+    - ['Connection', 'header:Connection']
+    - ['Host', 'header:Host']
+    - ['Pragma', 'header:Pragma']
+    - ['ac.uuid', 'cookie:ac.uuid']
+    - ['uri', 'uri']
+    - ['urn:ibm:security:subject:ipAddress', 'client_ip']
+    - ['Missing', 'header:Missing']
+    - ['Cache-Control', 'header:Cache-Control']
+    - ['urn:ibm:security:worklight:adapter:adapter', 'post-data:adapter']
+    - ['urn:ibm:security:worklight:adapter:procedure', 'post-data:procedure']
+    - ['Accept-Language', 'header:Accept-Language']
+    - ['urn:ibm:security:worklight:version:native', 'header:x-wl-native-version']
+    - ['HTTP_HOST_HDR', 'header:host']
+    - ['HTTP_REQUEST_SCHEME', 'scheme']
+  - stanza: "azn-decision-info"
+    entries:
+    - ['HTTP_REQUEST_METHOD', 'method']
+    - ['HTTP_REQUEST_URI', 'uri']
+    - ['HTTP_AZN_HDR', 'header:authorization']
+    - ['HTTP_CONTENT_TYPE_HDR', 'header:content-type']
+    - ['HTTP_TRANSFER_ENCODING_HDR', 'header:transfer-encoding']
+  - stanza: "rtss-eas"
+    entries:
+    - ['context-id', 'context-inherited-pop']
+  - stanza: "rtss-cluster:cluster1"
+    entries:
+    - ['server', '9,https://{{ execute_isamcfg_server }}:{{ execute_isamcfg_port }}/rtss/authz/services/AuthzService']
+    - ['basic-auth-user', "{{ execute_isamcfg_basic_auth_user }}"]
+    - ['basic-auth-passwd', "{{ execute_isamcfg_basic_auth_passwd }}"]
+    - ['ssl-keyfile', 'pdsrv.kdb']
+    - ['ssl-keyfile-stash', 'pdsrv.sth']
+  - stanza: "obligations-urls-mapping"
+    entries:
+    - ['urn:ibm:security:authentication:asf:totp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:*', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:otp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_hotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_eula', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_knowledge_questions', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_macotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_rsa', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_smsotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:eula', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:macotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_emailotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:rsa', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:hotp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:sms', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:consent_register_device', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:knowledge_questions', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_totp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:http_redirect', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password_otp', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:password', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['urn:ibm:security:authentication:asf:email', '{{ execute_isamcfg_junction_point }}/sps/authsvc']
+  - stanza: "user-attribute-definitions"
+    entries:
+    - ['urn:ibm:security:worklight:adapter:adapter.datatype', 'string']
+    - ['urn:ibm:security:worklight:version:app.category', 'Environment']
+    - ['urn:ibm:security:worklight:version:platform.datatype', 'string']
+    - ['urn:ibm:security:trusteer:header:rapport.category', 'Environment']
+    - ['urn:ibm:security:worklight:version:native.datatype', 'string']
+    - ['urn:ibm:security:trusteer:header:rapport.datatype', 'string']
+    - ['urn:ibm:security:worklight:version:app.datatype', 'string']
+    - ['urn:ibm:security:worklight:adapter:procedure.datatype', 'string']
+    - ['urn:ibm:security:trusteer:pinpoint:csid.datatype', 'string']
+    - ['urn:ibm:security:worklight:adapter:parameters.category', 'Environment']
+    - ['urn:ibm:security:worklight:device:id.datatype', 'string']
+    - ['urn:ibm:security:worklight:adapter:procedure.category', 'Environment']
+    - ['urn:ibm:security:trusteer:pinpoint:csid.category', 'Subject']
+    - ['urn:ibm:security:trusteer:header:rapport-extra.datatype', 'string']
+    - ['urn:ibm:security:worklight:adapter:adapter.category', 'Environment']
+    - ['urn:ibm:security:worklight:device:id.category', 'Environment']
+    - ['urn:ibm:security:worklight:adapter:parameters.datatype', 'string']
+    - ['urn:ibm:security:worklight:version:platform.category', 'Environment']
+    - ['urn:ibm:security:trusteer:header:rapport-extra.category', 'Environment']
+    - ['urn:ibm:security:worklight:version:native.category', 'Environment']
+  # The following entries also automatically create stanzas
+  - stanza: "TAM_CRED_ATTRS_SVC"
+    entries:
+    - ['eperson', 'azn_cred_registry_id']
+  - stanza: "TAM_CRED_ATTRS_SVC:eperson"
+    entries:
+    - ['emailAddress', 'mail']
+    - ['mobileNumber', 'mobile']
+  - stanza: "isam-config-info"
+    entries:
+    - ['federation', 'mobile']
+  - stanza: "isam-config-info:mobile"
+    entries:
+    - ['junction', '{{ execute_isamcfg_junction_point }}']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/authsvc']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/xauth']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/authservice/authentication']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/authorize']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/static']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/session']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/token']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/mga/user/mgmt/otp']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/mga/user/mgmt/device']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/mga/user/mgmt/questions']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/mga/user/mgmt/grant']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/auth']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/ac']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/xauth']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/mga/user/mgmt/html']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/clients']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/start_config/qr']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/logout']
+    - ['object', '/WebSEAL/{{ common_web_root }}{{ execute_isamcfg_junction_point }}/sps/common/qr']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/oauth/oauth20/session*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/auth*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/authservice/authentication*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/authsvc*']
+    - ['trigger', '{{ execute_isamcfg_junction_point }}/sps/apiauthsvc*']
+  - stanza: "junction:{{ execute_isamcfg_junction_point }}"
+    entries:
+    - ['reset-cookies-list', '*ac.uuid,*JSESSIONID']
+  - stanza: "session-http-headers"
+    entries:
+    - ['Authorization', 'https']
+  when: common_web_root is defined and execute_isamcfg_basic_auth_user is defined and execute_isamcfg_basic_auth_passwd is defined and execute_isamcfg_reverseproxy_id is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
+  notify:
+  - Commit Changes
+  - Restart Reverse Proxy

@@ -1,0 +1,5 @@
+# Provide the following values for this role to work
+#load_signer_cert_kdb_id: "pdsrv"
+#load_signer_cert_label:
+#load_signer_cert_server:
+#load_signer_cert_port:

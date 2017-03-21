@@ -1,0 +1,12 @@
+# The following need to be provided for role to work
+# Example:
+#   set_network_ipv4_dhcp_label: "1.2"
+
+# Default values for updating DHCP - override as needed
+set_network_ipv4_dhcp_allowManagement: False
+set_network_ipv4_dhcp_enabled: False
+set_network_ipv4_dhcp_vlanId: null
+set_network_ipv4_dhcp_routeMetric: null
+set_network_ipv4_dhcp_providesDefaultRoute: False
+
+set_network_ipv4_dhcp_comment: 'Execute Snapshot as Backup - before updating DHCP'

@@ -1,0 +1,20 @@
+- name: Set a Federation - {{set_federation_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.federations.set
+    isamapi:
+      name:          "{{ set_federation_name }}"
+      protocol:      "{{ set_federation_protocol }}"
+      role:          "{{ set_federation_role }}"
+      configuration: "{{ set_federation_configuration }}"
+      templateName:  "{{ set_federation_templateName }}"
+      new_name:      "{{ set_federation_new_name }}"
+  when: set_federation_name is defined and set_federation_protocol is defined and set_federation_role is defined and set_federation_configuration is defined and set_federation_templateName is defined
+  notify:
+    - Commit Changes
+    - Reload Liberty Runtime

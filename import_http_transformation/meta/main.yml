@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to import HTTP Transformation Rule
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - http transofrmation
+  - import
+
+dependencies:
+  - start_config

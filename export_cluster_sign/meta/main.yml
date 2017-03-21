@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that exports cluster signature from the Primary appliance
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - cluster
+  - signature
+  - export
+
+dependencies:
+  - start_config

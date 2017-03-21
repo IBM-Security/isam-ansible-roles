@@ -1,0 +1,33 @@
+- name: Snapshot Appliance as Backup
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ update_network_interface_vlan_comment }}"
+  when: update_network_ipv4_address is defined
+
+- name: Update IPv4 Address on Interface {{ update_network_ipv4_label }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.interfaces_ipv4.update
+    isamapi:
+      label                 : "{{ update_network_ipv4_label }}"
+      address               : "{{ update_network_ipv4_address }}"
+      new_address           : "{{ update_network_ipv4_new_address }}"
+      maskOrPrefix          : "{{ update_network_ipv4_maskOrPrefix }}"
+      allowManagement       : "{{ update_network_ipv4_allowManagement }}"
+      enabled               : "{{ update_network_ipv4_enabled }}"
+      overrideSubnetChecking: "{{ update_network_ipv4_overrideSubnetChecking }}"
+      vlanId                : "{{ update_network_ipv4_vlanId }}"
+  when: update_network_ipv4_address is defined
+  notify: Commit Changes

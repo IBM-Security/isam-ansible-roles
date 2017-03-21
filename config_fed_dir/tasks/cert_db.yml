@@ -1,0 +1,69 @@
+- name: Create Certificate Database for Federated Directory - {{config_fed_dir_kdb_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action    : ibmsecurity.isam.base.ssl_certificates.certificate_databases.create
+    isamapi:
+      kdb_name: "{{ config_fed_dir_kdb_name }}"
+  when: config_fed_dir_kdb_name is defined
+  notify:
+  - Commit Changes
+
+- name: Load Self-Signed Certificates for Federated Directory - {{config_fed_dir_hostname}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id  : "{{ config_fed_dir_kdb_name }}"
+      label   : "{{ config_fed_dir_client_cert_label }}"
+      server  : "{{ config_fed_dir_hostname }}"
+      port    : "{{ config_fed_dir_port }}"
+  when: not ansible_check_mode and config_fed_dir_kdb_name is defined and config_fed_dir_hostname is defined and config_fed_dir_port is defined and config_fed_dir_client_cert_label is defined
+  notify:
+  - Commit Changes
+
+- name: Load CA Certificates for Federated Directory - {{config_fed_dir_hostname}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
+    isamapi:
+      kdb_id : "{{ config_fed_dir_kdb_name }}"
+      cert   : "{{ item.cert }}"
+      label  : "{{ item.label }}"
+  with_items : "{{ config_fed_dir_ca_certandlabel }}"
+  when: config_fed_dir_kdb_name is defined and config_fed_dir_ca_certandlabel is defined
+  notify:
+  - Commit Changes
+
+- name: Set Certificate Database Description
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action    : ibmsecurity.isam.base.ssl_certificates.certificate_databases.set
+    isamapi:
+      cert_id    : "{{ config_fed_dir_kdb_name }}"
+      description: "{{ config_fed_dir_description }}"
+  when: not ansible_check_mode and config_fed_dir_kdb_name is defined
+  notify:
+  - Commit Changes
+
+# Commit the certificate database changes
+- meta: flush_handlers

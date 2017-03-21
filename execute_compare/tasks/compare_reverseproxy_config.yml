@@ -1,0 +1,80 @@
+- name: Compare Reverse Proxy->{{ reverseproxy.id }} Management Root Directories/Files
+  isamcompare:
+    appliance1: "{{ master_hostname }}"
+    lmi_port1:  "{{ master_lmi_port }}"
+    username1:  "{{ master_username }}"
+    password1:  "{{ master_password }}"
+    appliance2: "{{ inventory_hostname }}"
+    lmi_port2:  "{{ lmi_port }}"
+    username2:  "{{ username }}"
+    password2:  "{{ password }}"
+    log:        "{{ log_level }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.directory
+    isamapi:
+      instance_id: "{{ reverseproxy.id }}"
+  ignore_errors: true
+  register: ret_obj
+
+- name: Show Differences - values do not match!
+  debug: msg="{{ ret_obj['data']['difference'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj['data']['matches'] == False
+
+- name: Show Log - command failed!
+  debug: msg="{{ ret_obj['log'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj|failed
+
+- name: Compare Reverse Proxy->{{ reverseproxy.id }} Junctions
+  isamcompare:
+    appliance1: "{{ master_hostname }}"
+    lmi_port1:  "{{ master_lmi_port }}"
+    username1:  "{{ master_username }}"
+    password1:  "{{ master_password }}"
+    appliance2: "{{ inventory_hostname }}"
+    lmi_port2:  "{{ lmi_port }}"
+    username2:  "{{ username }}"
+    password2:  "{{ password }}"
+    log:        "{{ log_level }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions
+    isamapi:
+      reverseproxy_id: "{{ reverseproxy.id }}"
+  ignore_errors: true
+  register: ret_obj
+
+- name: Show Differences - values do not match!
+  debug: msg="{{ ret_obj['data']['difference'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj['data']['matches'] == False
+
+- name: Show Log - command failed!
+  debug: msg="{{ ret_obj['log'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj|failed
+
+- name: Compare Reverse Proxy->{{ reverseproxy.id }} stanza/entries
+  isamcompare:
+    appliance1: "{{ master_hostname }}"
+    lmi_port1:  "{{ master_lmi_port }}"
+    username1:  "{{ master_username }}"
+    password1:  "{{ master_password }}"
+    appliance2: "{{ inventory_hostname }}"
+    lmi_port2:  "{{ lmi_port }}"
+    username2:  "{{ username }}"
+    password2:  "{{ password }}"
+    log:        "{{ log_level }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.stanza
+    isamapi:
+      reverseproxy_id: "{{ reverseproxy.id }}"
+  ignore_errors: true
+  register: ret_obj
+
+- name: Show Differences - values do not match!
+  debug: msg="{{ ret_obj['data']['difference'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj['data']['matches'] == False
+
+- name: Show Log - command failed!
+  debug: msg="{{ ret_obj['log'].split('\n') }}"
+  ignore_errors: true
+  when: ret_obj|failed

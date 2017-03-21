@@ -1,0 +1,19 @@
+- name: Update Authentication Mechanism - {{ update_auth_mech_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.authentication.mechanisms.update
+    isamapi:
+      name:        "{{ update_auth_mech_name }}"
+      typeName:    "{{ update_auth_mech_typeName }}"
+      uri:         "{{ update_auth_mech_uri }}"
+      description: "{{ update_auth_mech_description }}"
+      attributes:  "{{ update_auth_mech_attributes }}"
+      properties:  "{{ update_auth_mech_properties }}"
+      predefined:  "{{ update_auth_mech_predefined }}"
+      new_name:    "{{ update_auth_mech_new_name }}"
+  notify: Commit Changes

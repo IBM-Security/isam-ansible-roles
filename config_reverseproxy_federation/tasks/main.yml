@@ -1,0 +1,38 @@
+# Commit all changes made to date before configuring federation into reverse proxy
+- meta: flush_handlers
+
+- name: Lookup a Federation ID - {{config_reverseproxy_federation_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.federations.search
+    isamapi:
+      name: "{{ config_reverseproxy_federation_name }}"
+  register: ret_obj
+  when: config_reverseproxy_federation_name is defined
+
+- name: Configure Reverse Proxy {{config_reverseproxy_federation_instanceid}} for Federation {{config_reverseproxy_federation_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.federation_configuration.config
+    isamapi:
+      instance_id:   "{{ config_reverseproxy_federation_instance_id }}"
+      federation_id: "{{ ret_obj['data'] }}"
+      hostname:      "{{ config_reverseproxy_federation_hostname }}"
+      port:          "{{ config_reverseproxy_federation_port }}"
+      username:      "{{ config_reverseproxy_federation_username }}"
+      password:      "{{ config_reverseproxy_federation_password }}"
+      reuse_certs:   "{{ config_reverseproxy_federation_reuse_certs }}"
+      reuse_acls:    "{{ config_reverseproxy_federation_reuse_acls }}"
+  when: config_reverseproxy_federation_name is defined and config_reverseproxy_federation_instance_id is defined
+  notify:
+    - Commit Changes

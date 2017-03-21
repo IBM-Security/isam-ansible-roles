@@ -1,0 +1,11 @@
+# Provide a list of pdadmin commands to execute
+#execute_pdadmin_commands:
+#  - "acl show default-management"
+#  - "user list * 10"
+
+# Use a command like so to populate commands from a file - "cmd_file"
+#execute_pdadmin_commands: "{{ lookup('file', cmd_file) }}"
+
+# Provide ISAM credentials used to run PDAdmin commands
+#execute_pdadmin_isamuser: "sec_master"
+#execute_pdadmin_isampwd: "passw0rd"

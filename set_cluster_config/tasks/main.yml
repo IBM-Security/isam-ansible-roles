@@ -1,0 +1,66 @@
+- name: Snapshot Appliance Before Configuring Cluster
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment : "{{ set_cluster_config_comment }}"
+
+- name: Set Cluster Configuration
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.cluster.configuration.set
+    isamapi:
+      primary_master               : "{{ set_cluster_config_primary_master }}"
+      secondary_master             : "{{ set_cluster_config_secondary_master }}"
+      master_ere                   : "{{ set_cluster_config_master_ere }}"
+      tertiary_master              : "{{ set_cluster_config_tertiary_master }}"
+      quaternary_master            : "{{ set_cluster_config_quaternary_master }}"
+      dsc_external_clients         : "{{ set_cluster_config_dsc_external_clients }}"
+      dsc_port                     : "{{ set_cluster_config_dsc_port }}"
+      dsc_use_ssl                  : "{{ set_cluster_config_dsc_use_ssl }}"
+      dsc_ssl_label                : "{{ set_cluster_config_dsc_ssl_label }}"
+      dsc_worker_threads           : "{{ set_cluster_config_dsc_worker_threads }}"
+      dsc_maximum_session_lifetime : "{{ set_cluster_config_dsc_maximum_session_lifetime }}"
+      dsc_client_grace_period      : "{{ set_cluster_config_dsc_client_grace_period }}"
+      hvdb_embedded                : "{{ set_cluster_config_hvdb_embedded }}"
+      hvdb_max_size                : "{{ set_cluster_config_hvdb_max_size }}"
+      hvdb_db_type                 : "{{ set_cluster_config_hvdb_db_type }}"
+      hvdb_address                 : "{{ set_cluster_config_hvdb_address }}"
+      hvdb_port                    : "{{ set_cluster_config_hvdb_port }}"
+      hvdb_user                    : "{{ set_cluster_config_hvdb_user }}"
+      hvdb_password                : "{{ set_cluster_config_hvdb_password }}"
+      hvdb_db2_alt_address         : "{{ set_cluster_config_hvdb_db2_alt_address }}"
+      hvdb_db2_alt_port            : "{{ set_cluster_config_hvdb_db2_alt_port }}"
+      hvdb_db_name                 : "{{ set_cluster_config_hvdb_db_name }}"
+      hvdb_db_secure               : "{{ set_cluster_config_hvdb_db_secure }}"
+      hvdb_driver_type             : "{{ set_cluster_config_hvdb_driver_type }}"
+      hvdb_solid_tc                : "{{ set_cluster_config_hvdb_solid_tc }}"
+      cfgdb_embedded               : "{{ set_cluster_config_cfgdb_embedded }}"
+      cfgdb_db_type                : "{{ set_cluster_config_cfgdb_db_type }}"
+      cfgdb_address                : "{{ set_cluster_config_cfgdb_address }}"
+      cfgdb_port                   : "{{ set_cluster_config_cfgdb_port }}"
+      cfgdb_user                   : "{{ set_cluster_config_cfgdb_user }}"
+      cfgdb_password               : "{{ set_cluster_config_cfgdb_password }}"
+      cfgdb_db2_alt_address        : "{{ set_cluster_config_cfgdb_db2_alt_address }}"
+      cfgdb_db2_alt_port           : "{{ set_cluster_config_cfgdb_db2_alt_port }}"
+      cfgdb_db_name                : "{{ set_cluster_config_cfgdb_db_name }}"
+      cfgdb_db_secure              : "{{ set_cluster_config_cfgdb_db_secure }}"
+      cfgdb_driver_type            : "{{ set_cluster_config_cfgdb_driver_type }}"
+      cfgdb_solid_tc               : "{{ set_cluster_config_cfgdb_solid_tc }}"
+      first_port                   : "{{ set_cluster_config_first_port }}"
+      cfgdb_fs                     : "{{ set_cluster_config_cfgdb_fs }}"
+      dsc_trace_level              : "{{ set_cluster_config_dsc_trace_level }}"
+  notify: Commit Changes
+
+ # Commit activation of module before doing anything else
+- meta: flush_handlers

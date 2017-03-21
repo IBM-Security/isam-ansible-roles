@@ -1,0 +1,36 @@
+- name: Extract Self-Signed Certs from HVDB Database into keystore {{ item }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id: "{{ item }}"
+      label:  "{{ externalize_hvdb_db2_ca_label }}"
+      server: "{{ externalize_hvdb_db2_hvdb_address }}"
+      port:   "{{ externalize_hvdb_db2_hvdb_port }}"
+  with_items: "{{externalize_hvdb_db2_keystores}}"
+  when: externalize_hvdb_db2_keystores is defined and externalize_hvdb_db2_ca_label is defined
+  notify: Commit Changes
+
+- name: Import CA Certs from HVDB Database into keystore {{ item[0] }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
+    isamapi:
+      kdb_id : "{{ item[0] }}"
+      cert   : "{{ item[1].cert }}"
+      label  : "{{ item[1].label }}"
+  with_nested:
+    - "{{externalize_hvdb_db2_keystores | default([]) }}"
+    - "{{externalize_hvdb_db2_ca_certandlabel | default([]) }}"
+  when: externalize_hvdb_db2_keystores is defined and externalize_hvdb_db2_ca_certandlabel is defined
+  notify: Commit Changes

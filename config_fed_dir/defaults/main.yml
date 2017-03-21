@@ -1,0 +1,32 @@
+# Default name of keystore to contains CAs of federated directory(s)
+config_fed_dir_kdb_name: "fed_dir"
+
+# Note: Provide either config_fed_dir_client_cert_label for self-signed certs or config_fed_dir_ca_certandlabel
+#       which lists CA certs to be imported.
+#config_fed_dir_client_cert_label: "{{ config_fed_dir_id }}-CA"
+#config_fed_dir_ca_certandlabel:
+#  - { 'cert': "/tmp/cacerts/xyz.cer", 'label': "Verisign CA"}
+# Default description of keystore to contains CAs of federated directory(s)
+config_fed_dir_description: "Contains CA or Self-Signed Certificate of Federated Directory"
+
+# Provide details of the LDAP server to federate to
+#config_fed_dir_id
+#config_fed_dir_hostname:
+#config_fed_dir_port:
+# Credentials to connect to LDAP
+#config_fed_dir_bind_dn:
+#config_fed_dir_bind_pwd:
+
+# Default to using SSL for all LDAP calls - override if needed
+config_fed_dir_use_ssl: True
+# No need to pass cert label if CA certificates are loaded - including for self-signed certs
+config_fed_dir_client_cert_label: null
+
+# Please provide suffix in this format
+#config_fed_dir_suffix:
+#- id: "ibm.com"
+
+# If there are any replicas then provide like so:
+#config_fed_dir_replica:
+#  - ['replica', 'ldap1.ibm.com,636,readonly,7']
+#  - ['replica', 'ldap2.com,636,readwrite,5']

@@ -1,0 +1,18 @@
+- name: Import HTTP Transformation rule - {{import_http_transformation_id}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.http_transformation.import_file
+    isamapi:
+      id :      "{{ import_http_transformation_id }}"
+      filename: "{{ import_http_transformation_filename }}"
+  when: import_http_transformation_id is defined and import_http_transformation_filename is defined
+  notify:
+  - Commit Changes
+
+# Commit changes - changes need to take effect for next steps
+- meta: flush_handlers

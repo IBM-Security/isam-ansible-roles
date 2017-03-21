@@ -1,0 +1,18 @@
+- name: Set Host Records
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.host.records.set
+    isamapi:
+      addr      : "{{ item.addr }}"
+      hostnames : "{{ item.hostnames }}"
+  when: set_host_records is defined
+  with_items: "{{ set_host_records }}"
+  notify: Commit Changes
+
+  # Commit all changes made until now
+- meta: flush_handlers

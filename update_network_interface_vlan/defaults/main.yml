@@ -1,0 +1,11 @@
+# The following need to be provided for role to work
+# Example:
+# update_network_interface_vlan_label      : "1.2"
+
+# Default values for updating an interface vlan - override as needed
+update_network_interface_vlan_name       : "{{ update_network_interface_vlan_label }}"
+update_network_interface_vlan_comment    : ""
+update_network_interface_vlan_enabled    : True
+update_network_interface_vlan_vlanId     : null
+update_network_interface_vlan_bondedTo   : ""
+update_network_interface_vlan_bondingMode: null

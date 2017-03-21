@@ -1,0 +1,23 @@
+- name: Update Static Route - {{ update_static_route_address }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.static_routes.update
+    isamapi:
+      address:      "{{ update_static_route_address }}"
+      new_address:  "{{ update_static_route_new_address }}"
+      enabled:      "{{ update_static_route_enabled }}"
+      maskOrPrefix: "{{ update_static_route_maskOrPrefix }}"
+      gateway:      "{{ update_static_route_gateway }}"
+      label:        "{{ update_static_route_label }}"
+      vlanId:       "{{ update_static_route_vlanId }}"
+      new_label:    "{{ update_static_route_new_label }}"
+      new_vlanId:   "{{ update_static_route_new_vlanId }}"
+      metric:       "{{ update_static_route_metric }}"
+      comment:      "{{ update_static_route_comment }}"
+      table:        "{{ update_static_route_table }}"
+  notify: Commit Changes

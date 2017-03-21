@@ -1,0 +1,13 @@
+- name: Search for a Mapping Rule
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.mapping_rules.search
+    isamapi:
+      name: "{{ search_mapping_rule_name }}"
+  when: search_mapping_rule_name is defined
+  register: search_mapping_rule

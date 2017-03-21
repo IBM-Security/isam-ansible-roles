@@ -1,0 +1,5 @@
+# List of NTP servers have to be provided, please comma separate them in a string, e.g.
+# config_ntp_ntp_server: pool.ntp.org,us.pool.ntp.org
+config_ntp_ntp_servers: pool.ntp.org
+# Defaulting to East Coast time - override as necessary
+config_ntp_timeZone: "America/New_York"

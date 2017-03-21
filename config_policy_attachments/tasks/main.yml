@@ -1,0 +1,30 @@
+- name: Configure Policy Attachments - {{config_policy_attachments_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.config
+    isamapi:
+      server:                   "{{ config_policy_attachments_server }}"
+      resourceUri:              "{{ config_policy_attachments_resourceUri }}"
+      policies:                 "{{ config_policy_attachments_policies }}"
+      policyCombiningAlgorithm: "{{ config_policy_attachments_policyCombiningAlgorithm }}"
+  when: config_policy_attachments_server is defined and config_policy_attachments_resourceUri is defined
+  register: ret_obj
+
+- name: Publish Policy Attachments - {{config_policy_attachments_resourceUri}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.publish
+    isamapi:
+      server:      "{{ config_policy_attachments_server }}"
+      resourceUri: "{{ config_policy_attachments_resourceUri }}"
+  when: config_policy_attachments_server is defined and config_policy_attachments_resourceUri is defined

@@ -1,0 +1,62 @@
+- name: Create Certificate Database
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.create
+    isamapi:
+      kdb_name: "{{ switch_auth_key_database }}"
+  when: switch_auth_key_database is defined
+  notify: Commit Changes
+
+- name: Set Certificate Database Description
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.set
+    isamapi:
+      cert_id: "{{ switch_auth_key_database }}"
+      description: "SSL Store for LDAP to be used for Authentication to Appliance"
+  when: switch_auth_key_database is defined
+  notify: Commit Changes
+
+- name: Load AD CA Certificate
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id: "{{ switch_auth_key_database }}"
+      label:  "{{ switch_auth_cert_label }}"
+      server: "{{ switch_auth_ldap_host }}"
+      port:   "{{ switch_auth_ldap_port }}"
+  when: switch_auth_key_database is defined and switch_auth_cert_label is defined
+  notify: Commit Changes
+
+- name: Import CA Certs into keystore {{ item.label }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
+    isamapi:
+      kdb_id : "{{ switch_auth_key_database }}"
+      cert   : "{{ item.cert }}"
+      label  : "{{ item.label }}"
+  with_items: "{{switch_auth_ca_certandlabel | default([]) }}"
+  when: switch_auth_key_database is defined and switch_auth_ca_certandlabel is defined
+  notify: Commit Changes

@@ -1,0 +1,59 @@
+# Update existing entries / Stanzas in reverse proxy config file
+
+- name: Configure Reverse Proxy for AAC (Updates)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.update
+    isamapi:
+      reverseproxy_id: "{{ execute_isamcfg_reverseproxy_id }}"
+      stanza_id: "{{ item.stanza }}"
+      entry_id: "{{ item.entry }}"
+      value_id: "{{ item.value }}"
+  with_items:
+  # Method Disablement
+  - stanza: "server"
+    entry: "http-method-disabled-remote"
+    value: "TRACE,CONNECT"
+  - stanza: "eai"
+    entry: "eai-auth"
+    value: "https"
+  - stanza: "eai"
+    entry: "retain-eai-session"
+    value: "yes"
+  - stanza: "eai"
+    entry: "eai-redir-url-priority"
+    value: "yes"
+# Enable authentication using Open Authorization (OAuth) mechanism.
+# One of <http, https, both, none>
+#
+# The OAuth authentication mechanism should be considered only as part of a
+# Mobile scenario, where a session can be established based on the Bearer
+# token in the Authorization Header.
+  - stanza: "oauth"
+    entry: "oauth-auth"
+    value: "https"
+# The Provider ID of the default OAuth federation at TFIM. If a Provider ID
+# is not provided in the request using the fed-id-param option, this provider
+# ID will be used for OAuth requests. The Provider ID of a federation can be
+# found on the federation properties page.
+  - stanza: "oauth"
+    entry: "default-fed-id"
+    value: "https://localhost/sps/oauth/oauth20"
+  - stanza: "session"
+    entry: "user-session-ids"
+    value: "yes"
+  - stanza: "oauth-eas"
+    entry: "default-mode"
+    value: "OAuth20Bearer"
+  - stanza: "session"
+    entry: "require-mpa"
+    value: "no"
+  when: execute_isamcfg_reverseproxy_id is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
+  notify:
+  - Commit Changes
+  - Restart Reverse Proxy

@@ -1,0 +1,6 @@
+# Provide Reverse Proxy instance name
+#delete_mgmt_root_file_instance_id:
+
+# Provide details of directory to be created
+#delete_mgmt_root_file_ids:
+#  - 'management/C/ar'

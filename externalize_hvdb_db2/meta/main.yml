@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to externalize HVDB to a DB2 Database
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - Database
+  - externalize
+  - DB2
+
+dependencies:
+  - start_config

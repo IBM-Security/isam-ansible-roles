@@ -1,0 +1,41 @@
+# This step verifies whether a given Plugin jar file is valid extension or not
+- name: Verify extension to be uploaded
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.extensions.verify
+    isamapi:
+      filename: "{{ upload_extension_filename }}"
+  notify: Commit Changes
+
+# Uploading an extension is a two step process, 1. is to create an extension
+- name: Create an extension
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.extensions.create
+    isamapi:
+      filename: "{{ upload_extension_filename }}"
+  notify: Commit Changes
+
+# 2. Upload the plugin jar file
+- name: Upload extension bundle
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.extensions.import_bundle
+    isamapi:
+      filename: "{{ upload_extension_filename }}"
+  notify: Commit Changes

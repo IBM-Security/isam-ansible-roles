@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to set API Protection Client (for OAuth 2.0)
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - oauth
+  - set
+
+dependencies:
+  - start_config

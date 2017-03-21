@@ -1,0 +1,24 @@
+# Default values assuming AD being used - change as needed
+#switch_auth_ldap_host:
+#switch_auth_ldap_port:
+#switch_auth_base_dn:
+#switch_auth_admin_group_dn:
+switch_auth_enable_ssl:  True
+switch_auth_key_database: "ldap_auth"
+#switch_auth_cert_label:
+switch_auth_user_attribute:  "samAccountName"
+switch_auth_group_member_attribute:  "member"
+switch_auth_anon_bind:  False
+#switch_auth_bind_dn:
+#switch_auth_bind_password:
+
+switch_auth_enable: True
+
+# Define groups to be used for each role
+#switch_auth_admin_group: []
+#switch_auth_readonly_group: []
+#switch_auth_security_group: []
+
+# Define CA certs to be loaded for SSL to external LDAP
+#switch_auth_ca_certandlabel
+#  - { 'cert': "/tmp/verisign.cer", 'label': "Verisign CA"}

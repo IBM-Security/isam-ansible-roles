@@ -1,0 +1,23 @@
+# The following need to be provided for this role to succeed
+#add_junction_servers_junction_point:
+#add_junction_servers_junction_type:
+#add_junction_servers_reverseproxy_id:
+# The following variable needs to be of the format (provide multiple server/ports as needed in the list)
+#add_junction_servers
+#  - server: "newsrv.ibm.com"
+#    port: 8443
+
+# Provide these options values
+add_junction_servers_stateful_junction:   "no"
+add_junction_servers_virtual_https_hostname: null
+add_junction_servers_virtual_hostname:    null
+add_junction_servers_server_dn:           null
+add_junction_servers_query_contents:      null
+add_junction_servers_case_sensitive_urls: "no"
+add_junction_servers_windows_style_urls:  "no"
+add_junction_servers_https_port:          null
+add_junction_servers_http_port:           null
+add_junction_servers_proxy_hostname:      null
+add_junction_servers_proxy_port:          null
+add_junction_servers_sms_environment:     null
+add_junction_servers_vhost_label:         null

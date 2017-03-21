@@ -1,0 +1,56 @@
+# Use the following to control what gets compared
+execute_compare_base: True
+execute_compare_wga: True
+execute_compare_mga: True
+execute_compare_fed: True
+execute_compare_certs: True
+execute_compare_reverseproxy: True
+execute_compare_web_runtime: True
+
+# The following are the python files corresponding to the features to be compared
+execute_compare_base_features:
+  - ibmsecurity.isam.base.firmware
+  - ibmsecurity.isam.base.fixpack
+  - ibmsecurity.isam.base.activation
+  - ibmsecurity.isam.base.snmp_monitoring
+  - ibmsecurity.isam.base.network.dns
+  - ibmsecurity.isam.base.date_time
+  - ibmsecurity.isam.base.advanced_tuning_parameters
+  - ibmsecurity.isam.base.cluster.configuration
+  - ibmsecurity.isam.base.cluster.node
+  - ibmsecurity.isam.base.ssl_certificates.certificate_databases
+  - ibmsecurity.isam.base.management_authentication
+  - ibmsecurity.isam.base.management_authorization.config
+  - ibmsecurity.isam.base.management_authorization.role
+  - ibmsecurity.isam.base.system_alerts.alerts
+  - ibmsecurity.isam.base.system_alerts.logdb
+  - ibmsecurity.isam.base.system_alerts.email
+  - ibmsecurity.isam.base.system_alerts.snmp
+  - ibmsecurity.isam.base.system_alerts.rsyslog
+  - ibmsecurity.isam.base.runtime.tuning_parameters
+  - ibmsecurity.isam.base.runtime.listening_interfaces
+  - ibmsecurity.isam.web.embedded_ldap.debug
+  - ibmsecurity.isam.web.embedded_ldap.suffix
+execute_compare_wga_features:
+  - ibmsecurity.isam.web.runtime.process
+  - ibmsecurity.isam.web.client_certificate_mapping
+  - ibmsecurity.isam.web.http_transformation
+  - ibmsecurity.isam.web.junction_mapping
+  - ibmsecurity.isam.web.password_strength
+  - ibmsecurity.isam.web.url_mapping
+  - ibmsecurity.isam.web.reverse_proxy.instance
+execute_compare_mga_features:
+  - ibmsecurity.isam.aac.access_control.policies
+  - ibmsecurity.isam.aac.access_control.policy_attachments
+  - ibmsecurity.isam.aac.access_control.policy_sets
+  - ibmsecurity.isam.aac.api_protection.clients
+  - ibmsecurity.isam.aac.api_protection.definitions
+  - ibmsecurity.isam.aac.authentication.policies
+  - ibmsecurity.isam.aac.authentication.mechanism_types
+  - ibmsecurity.isam.aac.authentication.mechanisms
+execute_compare_fed_features:
+  - ibmsecurity.isam.fed.federations
+  - ibmsecurity.isam.fed.point_of_contact
+execute_compare_mga_or_fed_features:
+  - ibmsecurity.isam.web.embedded_ldap.group
+  - ibmsecurity.isam.web.embedded_ldap.user

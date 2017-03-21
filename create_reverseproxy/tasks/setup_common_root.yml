@@ -1,0 +1,33 @@
+# This task is NOT idempotent, also cannot run until reverse proxy is created
+- name: Create Common Web Root
+  isamadmin:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    isamuser:  "{{ create_reverseproxy_admin_id }}"
+    isampwd:   "{{ create_reverseproxy_admin_pwd }}"
+    commands:
+    - "object create /WebSEAL/{{common_web_root}} \"{{common_web_root_description}}\" 5 ispolicyattachable yes"
+  ignore_errors: true
+  when: common_web_root is defined and create_reverseproxy_admin_id is defined and create_reverseproxy_admin_pwd is defined
+
+- name: Switch to using Common Web Root
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.update
+    isamapi:
+      reverseproxy_id: "{{ create_reverseproxy_inst_name }}"
+      stanza_id: "server"
+      entry_id: "server-name"
+      value_id: "{{ common_web_root }}"
+  when: (common_web_root is defined and not ansible_check_mode)
+  notify:
+  - Commit Changes
+  - Restart Reverse Proxy

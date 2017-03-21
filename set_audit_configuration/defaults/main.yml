@@ -1,0 +1,73 @@
+set_audit_configuration_enabled: False
+set_audit_configuration_verbose: False
+set_audit_configuration_type: "Syslog"
+# The following are values embedded inside "config"
+# NOTE: All "value" are to be in string even when corresponding datatype indicates otherwise
+set_audit_configuration_ssl_trust_store:           ""
+set_audit_configuration_client_auth_key:           "_"
+set_audit_configuration_failover_to_disk:          "False"
+set_audit_configuration_num_retry:                 "2"
+set_audit_configuration_num_sender_threads:        "1"
+set_audit_configuration_client_cert_auth_required: "False"
+set_audit_configuration_server_port:               "514"
+set_audit_configuration_server_host:               '127.0.0.1'
+set_audit_configuration_transport:                 "TRANSPORT_UDP"
+set_audit_configuration_queue_full_timeout:        "-1"
+set_audit_configuration_max_queue_size:            "1000"
+# Above values are set inside of "config"
+set_audit_configuration_config:
+  - datatype: String
+    key: ISAM.Audit.syslogclient.SSL_TRUST_STORE
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_ssl_trust_store}}"
+  - datatype: String
+    key: ISAM.Audit.syslogclient.CLIENT_AUTH_KEY
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_client_auth_key}}"
+  - datatype: Boolean
+    key: ISAM.Audit.syslogclient.FAILOVER_TO_DISK
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_failover_to_disk}}"
+  - datatype: Integer
+    key: ISAM.Audit.syslogclient.NUM_RETRY
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_num_retry}}"
+  - datatype: Integer
+    key: ISAM.Audit.syslogclient.NUM_SENDER_THREADS
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_num_sender_threads}}"
+  - datatype: Boolean
+    key: ISAM.Audit.syslogclient.CLIENT_CERT_AUTH_REQUIRED
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_client_cert_auth_required}}"
+  - datatype: Integer
+    key: ISAM.Audit.syslogclient.SERVER_PORT
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_server_port}}"
+  - datatype: Hostname
+    key: ISAM.Audit.syslogclient.SERVER_HOST
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_server_host}}"
+  - datatype: String
+    key: ISAM.Audit.syslogclient.TRANSPORT
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_transport}}"
+  - datatype: Integer
+    key: ISAM.Audit.syslogclient.QUEUE_FULL_TIMEOUT
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_queue_full_timeout}}"
+  - datatype: Integer
+    key: ISAM.Audit.syslogclient.MAX_QUEUE_SIZE
+    sensitive: false
+    validValues: []
+    value: "{{set_audit_configuration_max_queue_size}}"

@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that configures a Policy Attachments (CBA policies)
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - policy
+  - attachments
+  - cba
+
+dependencies:
+  - start_config

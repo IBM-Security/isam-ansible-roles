@@ -1,0 +1,7 @@
+#config_policy_attachments_server:
+#config_policy_attachments_resourceUri:
+
+#    Note: Please input policies with policy names (it will be converted to id's), like so:
+#     [{'name': '<policy name>', 'type': 'policy'}, {'name': '<policyset name>', 'type': 'policyset'}]
+config_policy_attachments_policies: []
+config_policy_attachments_policyCombiningAlgorithm: null

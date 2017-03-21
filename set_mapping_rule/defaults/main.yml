@@ -1,0 +1,5 @@
+# Provide the following values for role to succeed
+#set_mapping_rule_name:
+#set_mapping_rule_category:
+#set_mapping_rule_filename or set_mapping_rule_upload_filename:
+#set_mapping_rule_upload_filename or set_mapping_rule_content:

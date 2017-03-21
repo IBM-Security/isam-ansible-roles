@@ -1,0 +1,48 @@
+# The following need to be provided for this role to succeed
+#add_junction_junction_point:
+#add_junction_junction_type:
+#add_junction_reverseproxy_id:
+#add_junction_server_hostname:
+#add_junction_server_port:
+
+# Provide these options values
+add_junction_basic_auth_mode: null
+add_junction_stateful_junction: null
+add_junction_client_ip_http: null
+add_junction_scripting_support: null
+add_junction_junction_cookie_javascript_block: null
+add_junction_virtual_hostname: null
+add_junction_server_dn: null
+add_junction_query_contents: null
+add_junction_case_sensitive_url: null
+add_junction_windows_style_url: null
+add_junction_https_port: null
+add_junction_http_port: null
+add_junction_proxy_hostname: null
+add_junction_proxy_port: null
+add_junction_sms_environment: null
+add_junction_vhost_label: null
+add_junction_junction_hard_limit: null
+add_junction_junction_soft_limit: null
+add_junction_tfim_sso: null
+add_junction_remote_http_header: null
+add_junction_preserve_cookie: null
+add_junction_cookie_include_path: null
+add_junction_transparent_path_junction: null
+add_junction_mutual_auth: null
+add_junction_insert_session_cookies: null
+add_junction_request_encoding: null
+add_junction_enable_basic_auth: null
+add_junction_key_label: null
+add_junction_gso_resource_group: null
+add_junction_version_two_cookies: null
+add_junction_ltpa_keyfile: null
+add_junction_authz_rules: null
+add_junction_fsso_config_file: null
+add_junction_username: null
+add_junction_password: null
+add_junction_server_uid: null
+add_junction_local_ip: null
+add_junction_ltpa_keyfile_password: null
+add_junction_delegation_support: null
+add_junction_insert_ltpa_cookies: null

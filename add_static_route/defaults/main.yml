@@ -1,0 +1,12 @@
+# At a minimum provide the following
+# add_static_route_address: 'default'
+
+# Override the rest as needed
+add_static_route_enabled: True
+add_static_route_maskOrPrefix: null
+add_static_route_gateway: null
+add_static_route_label: null
+add_static_route_vlanId: null
+add_static_route_metric: null
+add_static_route_comment: ''
+add_static_route_table: null

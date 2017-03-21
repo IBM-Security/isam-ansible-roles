@@ -1,0 +1,32 @@
+# Provide the name of the revrseproxy to be configured
+# execute_isamcfg_reverseproxy_id: null
+
+# The following are the details of the AAC Runtime (defaults to local)
+execute_isamcfg_server: "localhost"
+execute_isamcfg_port:   "443"
+execute_isamcfg_label: "{{ execute_isamcfg_server }}-CA-Certificate"
+
+# WebSEAL keystore
+execute_isamcfg_kdb_id: "pdsrv"
+
+# This role expects common_web_root to be defined (Reverse Proxy should already be pointing to it)
+# common_web_root:
+
+# /mga junction defaults (as set by isamcfg tool)
+execute_isamcfg_junction_point:                   "/mga"
+execute_isamcfg_junction_type:                    "ssl"
+execute_isamcfg_basic_auth_mode:                  "ignore"
+execute_isamcfg_stateful_junction:                "yes"
+execute_isamcfg_remote_http_header:               "all"
+execute_isamcfg_client_ip_http:                   "yes"
+execute_isamcfg_scripting_support:                "yes"
+execute_isamcfg_junction_cookie_javascript_block: "inhead"
+execute_isamcfg_query_contents:                   "/sps/cgi-bin/query_contents"
+
+# Provide the BA credentials to use (defaults to easuser)
+execute_isamcfg_basic_auth_user  : "easuser"
+execute_isamcfg_basic_auth_passwd: "passw0rd"
+
+# Override the ISAM credentials used to run PDAdmin commands
+execute_isamcfg_isamuser: "sec_master"
+execute_isamcfg_isampwd: "passw0rd"

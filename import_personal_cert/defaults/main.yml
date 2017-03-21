@@ -1,0 +1,5 @@
+# Provide the following values for this role to work
+#import_personal_cert_kdb_id: "pdsrv"
+#import_personal_cert_label:
+#import_personal_cert_cert:
+#import_personal_cert_password:

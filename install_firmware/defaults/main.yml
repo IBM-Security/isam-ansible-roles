@@ -1,0 +1,13 @@
+# Sample *pkg* file name for firmware upgrade -- "isam_9.0.2.0_20161102-2353.pkg"
+
+# Provide the following values for the role to work
+#install_firmware_file: "/<path to pkg file>/isam_9.0.2.0_20161102-2353.pkg"
+#install_firmware_version: "9.0.2.0"
+#install_firmware_release_date: "2016-11-02"
+
+# The following should be standard for the most part
+install_firmware_type: "firmware"
+install_firmware_name: "Firmware"
+
+# Comment to be added to the snapshot before the actual install happens
+install_firmware_comment: "Execute Snapshot Before Firmware Upgrade to {{ install_firmware_version }}"

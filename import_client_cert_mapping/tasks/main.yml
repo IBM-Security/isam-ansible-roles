@@ -1,0 +1,18 @@
+- name: Import Client Certificate Mapping rule {{import_client_cert_mapping_id}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.client_certificate_mapping.import_file
+    isamapi:
+      id :      "{{ import_client_cert_mapping_id }}"
+      filename: "{{ import_client_cert_mapping_filename }}"
+  when: import_client_cert_mapping_filename is defined and import_client_cert_mapping_id is defined
+  notify:
+  - Commit Changes
+
+# Commit changes - changes need to take effect for next steps
+- meta: flush_handlers

@@ -1,0 +1,20 @@
+- name: Add a Static Route - {{ add_static_route_address }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.static_routes.add
+    isamapi:
+      address:      "{{ add_static_route_address }}"
+      enabled:      "{{ add_static_route_enabled }}"
+      maskOrPrefix: "{{ add_static_route_maskOrPrefix }}"
+      gateway:      "{{ add_static_route_gateway }}"
+      label:        "{{ add_static_route_label }}"
+      vlanId:       "{{ add_static_route_vlanId }}"
+      metric:       "{{ add_static_route_metric }}"
+      comment:      "{{ add_static_route_comment }}"
+      table:        "{{ add_static_route_table }}"
+  notify: Commit Changes

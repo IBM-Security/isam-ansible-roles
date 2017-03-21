@@ -1,0 +1,30 @@
+- name: Snapshot Appliance Before Fixpack - {{ install_fixpack_file | basename }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: 'Execute Snapshot Before Fixpack - {{ install_fixpack_file | basename }}'
+  when: install_fixpack_file is defined
+
+- name: Install Fixpack
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.fixpack.install
+    isamapi:
+      file: "{{ install_fixpack_file }}"
+  when: install_fixpack_file is defined
+  notify:
+    - Commit Changes
+
+# Commit activation of module before doing anything else
+- meta: flush_handlers

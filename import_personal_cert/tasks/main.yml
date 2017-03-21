@@ -1,0 +1,17 @@
+- name: Importing Personal Certificate - {{import_personal_cert_label}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.personal_certificate.import_cert
+    isamapi:
+      kdb_id   : "{{ import_personal_cert_kdb_id}}"
+      label    : "{{ import_personal_cert_label }}"
+      cert     : "{{ import_personal_cert_cert }}"
+      password : "{{ import_personal_cert_password }}"
+  when: import_personal_cert_kdb_id is defined and import_personal_cert_label is defined and import_personal_cert_cert is defined and import_personal_cert_password is defined
+  notify:
+  - Commit Changes

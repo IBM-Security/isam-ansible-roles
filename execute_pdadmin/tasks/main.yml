@@ -1,0 +1,21 @@
+- name: Run PDAdmin commands
+  isamadmin:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    isamuser:  "{{ execute_pdadmin_isamuser }}"
+    isampwd:   "{{ execute_pdadmin_isampwd }}"
+    commands: "{{ execute_pdadmin_commands }}"
+  when: execute_pdadmin_commands is defined and execute_pdadmin_isamuser is defined and execute_pdadmin_isampwd is defined
+  ignore_errors: true
+  register: ret_obj
+
+- name: Output of PDAdmin command execution
+  debug: msg="{{ ret_obj['data']['result'].split('\n') }}"
+  when: (ret_obj|succeeded and (not ansible_check_mode))
+
+- name: Error Messages *if* PDAdmin command failed
+  debug: msg="{{ ret_obj['log'].split('\n') }}"
+  when: (ret_obj|failed and (not ansible_check_mode))

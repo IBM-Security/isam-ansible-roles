@@ -1,0 +1,14 @@
+# The following fact is allow start_config notifier to restart reverse proxy in question
+- name: Set the reverse proxy instance name for handler to work
+  set_fact:
+    start_config_reverseproxy_id: "{{ create_reverseproxy_inst_name }}"
+
+# Create a reverse proxy instance
+- include: create_instance.yml
+
+# Configure common web root if provided
+- include: setup_common_root.yml
+
+# Commit changes and restart reverse proxy - changes need to take effect for next steps
+# Espcially if common web root is required to be setup
+- meta: flush_handlers

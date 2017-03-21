@@ -1,0 +1,17 @@
+- name: Configure DNS
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.dns.set
+    isamapi:
+      primaryServer    : "{{ config_dns_primaryServer }}"
+      secondaryServer  : "{{ config_dns_secondaryServer }}"
+      tertiaryServer   : "{{ config_dns_tertiaryServer }}"
+      auto             : "{{ config_dns_auto }}"
+      autoFromInterface: "{{ config_dns_autoFromInterface }}"
+      searchDomains    : "{{ config_dns_searchDomains }}"
+  notify: Commit Changes

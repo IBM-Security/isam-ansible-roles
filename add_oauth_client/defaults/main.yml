@@ -1,0 +1,18 @@
+# Provide the name of the API Definition Name (not the id, name will be used for lookup)
+# add_oauth_client_definitionName
+
+# Provide the following for this role to work
+# add_oauth_client_name
+# add_oauth_client_companyName
+
+# The following are valid defaults and can be overriden as needed
+add_oauth_client_redirectUri   : null
+add_oauth_client_companyUrl    : null
+add_oauth_client_contactPerson : null
+add_oauth_client_contactType   : null
+add_oauth_client_email         : null
+add_oauth_client_phone         : null
+add_oauth_client_otherInfo     : null
+# Might be best to override these - rather than allow them to randomly generate
+add_oauth_client_clientId      : null
+add_oauth_client_clientSecret  : null

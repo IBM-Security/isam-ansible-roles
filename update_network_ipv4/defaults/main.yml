@@ -1,0 +1,14 @@
+# The following need to be provided for role to work
+# Example:
+#   update_network_ipv4_label: "1.2"
+#   update_network_ipv4_address: "192.168.100.10"
+#   update_network_ipv4_maskOrPrefix: "255.255.255.0" or "24"
+
+# Default values for adding an ipv4 address - override as needed
+update_network_ipv4_new_address: "{{ update_network_ipv4_address }}"
+update_network_ipv4_allowManagement: False
+update_network_ipv4_enabled: True
+update_network_ipv4_overrideSubnetChecking: False
+update_network_ipv4_vlanId: null
+
+update_network_ipv4_comment: "Execute Snapshot as Backup - before updating ipv4 {{ update_network_ipv4_address }}"

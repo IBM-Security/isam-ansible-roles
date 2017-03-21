@@ -1,0 +1,14 @@
+- name: Set Administrator Configuration -  {{set_admin_cfg_key}}/{{set_admin_cfg_value}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.admin.set
+    isamapi:
+      key   : "{{ set_admin_cfg_key }}"
+      value : "{{ set_admin_cfg_value }}"
+  when: set_admin_cfg_key is defined and set_admin_cfg_value is defined
+  notify: Commit Changes

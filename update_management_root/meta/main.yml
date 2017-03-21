@@ -1,0 +1,19 @@
+galaxy_info:
+  author: IBM
+  description: Role to update file in Management Root of Reverse Proxy
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - reverseproxy
+  - management root
+  - file
+  - update
+
+dependencies:
+  - start_config

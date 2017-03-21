@@ -1,0 +1,34 @@
+- name: Configure System Alert to Remote Syslog
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.rsyslog.add
+    isamapi:
+      name          : "RSyslog Alert to {{ add_system_alerts_rsyslog_collector }}"
+      collector     : "{{ add_system_alerts_rsyslog_collector }}"
+      collectorPort : "{{ add_system_alerts_rsyslog_collectorPort }}"
+      collectorLeef : "{{ add_system_alerts_rsyslog_collectorLeef }}"
+      comment       : "RSyslog alert to {{ add_system_alerts_rsyslog_collector }}"
+  when: add_system_alerts_rsyslog_collector is defined
+  register: alertObj
+  notify: Commit Changes
+
+- name: Enable System Alert - Created in previous Step
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.alerts.enable
+    isamapi:
+      uuid    : "{{ alertObj['data']['uuid'] }}"
+      objType : "{{ alertObj['data']['objType'] }}"
+  when: add_system_alerts_rsyslog_collector is defined and alertObj.changed and (not ansible_check_mode)
+  notify: Commit Changes
+

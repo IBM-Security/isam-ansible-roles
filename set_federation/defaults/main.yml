@@ -1,0 +1,7 @@
+# Provide all of the following for this role to work
+#set_federation_name:
+#set_federation_protocol:
+#set_federation_role:
+#set_federation_configuration:
+#set_federation_templateName:
+set_federation_new_name: null

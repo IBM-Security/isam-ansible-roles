@@ -1,0 +1,14 @@
+- name: Authenticate One Time Before Policy Attachments - as {{authenticate_policy_attachments_username}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.authenticate
+    isamapi:
+      username: "{{ authenticate_policy_attachments_username }}"
+      password: "{{ authenticate_policy_attachments_password }}"
+      domain:   "{{ authenticate_policy_attachments_domain }}"
+  when: authenticate_policy_attachments_username is defined and authenticate_policy_attachments_password is defined

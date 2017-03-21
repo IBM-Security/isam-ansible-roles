@@ -1,0 +1,22 @@
+# Load AAC server certificate into WebSEAL kdb for setting up SSL junction
+
+- name: Load AAC Runtime CA Certificate
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id: "{{ execute_isamcfg_kdb_id }}"
+      label:  "{{ execute_isamcfg_label }}"
+      server: "{{ execute_isamcfg_server }}"
+      port:   "{{ execute_isamcfg_port }}"
+  when: execute_isamcfg_kdb_id is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
+  notify:
+  - Commit Changes
+
+# Commit for pdsrv changes to take effect
+- meta: flush_handlers

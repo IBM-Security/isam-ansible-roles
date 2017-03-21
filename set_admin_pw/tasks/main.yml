@@ -1,0 +1,15 @@
+- name: Change "admin" password
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.admin.set_pw
+    isamapi:
+      oldPassword: "{{ old_password }}"
+      newPassword: "{{ password}}"
+  ignore_errors: true
+  when: old_password is defined
+  notify: Commit Changes

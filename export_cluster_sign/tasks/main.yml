@@ -1,0 +1,12 @@
+- name: Export cluster signature from Primary appliance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.cluster.signature.export
+    isamapi:
+      filename: "{{ export_cluster_sign_filename }}"
+  when: export_cluster_sign_filename is defined

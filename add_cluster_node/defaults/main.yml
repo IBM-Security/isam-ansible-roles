@@ -1,0 +1,3 @@
+# Provide signature file name to import
+#add_cluster_node_signature_file: "/tmp/primary.signature"
+add_cluster_node_restricted: False

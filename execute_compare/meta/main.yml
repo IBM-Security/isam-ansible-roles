@@ -1,0 +1,16 @@
+galaxy_info:
+  author: IBM
+  description: Role that compares all aspects of an appliance with a master
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - compare
+
+dependencies:
+  - start_config

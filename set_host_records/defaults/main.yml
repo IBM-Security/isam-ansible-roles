@@ -1,0 +1,6 @@
+# The following need to be provided for role to work
+#set_host_records:
+#  - addr: "192.168.0.100"
+#    hostnames:
+#    - {name: test1.ibm.com}
+#    - {name: test2.ibm.com}

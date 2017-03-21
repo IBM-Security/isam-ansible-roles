@@ -1,0 +1,26 @@
+# Execute steps to switch appliance to external LDAP based authentication
+
+- name: Snapshot Before Switch to External LDAP
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ lmi_port }}"
+    log: "{{ log_level }}"
+    force: "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "Snapshot Before Switch to External LDAP"
+
+# Create certificate database to store AD CA Certs
+- include: cert.yml
+# Switch appliance to AD Based Authentication
+- include: mgmt_auth.yml
+# Enable Management Authorization (role based access)
+- include: mgmt_authz.yml
+
+# Commit changes before next step
+- meta: flush_handlers
+
+# Setup Roles
+- include: config_roles.yml

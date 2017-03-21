@@ -1,0 +1,17 @@
+- name: Set a Mapping Rule - {{set_mapping_rule_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.mapping_rules.set
+    isamapi:
+      name           : "{{ set_mapping_rule_name }}"
+      category       : "{{ set_mapping_rule_category }}"
+      filename       : "{{ set_mapping_rule_filename | default(None) }}"
+      content        : "{{ set_mapping_rule_content | default(None) }}"
+      upload_filename: "{{ set_mapping_rule_upload_filename | default(None) }}"
+  when: set_mapping_rule_name is defined and set_mapping_rule_category is defined
+  notify: Commit Changes

@@ -1,0 +1,20 @@
+galaxy_info:
+  author: IBM
+  description: Role that sets Access Control (CBA) Policy
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - access
+  - control
+  - policy
+  - cba
+  - set
+
+dependencies:
+  - start_config

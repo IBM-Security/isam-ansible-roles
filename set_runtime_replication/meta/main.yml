@@ -1,0 +1,20 @@
+galaxy_info:
+  author: IBM
+  description: Role that sets replication status for Web Runtime in a cluster
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - runtime
+  - web
+  - replication
+  - cluster
+  - set
+
+dependencies:
+  - start_config

@@ -1,0 +1,60 @@
+- name: Set the Certificate Database for LDAP Connections
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.configuration.entry.add
+    isamapi:
+      resource_id : "ldap.conf"
+      stanza_id   : "ldap"
+      # Entries is an array of two tuple arrays
+      entries:
+      - ["ssl-keyfile", "{{ config_fed_dir_kdb_name }}.kdb"]
+  when: config_fed_dir_id is defined
+  notify:
+  - Commit Changes
+  - Restart Web Runtime
+
+- name: Configure Federated Directory
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.federated_directories.stanza.set
+    isamapi:
+      id               : "{{ config_fed_dir_id }}"
+      hostname         : "{{ config_fed_dir_hostname }}"
+      port             : "{{ config_fed_dir_port }}"
+      bind_dn          : "{{ config_fed_dir_bind_dn }}"
+      bind_pwd         : "{{ config_fed_dir_bind_pwd }}"
+      use_ssl          : "{{ config_fed_dir_use_ssl }}"
+      client_cert_label: "{{ config_fed_dir_client_cert_label }}"
+      suffix           : "{{ config_fed_dir_suffix }}"
+  when: config_fed_dir_id is defined
+  notify:
+  - Commit Changes
+  - Restart Web Runtime
+
+- name: Set Replica Servers to Federated Directory Configuration
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.configuration.entry.set
+    isamapi:
+      resource_id: "ldap.conf"
+      stanza_id  : "server:{{ config_fed_dir_id }}"
+      entries    : "{{ config_fed_dir_replica }}"
+  when: config_fed_dir_id is defined and config_fed_dir_replica is defined
+  notify:
+  - Commit Changes
+  - Restart Web Runtime

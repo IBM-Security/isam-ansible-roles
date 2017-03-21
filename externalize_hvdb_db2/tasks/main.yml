@@ -1,0 +1,11 @@
+# Import CA certificates for HVDB Database
+- include: import_CA.yml
+
+# Configure external HVDB
+- include: config_external_hvdb.yml
+
+# Configure Advanced Tuning for faster/predictable DB2 failover
+- include: config_adv_tune_parms.yml
+
+# Commit all changes made to date
+- meta: flush_handlers

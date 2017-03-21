@@ -1,0 +1,57 @@
+- name: Check if Firmware Upgrade file exists - {{ install_firmware_file }}
+  stat:
+    path: "{{ install_firmware_file }}"
+    get_checksum: False
+    get_md5: False
+  register: firmware
+
+- name: Upload Firmware file - {{ install_firmware_file }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.available_updates.upload
+    isamapi:
+      file: "{{ install_firmware_file }}"
+  when: firmware.stat.exists
+  notify: Commit Changes
+
+- name: Snapshot Appliance Before Firmware Upgrade to {{ install_firmware_version }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ install_firmware_comment }}"
+  when: firmware.stat.exists
+
+# Make sure all handlers are flushed before Firmware Upgrade is done
+- meta: flush_handlers
+
+- name: Firmware install of {{ install_firmware_version }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.available_updates.install
+    isamapi:
+      type         : "{{ install_firmware_type }}"
+      version      : "{{ install_firmware_version }}"
+      release_date : "{{ install_firmware_release_date }}"
+      name         : "{{ install_firmware_name }}"
+  when: firmware.stat.exists
+  register: install_firmware
+  notify: Await Appliance LMI Response
+
+# Flush Handler to wait for appliance reboot
+- meta: flush_handlers

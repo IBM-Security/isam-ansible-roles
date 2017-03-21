@@ -1,0 +1,25 @@
+###  Create Junction to AAC server from reverse proxy
+
+- name: Set Junction to AAC - {{ execute_isamcfg_junction_point }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.set
+    isamapi:
+      junction_point:     "{{ execute_isamcfg_junction_point }}"
+      junction_type:      "{{ execute_isamcfg_junction_type }}"
+      reverseproxy_id:    "{{ execute_isamcfg_reverseproxy_id }}"
+      server_hostname:    "{{ execute_isamcfg_server }}"
+      server_port:        "{{ execute_isamcfg_port }}"
+      basic_auth_mode:    "{{ execute_isamcfg_basic_auth_mode }}"
+      stateful_junction:  "{{ execute_isamcfg_stateful_junction }}"
+      remote_http_header: "{{ execute_isamcfg_remote_http_header }}"
+      client_ip_http:     "{{ execute_isamcfg_client_ip_http }}"
+      scripting_support:  "{{ execute_isamcfg_scripting_support }}"
+      junction_cookie_javascript_block: "{{ execute_isamcfg_junction_cookie_javascript_block }}"
+      query_contents:     "{{ execute_isamcfg_query_contents }}"
+  when: execute_isamcfg_reverseproxy_id is defined and execute_isamcfg_server is defined and execute_isamcfg_port is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list

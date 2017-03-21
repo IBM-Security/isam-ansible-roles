@@ -1,0 +1,8 @@
+# Provide the following values for the role to work, policy can be extracted using LMI
+#set_access_control_policy_name:
+#set_access_control_policy_policy:
+#set_access_control_policy_attributesrequired:
+set_access_control_policy_description: ""
+set_access_control_policy_dialect: "urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+set_access_control_policy_predefined: False
+set_access_control_policy_new_name: null

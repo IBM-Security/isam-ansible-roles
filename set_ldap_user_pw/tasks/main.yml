@@ -1,0 +1,14 @@
+- name: Change Embedded LDAP {{set_ldap_user_pwd_id}}'s password
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.embedded_ldap.user.set_pw
+    isamapi:
+      id      : "{{ set_ldap_user_pwd_id }}"
+      password: "{{ set_ldap_user_pwd_password }}"
+  when: set_ldap_user_pwd_id is defined and set_ldap_user_pwd_password is defined
+  notify: Commit Changes

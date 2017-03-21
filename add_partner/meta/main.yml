@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that adds a Partner to a Federation
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - federation
+  - partner
+  - add
+
+dependencies:
+  - start_config

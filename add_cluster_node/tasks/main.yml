@@ -1,0 +1,18 @@
+- name: Add {{inventory_hostname}} to cluster
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.cluster.node.add
+    isamapi:
+      signature_file: "{{ add_cluster_node_signature_file }}"
+      restricted:     "{{ add_cluster_node_restricted }}"
+  when: add_cluster_node_signature_file is defined
+  notify:
+  - Commit Changes
+
+# Commit cluster changes before proceeding
+- meta: flush_handlers

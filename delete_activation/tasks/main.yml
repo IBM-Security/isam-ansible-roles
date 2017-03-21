@@ -1,0 +1,15 @@
+- name: Delete {{ delete_activation_id }} Module - deactivate
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action    : ibmsecurity.isam.base.activation.delete
+    isamapi:
+      id      : "{{ delete_activation_id }}"
+  when: delete_activation_id is defined
+  notify:
+  - Commit Changes
+  - Reboot Appliance

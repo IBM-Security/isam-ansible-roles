@@ -1,0 +1,19 @@
+# Provide the below values for this role to work:
+#set_auth_mech_name:
+#set_auth_mech_type:
+#set_auth_mech_uri: "urn:ibm:security:authentication:asf:mechanism:"
+set_auth_mech_description: ''
+set_auth_mech_attributes: []
+set_auth_mech_properties: []
+set_auth_mech_predefined: False
+
+# Here is a sample of values that could be provided:
+#set_auth_mech_name: newAuth
+#set_auth_mech_description: newAuth
+#set_auth_mech_type: newAuth
+#set_auth_mech_uri: urn:ibm:security:authentication:asf:mechanism:newAuth
+#set_auth_mech_attributes: []
+#set_auth_mech_properties:
+# - { key: 'key1', value: 'value1'}
+# - { key: 'key2', value: 'value2'}
+# - { key: 'key3', value: 'value3'}

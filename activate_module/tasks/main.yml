@@ -1,0 +1,29 @@
+- name: Snapshot Appliance Before Activating {{ activate_module_id }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ activate_module_comment }}"
+
+- name: Activate {{ activate_module_id }} Module
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.activation.set
+    isamapi:
+      id      : "{{ activate_module_id }}"
+      code    : "{{ activate_module_code }}"
+  when: activate_module_id is defined and activate_module_code is defined
+  notify: Commit Changes
+
+ # Commit activation of module before doing anything else
+- meta: flush_handlers

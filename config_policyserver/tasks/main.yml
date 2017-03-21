@@ -1,0 +1,57 @@
+- name: Snapshot Appliance Before Configuring Policy Server
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ config_policyserver_comment }}"
+
+- name: Configure Local Policy Server using Embedded LDAP
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.process.config
+    isamapi:
+      admin_pwd:           "{{ config_policyserver_admin_pwd }}"
+      ps_mode:             "{{ config_policyserver_ps_mode }}"
+      user_registry:       "{{ config_policyserver_user_registry }}"
+      ldap_host:           "{{ config_policyserver_ldap_host }}"
+      ldap_port:           "{{ config_policyserver_ldap_port }}"
+      ldap_dn:             "{{ config_policyserver_ldap_dn }}"
+      ldap_pwd:            "{{ config_policyserver_ldap_pwd }}"
+      ldap_ssl_db:         "{{ config_policyserver_ldap_ssl_db }}"
+      ldap_ssl_label:      "{{ config_policyserver_ldap_ssl_label }}"
+      ldap_suffix:         "{{ config_policyserver_ldap_suffix }}"
+      clean_ldap:          "{{ config_policyserver_clean_ldap }}"
+      domain:              "{{ config_policyserver_domain }}"
+      admin_cert_lifetime: "{{ config_policyserver_admin_cert_lifetime }}"
+      ssl_compliance:      "{{ config_policyserver_ssl_compliance }}"
+      isam_host:           "{{ config_policyserver_isam_host }}"
+      isam_port:           "{{ config_policyserver_isam_port }}"
+
+- name: Update Connection Inactivity to be less than infinity
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action    : ibmsecurity.isam.web.runtime.configuration.entry.update
+    isamapi:
+      resource_id : "ldap.conf"
+      stanza_id   : "ldap"
+      entry_id    : "connection-inactivity"
+      value_id    : "{{ config_policyserver_connection_inactivity }}"
+  when: not ansible_check_mode
+  notify:
+  - Commit Changes
+  - Restart Web Runtime

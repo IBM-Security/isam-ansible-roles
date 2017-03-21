@@ -1,0 +1,5 @@
+# Provide a list of features and access for this role to work on
+#set_mgmtazn_role_features:
+#  - name: "Security Administrator"
+#    feature_name: "events.page_title"
+#    access: "r"

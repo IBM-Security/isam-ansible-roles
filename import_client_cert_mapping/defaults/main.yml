@@ -1,0 +1,3 @@
+# Provide both the following values for this role to work:
+# import_client_cert_mapping_filename:
+# import_client_cert_mapping_id:

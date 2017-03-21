@@ -1,0 +1,11 @@
+# Configure AAC - steps may vary if you want different options
+# Assumptions: RP created with a known common root
+
+- include: aac_cert_setup.yml
+- include: acl_pops.yml
+- include: junction.yml
+- include: rp_config_adds.yml
+- include: rp_config_updates.yml
+
+# Commit all changes made until now
+- meta: flush_handlers

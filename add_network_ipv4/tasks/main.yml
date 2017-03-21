@@ -1,0 +1,32 @@
+- name: Snapshot Appliance as Backup
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: 'Execute Snapshot as Backup - before adding ipv4 {{ add_network_ipv4_address }}'
+  when: add_network_ipv4_address is defined
+
+- name: Add IPv4 Address to Interface {{ add_network_ipv4_label }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ lmi_port }}"
+    log: "{{ log_level }}"
+    force: "{{ force }}"
+    action: ibmsecurity.isam.base.network.interfaces_ipv4.add
+    isamapi:
+      label                 : "{{ add_network_ipv4_label }}"
+      address               : "{{ add_network_ipv4_address }}"
+      maskOrPrefix          : "{{ add_network_ipv4_maskOrPrefix }}"
+      allowManagement       : "{{ add_network_ipv4_allowManagement }}"
+      enabled               : "{{ add_network_ipv4_enabled }}"
+      overrideSubnetChecking: "{{ add_network_ipv4_overrideSubnetChecking }}"
+      vlanId                : "{{ add_network_ipv4_vlanId }}"
+  when: add_network_ipv4_address is defined
+  notify: Commit Changes

@@ -1,0 +1,19 @@
+- name: Load Signer Certificate from a server/port into Keystore
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id: "{{ load_signer_cert_kdb_id }}"
+      label:  "{{ load_signer_cert_label }}"
+      server: "{{ load_signer_cert_server }}"
+      port:   "{{ load_signer_cert_port }}"
+  when: load_signer_cert_kdb_id is defined and load_signer_cert_label is defined and load_signer_cert_server is defined and load_signer_cert_port is defined
+  notify: Commit Changes
+
+# Commit all changes made to date
+- meta: flush_handlers

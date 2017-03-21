@@ -1,0 +1,18 @@
+# Provide at the very least the name of the definition to create, override as needed
+# set_oauth_definition_name
+set_oauth_definition_description                                 : ""
+set_oauth_definition_grantTypes                                  : ["AUTHORIZATION_CODE"]
+set_oauth_definition_tcmBehavior                                 : "NEVER_PROMPT"
+set_oauth_definition_accessTokenLifetime                         : 3600
+set_oauth_definition_accessTokenLength                           : 20
+set_oauth_definition_enforceSingleUseAuthorizationGrant          : False
+set_oauth_definition_authorizationCodeLifetime                   : 300
+set_oauth_definition_authorizationCodeLength                     : 30
+set_oauth_definition_issueRefreshToken                           : True
+set_oauth_definition_refreshTokenLength                          : 40
+set_oauth_definition_maxAuthorizationGrantLifetime               : 604800
+set_oauth_definition_enforceSingleAccessTokenPerGrant            : False
+set_oauth_definition_enableMultipleRefreshTokensForFaultTolerance: False
+set_oauth_definition_pinPolicyEnabled                            : False
+set_oauth_definition_pinLength                                   : 4
+set_oauth_definition_tokenCharSet                                : "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"

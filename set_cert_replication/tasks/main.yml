@@ -1,0 +1,14 @@
+- name: Set Certificate Keystore Replication Status in a cluster
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.replication.set
+    isamapi:
+      replicating: "{{ set_cert_replication_replicating }}"
+  when: set_cert_replication_replicating is defined
+  notify:
+    - Commit Changes

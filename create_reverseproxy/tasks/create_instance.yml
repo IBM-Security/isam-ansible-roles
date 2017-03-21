@@ -1,0 +1,39 @@
+# The facts from this task will be used to determine if the next task can be run
+- name: Get the activations on the appliance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.activation.get
+  register: ret_obj
+
+- name: Configure Reverse Proxy
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.add
+    isamapi:
+      inst_name       : "{{ create_reverseproxy_inst_name }}"
+      admin_pwd       : "{{ create_reverseproxy_admin_pwd }}"
+      host            : "{{ create_reverseproxy_host }}"
+      listening_port  : "{{ create_reverseproxy_listening_port }}"
+      domain          : "{{ create_reverseproxy_domain }}"
+      admin_id        : "{{ create_reverseproxy_admin_id }}"
+      ssl_yn          : "{{ create_reverseproxy_ssl_yn }}"
+      key_file        : "{{ create_reverseproxy_key_file }}"
+      cert_label      : "{{ create_reverseproxy_cert_label }}"
+      ssl_port        : "{{ create_reverseproxy_ssl_port }}"
+      http_yn         : "{{ create_reverseproxy_http_yn }}"
+      http_port       : "{{ create_reverseproxy_http_port }}"
+      https_yn        : "{{ create_reverseproxy_https_yn }}"
+      https_port      : "{{ create_reverseproxy_https_port }}"
+      nw_interface_yn : "{{ create_reverseproxy_nw_interface_yn }}"
+      ip_address      : "{{ create_reverseproxy_ip_address }}"
+  when: ('wga' in ret_obj['ansible_facts']['activations'])

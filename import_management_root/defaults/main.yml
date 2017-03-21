@@ -1,0 +1,7 @@
+# Provide Reverse Proxy instance name
+#import_management_root_instance_id:
+
+# Provide a list of file in management root to be updated
+#import_management_root_idandfilename:
+#  - {id: "management/C/login.html",   filename: "/mydir/local/login.html"}
+#  - {id: "junction-root/favicon.ico", filename: "/mydir/local/favicon.ico"}

@@ -1,0 +1,30 @@
+- name: Add a new OAuth 2.0 Definition {{ add_oauth_definition_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.api_protection.definitions.add
+    isamapi:
+      name                                        : "{{ add_oauth_definition_name }}"
+      description                                 : "{{ add_oauth_definition_description }}"
+      grantTypes                                  : "{{ add_oauth_definition_grantTypes }}"
+      tcmBehavior                                 : "{{ add_oauth_definition_tcmBehavior }}"
+      accessTokenLifetime                         : "{{ add_oauth_definition_accessTokenLifetime }}"
+      accessTokenLength                           : "{{ add_oauth_definition_accessTokenLength }}"
+      enforceSingleUseAuthorizationGrant          : "{{ add_oauth_definition_enforceSingleUseAuthorizationGrant }}"
+      authorizationCodeLifetime                   : "{{ add_oauth_definition_authorizationCodeLifetime }}"
+      authorizationCodeLength                     : "{{ add_oauth_definition_authorizationCodeLength }}"
+      issueRefreshToken                           : "{{ add_oauth_definition_issueRefreshToken }}"
+      refreshTokenLength                          : "{{ add_oauth_definition_refreshTokenLength }}"
+      maxAuthorizationGrantLifetime               : "{{ add_oauth_definition_maxAuthorizationGrantLifetime }}"
+      enforceSingleAccessTokenPerGrant            : "{{ add_oauth_definition_enforceSingleAccessTokenPerGrant }}"
+      enableMultipleRefreshTokensForFaultTolerance: "{{ add_oauth_definition_enableMultipleRefreshTokensForFaultTolerance }}"
+      pinPolicyEnabled                            : "{{ add_oauth_definition_pinPolicyEnabled }}"
+      pinLength                                   : "{{ add_oauth_definition_pinLength }}"
+      tokenCharSet                                : "{{ add_oauth_definition_tokenCharSet }}"
+  when: add_oauth_definition_name is defined
+  notify:
+  - Commit Changes

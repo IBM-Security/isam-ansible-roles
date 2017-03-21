@@ -1,0 +1,16 @@
+- name: Create Dirctory in Management Root {{ create_mgmt_root_dir_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.directory.create
+    isamapi:
+      instance_id: "{{ create_mgmt_root_dir_instance_id }}"
+      id         : "{{ create_mgmt_root_dir_id }}"
+      filename   : "{{ create_mgmt_root_dir_filename }}"
+  when: create_mgmt_root_dir_filename is defined and create_mgmt_root_dir_instance_id is defined and create_mgmt_root_dir_id is defined
+  notify:
+  - Commit Changes

@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that configure a reverse proxy for a federation
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - reverseproxy
+  - federation
+  - configuration
+
+dependencies:
+  - start_config

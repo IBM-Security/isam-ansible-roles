@@ -1,0 +1,19 @@
+# At a minimum provide the following
+# update_static_route_address: 'default'
+
+# Use the following fields to update corresponding values
+# Note: The values with "new" will be used to lookup the static route to update
+update_static_route_new_address  : null
+update_static_route_new_label    : null
+update_static_route_new_vlanId   : null
+
+
+# Override the rest as needed
+update_static_route_enabled      : True
+update_static_route_maskOrPrefix : null
+update_static_route_gateway      : null
+update_static_route_label        : null
+update_static_route_vlanId       : null
+update_static_route_metric       : null
+update_static_route_comment      : ''
+update_static_route_table        : null

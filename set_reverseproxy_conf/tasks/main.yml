@@ -1,0 +1,19 @@
+# Set existing stanza(s)/entries in reverse proxy config file
+- name: Set values into Reverse Proxy Configuration File
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.set
+    isamapi:
+      reverseproxy_id: "{{ set_reverseproxy_conf_reverseproxy_id }}"
+      stanza_id:       "{{ item.stanza_id }}"
+      entries:         "{{ item.entries }}"
+  with_items:          "{{ set_reverseproxy_conf_entries }}"
+  when: set_reverseproxy_conf_entries is defined and set_reverseproxy_conf_reverseproxy_id is defined
+  notify:
+  - Commit Changes
+  - Restart Reverse Proxy

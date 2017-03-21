@@ -1,0 +1,31 @@
+- name: Snapshot Appliance as Backup
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ set_network_ipv4_dhcp_comment }}"
+  when: set_network_ipv4_dhcp_label is defined
+
+- name: Update DHCP for Interface {{ set_network_ipv4_dhcp_label }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.interfaces_ipv4.set_dhcp
+    isamapi:
+      label                 : "{{ set_network_ipv4_dhcp_label }}"
+      allowManagement       : "{{ set_network_ipv4_dhcp_allowManagement }}"
+      enabled               : "{{ set_network_ipv4_dhcp_enabled }}"
+      vlanId                : "{{ set_network_ipv4_dhcp_vlanId }}"
+      routeMetric           : "{{ set_network_ipv4_dhcp_routeMetric }}"
+      providesDefaultRoute  : "{{ set_network_ipv4_dhcp_providesDefaultRoute }}"
+  when: set_network_ipv4_dhcp_label is defined
+  notify: Commit Changes

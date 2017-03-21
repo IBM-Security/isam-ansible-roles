@@ -1,0 +1,19 @@
+- name: Set Authentication Mechanisms - {{ set_auth_mech_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.authentication.mechanisms.set
+    isamapi:
+      name:        "{{ set_auth_mech_name }}"
+      typeName:    "{{ set_auth_mech_type }}"
+      uri:         "{{ set_auth_mech_uri }}"
+      description: "{{ set_auth_mech_description }}"
+      attributes:  "{{ set_auth_mech_attributes }}"
+      properties:  "{{ set_auth_mech_properties }}"
+      predefined:  "{{ set_auth_mech_predefined }}"
+  when:  set_auth_mech_name is defined and set_auth_mech_type is defined and set_auth_mech_uri is defined
+  notify: Commit Changes

@@ -1,0 +1,63 @@
+# These are default values as in LMI - override as necessary
+externalize_hvdb_db2_cfgdb_embedded:               True
+externalize_hvdb_db2_dsc_client_grace_period:      600
+externalize_hvdb_db2_dsc_external_clients:         False
+externalize_hvdb_db2_dsc_maximum_session_lifetime: 3600
+externalize_hvdb_db2_dsc_worker_threads:           64
+externalize_hvdb_db2_first_port:                   2020
+externalize_hvdb_db2_hvdb_db_secure:               True
+externalize_hvdb_db2_hvdb_db_type:                 "db2"
+externalize_hvdb_db2_hvdb_driver_type:             "thin"
+externalize_hvdb_db2_hvdb_embedded:                False
+externalize_hvdb_db2_primary_master:               "127.0.0.1"
+# The following parameters are provided for completness - especially if you do not want to overwrite other settings
+# with the cluster configuration
+externalize_hvdb_db2_secondary_master:             null
+externalize_hvdb_db2_master_ere:                   null
+externalize_hvdb_db2_tertiary_master:              null
+externalize_hvdb_db2_quaternary_master:            null
+externalize_hvdb_db2_dsc_port:                     null
+externalize_hvdb_db2_dsc_use_ssl:                  null
+externalize_hvdb_db2_hvdb_max_size:                40
+externalize_hvdb_db2_hvdb_solid_tc:                null
+externalize_hvdb_db2_cfgdb_db_type:                null
+externalize_hvdb_db2_cfgdb_address:                null
+externalize_hvdb_db2_cfgdb_port:                   null
+externalize_hvdb_db2_cfgdb_user:                   null
+externalize_hvdb_db2_cfgdb_password:               null
+externalize_hvdb_db2_cfgdb_db2_alt_address:        null
+externalize_hvdb_db2_cfgdb_db2_alt_port:           null
+externalize_hvdb_db2_cfgdb_db_name:                null
+externalize_hvdb_db2_cfgdb_db_secure:              null
+externalize_hvdb_db2_cfgdb_driver_type:            null
+externalize_hvdb_db2_cfgdb_solid_tc:               null
+externalize_hvdb_db2_cfgdb_fs:                     null
+externalize_hvdb_db2_dsc_trace_level:              null
+
+# The following are default keystores used by AAC Runtime and LMI (usually there should not be a need to change this)
+# Both these keystores need the CA certs
+externalize_hvdb_db2_keystores:
+  - rt_profile_keys
+  - lmi_trust_store
+# Note: Provide either externalize_hvdb_db2_ca_label for self-signed certs or externalize_hvdb_db2_ca_certandlabel
+#       which lists CA certs to be imported.
+#externalize_hvdb_db2_ca_label: "HVDB_DB2_CA"
+#externalize_hvdb_db2_ca_certandlabel:
+#  - { 'cert': "/tmp/cacerts/verisign.cer", 'label': "Verisign CA"}
+
+# The following values have to be provided for this role to succeed
+# Primary DB2 Server
+#externalize_hvdb_db2_hvdb_address:
+#externalize_hvdb_db2_hvdb_port:
+# Secondary DB2 Server
+#externalize_hvdb_db2_hvdb_db2_alt_address:
+#externalize_hvdb_db2_hvdb_db2_alt_port:
+# DB2 Database Name and Userid to Connect
+#externalize_hvdb_db2_hvdb_db_name:
+#externalize_hvdb_db2_hvdb_user:
+#externalize_hvdb_db2_hvdb_password:
+
+# Advanced Tuning Parameters to ensure DB2 fails over consistently
+externalize_hvdb_db2_tcp_retries2: 5
+externalize_hvdb_db2_maxRetriesForClientReroute: 300
+externalize_hvdb_db2_retryIntervalForClientReroute: 1

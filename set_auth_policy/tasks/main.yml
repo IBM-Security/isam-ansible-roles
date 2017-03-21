@@ -1,0 +1,20 @@
+# It is recommended to create a policy using LMI and export the XML file to use
+# in the "policy" attribute for this task
+- name: Set Authentication Policy - {{set_auth_policy_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.authentication.policies.set_file
+    isamapi:
+      name:        "{{ set_auth_policy_name }}"
+      policy_file: "{{ set_auth_policy_policy_file }}"
+      description: "{{ set_auth_policy_description }}"
+      uri:         "{{ set_auth_policy_uri }}"
+      dialect:     "{{ set_auth_policy_dialect }}"
+      enabled:     "{{ set_auth_policy_enabled }}"
+  when: set_auth_policy_name is defined and set_auth_policy_policy_file is defined and set_auth_policy_uri is defined
+  notify: Commit Changes

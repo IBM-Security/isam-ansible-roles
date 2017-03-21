@@ -1,0 +1,9 @@
+#set_auth_policy_name:
+#set_auth_policy_uri:
+# Create a policy using LMI and export the XML file created for use in following parameter
+#set_auth_policy_policy_file:
+set_auth_policy_description: ""
+# This value should not change for the most part
+set_auth_policy_dialect: "urn:ibm:security:authentication:policy:1.0:schema"
+# New for ISAM v9.0.2.1, set enabled flag for policy
+set_auth_policy_enabled: null

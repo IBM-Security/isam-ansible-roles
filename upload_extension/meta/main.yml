@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that uploads an Extension
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - extension
+  - aac
+  - upload
+
+dependencies:
+  - start_config
