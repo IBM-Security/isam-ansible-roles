@@ -2,7 +2,7 @@
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
-    password:  "{{ password }}"
+    password:  "{{ old_password }}"
     lmi_port:  "{{ lmi_port }}"
     log:       "{{ log_level }}"
     force:     "{{ force }}"
