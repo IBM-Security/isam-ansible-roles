@@ -1,0 +1,7 @@
+BS_vmrun: '/usr/bin/vmrun'
+BS_vmrunflags: '-T ws'
+BS_vmdiskmgr: '/usr/bin/vmware-vdiskmanager'
+BS_mkisofs: '/usr/bin/mkisofs'
+BS_mkisoflags: '-J -o'
+BS_os: 'Linux'
+BS_tmpdir: '/tmp'

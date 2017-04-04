@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  roles:
+    - { role: bootstrap_local, BS_vm_hostname: isam_demo, BS_vm_mgmt_ip: 192.168.42.111 }

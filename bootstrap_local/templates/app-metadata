@@ -1,0 +1,4 @@
+network.hostname = "{{ BS_vm_hostname }}"
+network.1.1.ipv4.address = "{{ BS_vm_mgmt_ip }}"
+network.1.1.ipv4.netmask = "{{ BS_vm_netmask }}"
+network.1.1.ipv4.gateway = "{{ BS_vm_default_gw }}"

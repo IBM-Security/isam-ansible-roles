@@ -1,0 +1,8 @@
+BS_vmrun: '/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
+BS_vmrunflags: '-T fusion'
+BS_vmdiskmgr: '/Applications/VMware\ Fusion.app/Contents/Library/vmware-vdiskmanager'
+BS_vm_dir_suffix: '.vmwarevm'
+BS_mkisofs: '/Applications/VMware\ Fusion.app/Contents/Library/mkisofs'
+BS_mkisoflags: '-joliet -rock -o'
+BS_os: 'OSX'
+BS_tmpdir: '/tmp'
