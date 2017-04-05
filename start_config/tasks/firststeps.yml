@@ -1,0 +1,80 @@
+---
+# task file for ISAM appliance first steps
+#
+#     accept service agreements
+#     set up LMI FIPS
+#     restart LMI
+#     change password
+#
+# accept service agreements
+- name: accept service agreements
+  isam:
+    appliance: "{{inventory_hostname}}"
+    username: admin
+    password: admin
+    action: ibmsecurity.isam.base.service_agreement.set
+
+# set up LMI FIPS
+- name: set up FIPS
+  isam:
+    appliance: "{{inventory_hostname}}"
+    username: admin
+    password: admin
+    action: ibmsecurity.isam.base.fips.set
+    isamapi:
+      fipsEnabled: "{{FIPS_cfg.fipsEnabled}}"
+      tlsv10Enabled: "{{FIPS_cfg.tlsv10Enabled}}"
+      tlsv11Enabled: "{{FIPS_cfg.tlsv11Enabled}}"
+  register: ret_obj
+- debug: var=ret_obj
+
+# Restart after FIPS if needed
+- name: FIPS_Restart
+  isam:
+      appliance: "{{inventory_hostname}}"
+      username: admin
+      password: admin
+      action: ibmsecurity.isam.base.fips.restart
+  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+  notify: Await Appliance Commit LMI Response
+- debug: var=ret_obj
+
+# make sure we wait for the LMI restart
+- meta: flush_handlers
+
+# Make sure system restarted
+- name: check FIPS settings
+  isam:
+    appliance: "{{inventory_hostname}}"
+    username: admin
+    password: admin
+    action: ibmsecurity.isam.base.fips.get
+  register: ret_obj
+  retries: 5
+  delay: 30
+- debug: var=ret_obj
+  until: ret_obj.data.fipsEnabled is defined and "{{ret_obj.data.fipsEnabled}}" == "{{FIPS_cfg.fipsEnabled}}"
+
+# Complete the appliance set up
+- name: complete appliance set up
+  isam:
+    appliance: "{{inventory_hostname}}"
+    username: admin
+    password: admin
+    action: ibmsecurity.isam.base.setup_complete.set
+  register: ret_obj
+- debug: var=ret_obj
+
+# Change password
+- name: change password
+  isam: 
+      appliance: "{{inventory_hostname}}"
+      password: "admin"
+      action: ibmsecurity.isam.base.admin.set_pw
+      isamapi:
+          'oldPassword': 'admin'
+          'newPassword': "{{password}}"
+          'sessionTimeout': "{{lmi_session_timeout}}"
+  notify: Commit Changes
+
+- meta: flush_handlers

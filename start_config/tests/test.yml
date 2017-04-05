@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - { role: start_config, inventory_hostname: 192.168.42.111, username: admin, password: Passw0rd }
