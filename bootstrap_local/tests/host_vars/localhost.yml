@@ -1,4 +1,4 @@
 BS_vm_net_mask: 255.255.255.0
 BS_vm_default_gw: 192.168.42.2
 BS_vm_path_root: '/Users/mlu/VMs'
-BS_appliance_iso: "/Users/mlu/Products/SAM/isam_9.0.0.1_20151209-2309.iso"
+BS_appliance_iso: "/Users/mlu/Products/SAM/isam_9.0.2.1_20170116-1957.iso"
