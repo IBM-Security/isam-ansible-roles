@@ -12,17 +12,16 @@
     HEADER_Accept: "application/json"
   when: start_config_executed_once is not defined
   register: result
-- debug: var=result
 
 # if default password fails we do not go through firststeps and change password
 - set_fact:
     firststeps: true
-  when: result is defined and result.status == 200 and result.json.sla is defined
+  when: start_config_executed_once is not defined and result is defined and result.status == 200 and result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
 - include: firststeps.yml
   dynamic: true
-  when: firststeps is defined
+  when: start_config_executed_once is not defined and firststeps is defined
 
 - name: Check if Appliance is up and running
   wait_for:
