@@ -10,19 +10,19 @@
     status_code: 200, 403
     validate_certs: false
     HEADER_Accept: "application/json"
+  when: start_config_executed_once is not defined
   register: result
 - debug: var=result
 
 # if default password fails we do not go through firststeps and change password
 - set_fact:
-    use_default_pw: true
-  when: result.status == 200
-- debug: var=use_default_pw
+    friststeps: true
+  when: result is defined and result.status == 200 and result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
 - include: firststeps.yml
   dynamic: true
-  when: use_default_pw is defined and start_config_executed_once is not defined
+  when: firststeps is defined and start_config_executed_once is not defined
 
 - name: Check if Appliance is up and running
   wait_for:
@@ -49,7 +49,7 @@
 - name: If Appliance has pending changes - then fail
   fail:
     msg: This appliance has pending changes, please commit or rollback before re-running.
-  when: ret_obj.changed
+  when: start_config_executed_once is not defined and ret_obj.changed
 
 - name: Snapshot Appliance as Backup
   isam:
@@ -67,3 +67,4 @@
 - name: Set flag to avoid multiple executions
   set_fact:
     start_config_executed_once: True
+  when: start_config_executed_once is not defined
