@@ -9,3 +9,6 @@
 # Provide ISAM credentials used to run PDAdmin commands
 #execute_pdadmin_isamuser: "sec_master"
 #execute_pdadmin_isampwd: "passw0rd"
+
+# Use Default domain, override as needed
+execute_pdadmin_domain: "Default"

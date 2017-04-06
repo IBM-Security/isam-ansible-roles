@@ -26,6 +26,7 @@ def main():
             password=dict(required=True),
             isamuser=dict(required=False),
             isampwd=dict(required=True),
+            isamdomain=dict(required=False, default='Default'),
             commands=dict(required=True, type='list')
         ),
         supports_check_mode=False
@@ -41,6 +42,7 @@ def main():
     password = module.params['password']
     isamuser = module.params['isamuser']
     isampwd = module.params['isampwd']
+    isamdomain = module.params['isamdomain']
     commands = module.params['commands']
 
     # Setup logging for format, set log level and redirect to string
@@ -93,7 +95,7 @@ def main():
         startd = datetime.datetime.now()
 
         ret_obj = ibmsecurity.isam.web.runtime.pdadmin.execute(isamAppliance=isam_server, isamUser=iu,
-                                                               commands=commands)
+                                                               admin_domain=isamdomain, commands=commands)
 
         endd = datetime.datetime.now()
         delta = endd - startd

@@ -7,6 +7,7 @@
     log:       "{{ log_level }}"
     isamuser:  "{{ execute_pdadmin_isamuser }}"
     isampwd:   "{{ execute_pdadmin_isampwd }}"
+    isamdomain: "{{ execute_pdadmin_domain }}"
     commands: "{{ execute_pdadmin_commands }}"
   when: execute_pdadmin_commands is defined and execute_pdadmin_isamuser is defined and execute_pdadmin_isampwd is defined
   ignore_errors: true
