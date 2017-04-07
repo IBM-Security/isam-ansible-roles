@@ -1,0 +1,15 @@
+---
+- name: modify LDAP user attributes
+  hosts: localhost
+  connection: local
+  roles:
+      - role: set_ldap_user_attr
+        ldap_bind_dn: "cn=root,secAuthority=default"
+        ldap_bind_pw: "passw0rd"
+        ldap_server_uri: "ldaps://192.168.42.101:636/"
+        ldap_state: "exact"
+        ldap_user_attributes:
+            - dn: "uid=testuser,dc=iswga"
+              attributes:
+                - { "name": "mail", "values": "testuser@mailinator.com" }
+                - { "name": "displayName", "values": "Test User" }

@@ -1,0 +1,19 @@
+---
+# defaults file for isam.base.user
+# create sample users and groups
+# may need to modify LDAP attributes as well
+ldap_bind_dn: "cn=root,secAuthority=default"
+ldap_bind_pw: "passw0rd"
+ldap_server_uri: "ldaps://192.168.42.101:636/"
+
+# ldap_state: 
+#     present: all given values will be added if they are missing
+#     absent: all given values will be removed if present.
+#     exact: the set of values will be forced to exactly those provided and no others. 
+ldap_state: "present"
+
+ldap_user_attributes:
+    - dn: "uid=testuser,dc=iswga"
+      attributes:
+      - { "name": "mail", "values": "testuser@mailinator.com" }
+      - { "name": "displayName", "values": "Test User" }
