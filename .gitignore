@@ -1,10 +1,5 @@
-
-bootstrap_local/.idea/isam-local-bootstrap.iml
-
-bootstrap_local/.idea/misc.xml
-
-bootstrap_local/.idea/modules.xml
-
-bootstrap_local/.idea/workspace.xml
-
+.idea/*
+*/.idea/*
+.DS_Store
+*/.DS_Store
 *.retry
