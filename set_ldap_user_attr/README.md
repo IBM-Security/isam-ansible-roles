@@ -17,12 +17,17 @@ The variables for this role can be passed via role directly, or inventory file, 
 Required variables are:
 
 **ldap_bind_dn**: Binding DN, for example "cn=root,secAuthority=default"
+
 **ldap_bind_pw**: Binding password
+
 **ldap_server_uri**: LDAP server URI, for example, "ldaps://192.168.42.101:636/"
+
 **ldap_state**: LDAP attribute target state, valid options are:
--     present: all given values will be added if they are missing
--     absent: all given values will be removed if present.
--     exact: the set of values will be forced to exactly those provided and no others. 
+```
+  present: all given values will be added if they are missing
+  absent: all given values will be removed if present.
+  exact: the set of values will be forced to exactly those provided and no others. 
+```
 
 **ldap_user_attributes**: This is a JSON object which contains 'dn' string and a JSON array 'attributes'. For example:
 ```
