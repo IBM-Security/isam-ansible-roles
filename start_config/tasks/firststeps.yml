@@ -36,11 +36,15 @@
       password: admin
       action: ibmsecurity.isam.base.fips.restart
   when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
-  notify: Await Appliance Commit LMI Response
-- debug: var=ret_obj
 
-# make sure we wait for the LMI restart
-- meta: flush_handlers
+- name: wait for LMI up
+  isam:
+      appliance: "{{inventory_hostname}}"
+      username: admin
+      password: admin
+      action: ibmsecurity.isam.base.lmi.await_startup
+      isamapi:
+          wait_time: {{start_config_wait_time}}
 
 # Make sure system restarted
 - name: check FIPS settings

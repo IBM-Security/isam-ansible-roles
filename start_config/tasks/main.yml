@@ -13,23 +13,17 @@
   when: start_config_executed_once is not defined
   register: result
 
+- set_fact:
+    firststeps: "skip_fs.yml"
+
 # if default password fails we do not go through firststeps and change password
 - set_fact:
-    firststeps: true
+    firststeps: "firststeps.yml"
   when: start_config_executed_once is not defined and result is defined and result.status == 200 and result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
-- include: firststeps.yml
+- include: "{{firststeps}}"
   dynamic: true
-  when: start_config_executed_once is not defined and firststeps is defined
-
-- name: Check if Appliance is up and running
-  wait_for:
-    host: "{{ inventory_hostname }}"
-    port: "{{ lmi_port }}"
-    timeout: 10
-    state: started
-  check_mode: no
   when: start_config_executed_once is not defined
 
 - name: Check if there are pending changes on the appliance
