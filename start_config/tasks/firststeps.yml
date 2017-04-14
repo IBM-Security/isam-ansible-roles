@@ -44,7 +44,7 @@
       password: admin
       action: ibmsecurity.isam.base.lmi.await_startup
       isamapi:
-          wait_time: {{start_config_wait_time}}
+          wait_time: "{{start_config_wait_time}}"
 
 # Make sure system restarted
 - name: check FIPS settings
