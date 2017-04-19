@@ -14,6 +14,17 @@
     password: admin
     action: ibmsecurity.isam.base.service_agreement.set
 
+- name: last boot
+  isam:
+    appliance: "{{inventory_hostname}}"
+    username: admin
+    password: admin
+    action: ibmsecurity.isam.base.firmware.get
+  register: ret_obj
+
+- set_fact:
+    last_boot: "{{ret_obj.data[0].last_boot}}"
+
 # set up LMI FIPS
 - name: set up FIPS
   isam:
@@ -37,14 +48,10 @@
       action: ibmsecurity.isam.base.fips.restart
   when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
-- name: wait for LMI up
-  isam:
-      appliance: "{{inventory_hostname}}"
-      username: admin
-      password: admin
-      action: ibmsecurity.isam.base.lmi.await_startup
-      isamapi:
-          wait_time: "{{start_config_wait_time}}"
+- name: pause
+  pause:
+    minutes: "{{fips_restart_wait_time}}"
+  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Make sure system restarted
 - name: check FIPS settings
@@ -52,12 +59,13 @@
     appliance: "{{inventory_hostname}}"
     username: admin
     password: admin
-    action: ibmsecurity.isam.base.fips.get
-  register: ret_obj
+    action: ibmsecurity.isam.base.firmware.get
+  register: result
   retries: 5
   delay: 30
-- debug: var=ret_obj
-  until: ret_obj.data.fipsEnabled is defined and "{{ret_obj.data.fipsEnabled}}" == "{{FIPS_cfg.fipsEnabled}}"
+  ignore_errors: true
+  until: result.rc == 0 and (result.data[0].last_boot != last_boot)
+  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Complete the appliance set up
 - name: complete appliance set up
@@ -79,6 +87,45 @@
           'oldPassword': 'admin'
           'newPassword': "{{password}}"
           'sessionTimeout': "{{lmi_session_timeout}}"
-  notify: Commit Changes
 
-- meta: flush_handlers
+- name: check timestamp before restart
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.lmi.get
+  register: ret_obj
+
+- set_fact:
+    old_start_time: "{{ret_obj.data[0].start_time}}"
+
+- name: commit changes
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.appliance.commit_and_restart
+
+- name: wait for 1 minute
+  pause:
+      minutes: 1
+
+- name: wait for LMI up
+  isam:
+      appliance: "{{inventory_hostname}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      action: ibmsecurity.isam.base.lmi.await_startup
+      isamapi:
+          start_time: "{{old_start_time}}"
+          wait_time: "{{start_config_wait_time}}"
+  retries: 5
+  delay: 30
+  ignore_errors: true
+
