@@ -7,26 +7,28 @@
 #     change password
 #
 # accept service agreements
-- name: accept service agreements
+- name: Accept Service Agreements
   isam:
     appliance: "{{inventory_hostname}}"
     username: admin
     password: admin
     action: ibmsecurity.isam.base.service_agreement.set
 
-- name: last boot
+- name: Get Last Boot Timestamp
   isam:
     appliance: "{{inventory_hostname}}"
     username: admin
     password: admin
     action: ibmsecurity.isam.base.firmware.get
+  check_mode: no
   register: ret_obj
 
-- set_fact:
+- name: Extract Last Boot Timestamp
+  set_fact:
     last_boot: "{{ret_obj.data[0].last_boot}}"
 
 # set up LMI FIPS
-- name: set up FIPS
+- name: Setup FIPS Mode
   isam:
     appliance: "{{inventory_hostname}}"
     username: admin
@@ -40,7 +42,7 @@
 - debug: var=ret_obj
 
 # Restart after FIPS if needed
-- name: FIPS_Restart
+- name: Restart after enabling FIPS
   isam:
       appliance: "{{inventory_hostname}}"
       username: admin
@@ -48,13 +50,13 @@
       action: ibmsecurity.isam.base.fips.restart
   when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
-- name: pause
+- name: Pause for Reboot {{fips_restart_wait_time}}mins
   pause:
     minutes: "{{fips_restart_wait_time}}"
   when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Make sure system restarted
-- name: check FIPS settings
+- name: Check FIPS settings for System Online Status
   isam:
     appliance: "{{inventory_hostname}}"
     username: admin
@@ -68,7 +70,7 @@
   when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Complete the appliance set up
-- name: complete appliance set up
+- name: Complete Appliance Setup
   isam:
     appliance: "{{inventory_hostname}}"
     username: admin
@@ -78,7 +80,7 @@
 - debug: var=ret_obj
 
 # Change password
-- name: change password
+- name: Change password for admin user
   isam: 
       appliance: "{{inventory_hostname}}"
       password: "admin"
@@ -88,7 +90,7 @@
           'newPassword': "{{password}}"
           'sessionTimeout': "{{lmi_session_timeout}}"
 
-- name: check timestamp before restart
+- name: Get LMI Last Restart Timestamp
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -97,12 +99,15 @@
     log:       "{{ log_level }}"
     force:     "{{ force }}"
     action: ibmsecurity.isam.base.lmi.get
+  check_mode: no
   register: ret_obj
 
-- set_fact:
+- name: Extract LMI Restart Timestamp
+  set_fact:
     old_start_time: "{{ret_obj.data[0].start_time}}"
+  when: not ansible_check_mode
 
-- name: commit changes
+- name: Commit Changes and Restart LMI
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -111,12 +116,14 @@
     log:       "{{ log_level }}"
     force:     "{{ force }}"
     action: ibmsecurity.isam.appliance.commit_and_restart
+  when: not ansible_check_mode
 
-- name: wait for 1 minute
+- name: Wait for 1 minute
   pause:
       minutes: 1
+  when: not ansible_check_mode
 
-- name: wait for LMI up
+- name: Wait for LMI to Respond
   isam:
       appliance: "{{inventory_hostname}}"
       username: "{{username}}"
@@ -128,4 +135,9 @@
   retries: 5
   delay: 30
   ignore_errors: true
+  when: not ansible_check_mode
 
+- name: Fail Appliance if Running in Check Mode
+  fail:
+    msg: Appliance does not have First Steps Executed. No task will run successfully so failing.
+  when: ansible_check_mode
