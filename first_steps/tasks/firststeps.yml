@@ -90,6 +90,7 @@
           'oldPassword': 'admin'
           'newPassword': "{{password}}"
           'sessionTimeout': "{{lmi_session_timeout}}"
+  when: first_steps_admin_pwd
 
 - name: Get LMI Last Restart Timestamp
   isam:

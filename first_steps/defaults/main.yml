@@ -12,3 +12,4 @@ lmi_session_timeout: 720
 
 # Override this setting if you do not want FIPS mode to be turned on
 first_steps_fips: True
+first_steps_admin_pwd: True
