@@ -1,6 +1,3 @@
-start_config_comment: 'Execute Snapshot as Backup - before Standard Config'
-# Time to wait in seconds if appliance is being rebooted
-start_config_wait_time: 600
 lmi_port: 443
 username: admin
 password: admin
@@ -12,3 +9,6 @@ FIPS_cfg: { fipsEnabled: true, tlsv10Enabled: false, tlsv11Enabled: true }
 fips_restart_wait_time: 1
 
 lmi_session_timeout: 720
+
+# Override this setting if you do not want FIPS mode to be turned on
+first_steps_fips: True

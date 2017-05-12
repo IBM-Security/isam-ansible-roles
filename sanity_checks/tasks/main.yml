@@ -1,0 +1,28 @@
+- name: Check if there are pending changes on the appliance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     False
+    action: ibmsecurity.isam.appliance.commit
+  check_mode: yes
+  register: ret_obj
+
+- name: If Appliance has pending changes - then fail
+  fail:
+    msg: This appliance has pending changes, please commit or rollback before re-running.
+  when: ret_obj.changed
+
+- name: Snapshot Appliance as Backup
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ start_config_comment }}"

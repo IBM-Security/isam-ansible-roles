@@ -39,6 +39,7 @@
       tlsv10Enabled: "{{FIPS_cfg.tlsv10Enabled}}"
       tlsv11Enabled: "{{FIPS_cfg.tlsv11Enabled}}"
   register: ret_obj
+  when: first_steps_fips
 - debug: var=ret_obj
 
 # Restart after FIPS if needed
@@ -48,12 +49,12 @@
       username: admin
       password: admin
       action: ibmsecurity.isam.base.fips.restart
-  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+  when: first_steps_fips and ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 - name: Pause for Reboot {{fips_restart_wait_time}}mins
   pause:
     minutes: "{{fips_restart_wait_time}}"
-  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+  when: first_steps_fips and ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Make sure system restarted
 - name: Check FIPS settings for System Online Status
@@ -67,7 +68,7 @@
   delay: 30
   ignore_errors: true
   until: result.rc == 0 and (result.data[0].last_boot != last_boot)
-  when: ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+  when: first_steps_fips and ret_obj.data.reboot is defined and ret_obj.data.reboot == true
 
 # Complete the appliance set up
 - name: Complete Appliance Setup
