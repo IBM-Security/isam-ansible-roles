@@ -27,8 +27,6 @@ execute_compare_base_features:
   - ibmsecurity.isam.base.system_alerts.email
   - ibmsecurity.isam.base.system_alerts.snmp
   - ibmsecurity.isam.base.system_alerts.rsyslog
-  - ibmsecurity.isam.base.runtime.tuning_parameters
-  - ibmsecurity.isam.base.runtime.listening_interfaces
   - ibmsecurity.isam.web.embedded_ldap.debug
   - ibmsecurity.isam.web.embedded_ldap.suffix
 execute_compare_wga_features:
@@ -52,5 +50,7 @@ execute_compare_fed_features:
   - ibmsecurity.isam.fed.federations
   - ibmsecurity.isam.fed.point_of_contact
 execute_compare_mga_or_fed_features:
+  - ibmsecurity.isam.base.runtime.tuning_parameters
+  - ibmsecurity.isam.base.runtime.listening_interfaces
   - ibmsecurity.isam.web.embedded_ldap.group
   - ibmsecurity.isam.web.embedded_ldap.user
