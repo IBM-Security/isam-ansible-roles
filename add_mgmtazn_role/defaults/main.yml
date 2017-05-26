@@ -1,0 +1,7 @@
+# Provide the name of the new management authorization role(s)
+# mgmtazn_role_names:
+#   - Role 1
+#   - Role 2
+
+# Comment to be used for creating a snapshot file
+add_mgmtazn_role_comment: "Automated Snapshot Before Adding Management Authorization Roles"

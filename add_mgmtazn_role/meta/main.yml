@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to add one or more custom management authorization roles in ISAM
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - management_authorization
+  - role
+
+dependencies:
+  - start_config
