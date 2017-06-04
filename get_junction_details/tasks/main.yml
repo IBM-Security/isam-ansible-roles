@@ -1,0 +1,21 @@
+- name: Get Junctions in Reverse Proxy
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.get
+    isamapi:
+      reverseproxy_id: "{{item.0.item.id}}"
+      junctionname: "{{item.1.id}}"
+  register: ret_obj
+  when: junction_ret_obj is defined
+  with_subelements:
+    - "{{ junction_ret_obj['results'] }}"
+    - data
+
+- name: Set variable for use by rest of playbook
+  set_fact:
+    junction_detail_ret_obj: "{{ ret_obj }}"

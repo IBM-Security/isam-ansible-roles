@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+}
+th {
+    background-color: dimgray;
+    color: white;
+}
+</style>
+</head>
+<body>
+<h2>ISAM Junctions</h2>
+<table>
+    <TR>
+        <TH>Appliance</TH>
+        <TH>Reverse Proxy</TH>
+        <TH>Junction Name</TH>
+        <TH>Junction Type</TH>
+        <TH>Active Worker Threads</TH>
+        <TH>Server Hostname</TH>
+        <TH>Server Port</TH>
+        <TH>Operation State</TH>
+        <TH>Server State</TH>
+        <TH>Total Requests</TH>
+    </TR>
+    {% for h in play_hosts %}
+      {% if hostvars[h]['junction_detail_ret_obj'] is defined %}
+        {% for jd in hostvars[h]['junction_detail_ret_obj']['results'] %}
+            {% for jds in jd['data']['servers'] %}
+              <TR>
+                <TD>{{ h }}</TD>
+                <TD>{{ jd['item'][0]['item']['id'] }}</TD>
+                <TD>{{ jd['data']['junction_point'] }}</TD>
+                <TD>{{ jd['data']['junction_type'] }}</TD>
+                <TD>{{ jd['data']['active_worker_threads'] }}</TD>
+                <TD>{{ jds['server_hostname'] }}</TD>
+                <TD>{{ jds['server_port'] }}</TD>
+                {% if jds['operation_state'] == 'Online' %}
+                    <TD>{{ jds['operation_state']  }}</TD>
+                {% else %}
+                    <TD style="color:red" >{{ jds['operation_state'] }}</TD>
+                {% endif%}
+                {% if jds['server_state'] == 'running' %}
+                    <TD>{{ jds['server_state']  }}</TD>
+                {% else %}
+                    <TD style="color:red" >{{ jds['server_state'] }}</TD>
+                {% endif%}
+                <TD>{{ jds['total_requests'] }}</TD>
+              </TR>
+            {% endfor %}
+        {% endfor %}
+      {% endif%}
+    {% endfor %}
+</table>
+</body>
+</html>

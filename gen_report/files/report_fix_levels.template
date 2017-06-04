@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+}
+th {
+    background-color: dimgray;
+    color: white;
+}
+</style>
+</head>
+<body>
+<h2>ISAM Firmware Levels</h2>
+<table>
+    <TR>
+        <TH>Hostname</TH>
+        <TH>Partition</TH>
+        <TH>Version</TH>
+        <TH>Active</TH>
+        <TH>Fixpacks</TH>
+    </TR>
+    {% for h in play_hosts %}
+        {% if 'firmware_ret_obj' in hostvars[h] %}
+        <TR>
+           <TD rowspan="2">{{ h }}</TD>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][0]['partition'] }}</TD>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][0]['name'] }}</TD>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][0]['active'] }}</TD>
+            {% if hostvars[h]['fixpack_ret_obj']['data']|length > 0 %}
+                <TD rowspan="2">
+                    <ul>
+                    {% for fixp in hostvars[h]['fixpack_ret_obj']['data'] %}
+                      <li>{{ fixp['name'] }}, {{ fixp['action'] }}, {{ fixp['date'] }}</li>
+                    {% endfor %}
+                    </ul>
+                </TD>
+            {% else %}
+                <TD rowspan="2">No fixpacks installed</TD>
+            {% endif %}
+        </TR>
+        <TR>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][1]['partition'] }}</TD>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][1]['name'] }}</TD>
+           <TD>{{ hostvars[h]['firmware_ret_obj']['data'][1]['active'] }}</TD>
+        </TR>
+        {% endif %}
+    {% endfor %}
+</table>
+
+</body>
+</html>
