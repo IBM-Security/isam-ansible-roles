@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to create a snapshot
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - snapshot
+  - create
+
+dependencies:
+  - start_config
