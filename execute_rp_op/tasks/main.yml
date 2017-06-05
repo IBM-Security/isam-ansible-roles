@@ -10,4 +10,5 @@
     isamapi:
       id: "{{ item }}"
       operation: "{{execute_rp_op_operation}}"
-    with_items: "{{execute_rp_op_ids}}"
+  with_items: "{{execute_rp_op_ids | default({}) }}}"
+  when: execute_rp_op_ids is defined and execute_rp_op_operation is defined
