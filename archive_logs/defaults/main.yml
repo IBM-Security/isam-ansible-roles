@@ -1,0 +1,15 @@
+# Provide all of the following for this role to work
+
+# Use the following flags to control if logs are exported / deleted
+archive_logs_export: True
+archive_logs_delete: True
+
+# Default archival will execute for request logs
+# Provide the log name prefix all the way until the date/timestamp field
+archive_logs_filter: "request.log."
+
+# Directory to download the log files to
+archive_logs_directory: .
+
+# Provide number of days of logs to keep on appliance
+archive_logs_grace_days: 7

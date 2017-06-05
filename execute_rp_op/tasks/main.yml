@@ -1,0 +1,13 @@
+- name: Execute operation {{execute_rp_op_operation}} against reverse proxy
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.execute
+    isamapi:
+      id: "{{ item }}"
+      operation: "{{execute_rp_op_operation}}"
+    with_items: "{{execute_rp_op_ids}}"

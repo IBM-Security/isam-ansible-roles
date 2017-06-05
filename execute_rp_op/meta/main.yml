@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to execute operation against reverse proxies in ISAM Appliance
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - reverseproxy
+  - operation
+
+dependencies:
+  - start_config
