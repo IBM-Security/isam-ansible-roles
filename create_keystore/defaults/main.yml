@@ -1,0 +1,30 @@
+# The following argument is required
+# create_keystore_name: 'ssl_db_name'
+#
+# Override the following values as needed
+# can be either kdb or p11
+create_keystore_type: 'kdb'
+# Required if the database type is "p11".
+create_keystore_token_label: null
+create_keystore_passcode: null
+# valid types are ncipher or safenet
+create_keystore_hsm_type: null
+create_keystore_ip: null
+# Only valid if the hsm_type is "ncipher".
+create_keystore_port: null
+create_keystore_kneti_hash: null
+create_keystore_esn: null
+# Not provided by Python API (following 4 vars, "secondary")
+create_keystore_secondary_ip: null
+create_keystore_secondary_port: null
+create_keystore_secondary_kneti_hash: null
+create_keystore_secondary_esn: null
+# use_rfs not used explicitly
+create_keystore_use_rfs: False
+# Required if use_rfs is True, IP ADress
+create_keystore_rfs: null
+create_keystore_rfs_port: null
+create_keystore_rfs_auth: False
+# Only valid if use_rfs is False.
+create_keystore_update_zip: null
+create_keystore_safenet_pw: null
