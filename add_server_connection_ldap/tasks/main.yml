@@ -1,0 +1,30 @@
+- name: Snapshot Appliance Before Adding LDAP Server Connection
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ add_server_connection_ldap_comment }}"
+
+- name: Add LDAP Server Connection
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.server_connections.ldap.add
+    isamapi:
+      name: "{{ ldap_server_connection_name }}"
+      connection: "{{ ldap_server_connection_connection }}"
+      description: "{{ ldap_server_connection_description }}"
+      locked: "{{ ldap_server_connection_locked }}"
+      connectionManager: "{{ ldap_server_connection_manager }}"
+  when: ldap_server_connection_name is defined and ldap_server_connection_connection is defined ldap_server_connection_description is defined and ldap_server_connection_locked is defined and ldap_server_connection_manager is defined
+  notify: Commit Changes
+
