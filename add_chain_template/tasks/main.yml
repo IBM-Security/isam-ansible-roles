@@ -1,0 +1,27 @@
+- name: Snapshot Appliance Before Adding Chain Template
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ add_chain_template_comment }}"
+
+- name: Add Chain Template
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.sts.templates.add
+    isamapi:
+      name: "{{ chain_template_name }}"
+      description: "{{ chain_template_description | default(None) }}"
+      chainItems: "{{ chain_template_chain_items }}"
+  when: chain_template_name is defined and chain_template_chain_items is defined
+  notify: Commit Changes
