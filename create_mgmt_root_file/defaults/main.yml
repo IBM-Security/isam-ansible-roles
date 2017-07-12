@@ -1,0 +1,7 @@
+# Provide Reverse Proxy instance name
+#create_mgmt_root_file_instance_id:
+
+# Provide details of file to be created
+#create_mgmt_root_file_id: 'junction-root'
+#create_mgmt_root_file_name: 'test.html'
+#create_mgmt_root_file_contents: "{{ lookup('file', '/ansible/isam-setup-playbook/inventories/test/group_vars/restricted_nodes/junction-root/test.html') | replace('\n', '') }}"
