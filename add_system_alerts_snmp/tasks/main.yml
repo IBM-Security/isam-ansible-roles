@@ -1,0 +1,45 @@
+- name: Configure System Alert to SNMP
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.snmp.add
+    isamapi:
+      name: "SNMP Alert to {{ add_system_alerts_snmp_trapAddress }}"
+      trapAddress: "{{ add_system_alerts_snmp_trapAddress }}"
+      trapCommunity: "{{ add_system_alerts_snmp_trapCommunity }}"
+      trapNotificationType: "{{ add_system_alerts_snmp_trapNotificationType }}"
+      trapVersion: "{{add_system_alerts_snmp_trapVersion}}"
+      trapPort: "{{ add_system_alerts_snmp_trapPort }}"
+      username: "{{ username }}"
+      authEnabled: "{{ add_system_alerts_snmp_authEnabled }}"
+      authType: "{{ add_system_alerts_snmp_authType }}"
+      authPassPhrase: "{{ add_system_alerts_snmp_authPassPhrase }}"
+      privEnabled: "{{ add_system_alerts_snmp_privEnabled }}"
+      privType: "{{ add_system_alerts_snmp_privType }}"
+      privPassPhrase: "{{ add_system_alerts_snmp_privPassPhrase }}"
+      informSnmpEngineID: "{{ add_system_alerts_snmp_informSnmpEngineID }}"
+      informTimeout: "{{ add_system_alerts_snmp_informTimeout }}"
+      comment: "SNMP Alert to {{ add_system_alerts_snmp_trapAddress }}"
+  when: add_system_alerts_snmp_trapAddress is defined
+  register: alertObj
+  notify: Commit Changes
+
+
+- name: Enable System Alert - Created in previous Step
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.alerts.enable
+    isamapi:
+      uuid    : "{{ alertObj['data']['uuid'] }}"
+      objType : "{{ alertObj['data']['objType'] }}"
+  when: add_system_alerts_snmp_trapAddress is defined and alertObj.changed and (not ansible_check_mode)
+  notify: Commit Changes
