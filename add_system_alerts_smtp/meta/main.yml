@@ -1,17 +1,2 @@
-galaxy_info:
-  author: IFC
-  description: Role to add an System Alert to SNMP Server
-  company: IFC
-
-  license: Apache
-
-  min_ansible_version: 2.2
-
-  galaxy_tags:
-  - isam
-  - ibm
-  - monitoring
-  - alerts
-
 dependencies:
   - start_config
