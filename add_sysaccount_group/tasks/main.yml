@@ -1,0 +1,13 @@
+- name: Create LMI system account group
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.sysaccount.groups.create
+    isamapi:
+      id : "{{ add_sysaccount_group }}"
+  when: add_sysaccount_group is defined
+  notify: Commit Changes
