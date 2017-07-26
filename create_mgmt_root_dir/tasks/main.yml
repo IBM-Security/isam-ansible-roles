@@ -1,4 +1,4 @@
-- name: Create Dirctory in Management Root {{ create_mgmt_root_dir_name }}
+- name: Create Directory in Management Root {{ create_mgmt_root_dir_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -14,4 +14,3 @@
   when: create_mgmt_root_dir_filename is defined and create_mgmt_root_dir_instance_id is defined and create_mgmt_root_dir_id is defined
   notify:
   - Commit Changes
-  - Restart Reverse Proxy
