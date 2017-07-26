@@ -10,9 +10,8 @@
     isamapi:
       instance_id: "{{ create_mgmt_root_file_instance_id }}"
       id         : "{{ create_mgmt_root_file_id }}"
-      name   : "{{ create_mgmt_root_file_name }}"
+      name       : "{{ create_mgmt_root_file_name }}"
       contents   : "{{ create_mgmt_root_file_contents }}"
   when: create_mgmt_root_file_contents is defined and create_mgmt_root_file_name is defined and create_mgmt_root_file_instance_id is defined and create_mgmt_root_file_id is defined
   notify:
   - Commit Changes
-  - Restart Reverse Proxy
