@@ -24,7 +24,7 @@
       file: "{{ install_fixpack_file }}"
   when: install_fixpack_file is defined
   notify:
-    - Commit Changes
+    - Commit And Restart
 
 # Commit activation of module before doing anything else
 - meta: flush_handlers

@@ -23,7 +23,7 @@
       id      : "{{ activate_module_id }}"
       code    : "{{ activate_module_code }}"
   when: activate_module_id is defined and activate_module_code is defined
-  notify: Commit Changes
+  notify: Commit And Restart
 
  # Commit activation of module before doing anything else
 - meta: flush_handlers

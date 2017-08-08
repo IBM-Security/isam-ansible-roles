@@ -1,7 +1,21 @@
 # Important: The order of handlers is crucial. See documentation:
 #   http://docs.ansible.com/ansible/glossary.html#notify
 # <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
+
+# Commit changes
 - name: Commit Changes
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.appliance.commit
+  notify: Await LMI Active
+
+# Commit changes and restart LMI
+- name: Commit And Restart
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -21,6 +35,24 @@
     timeout: "{{ start_config_wait_time }}"
     state: started
   when: not ansible_check_mode
+
+# Commit may cause LMI to restart - so wait to be safe
+- name: Await LMI Active
+  uri:
+    url: "https://{{inventory_hostname}}:{{lmi_port}}/lmi"
+    user: "{{ username }}"
+    password: "{{ password }}"
+    method: GET
+    return_content: yes
+    force_basic_auth: yes
+    status_code: 200, 403
+    validate_certs: false
+    HEADER_Accept: "application/json"
+  when: start_config_executed_once is not defined
+  register: result
+  until: result.status == 200 or result.status == 403
+  retries: 5
+  delay: 30
 
 - name: Restart Web Runtime
   isam:

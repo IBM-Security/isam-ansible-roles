@@ -13,6 +13,10 @@
     username: admin
     password: admin
     action: ibmsecurity.isam.base.service_agreement.set
+  notify: 
+    - Await Appliance Commit LMI Response
+    
+- meta: flush_handlers
 
 - name: Get Last Boot Timestamp
   isam:
@@ -40,7 +44,11 @@
       tlsv11Enabled: "{{FIPS_cfg.tlsv11Enabled}}"
   register: ret_obj
   when: first_steps_fips
-- debug: var=ret_obj
+  notify: 
+    - Await Appliance Commit LMI Response
+
+# make sure we wait for the LMI restart
+- meta: flush_handlers
 
 # Restart after FIPS if needed
 - name: Restart after enabling FIPS
@@ -49,12 +57,12 @@
       username: admin
       password: admin
       action: ibmsecurity.isam.base.fips.restart
+  register: ret_obj
   when: first_steps_fips and ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+  notify: 
+    - Await Appliance Commit LMI Response
 
-- name: Pause for Reboot {{fips_restart_wait_time}}mins
-  pause:
-    minutes: "{{fips_restart_wait_time}}"
-  when: first_steps_fips and ret_obj.data.reboot is defined and ret_obj.data.reboot == true
+- meta: flush_handlers
 
 # Make sure system restarted
 - name: Check FIPS settings for System Online Status
@@ -77,8 +85,11 @@
     username: admin
     password: admin
     action: ibmsecurity.isam.base.setup_complete.set
-  register: ret_obj
-- debug: var=ret_obj
+  register: result
+  retries: 5
+  delay: 30
+  ignore_errors: true
+  until: result.stdout is defined and result.stdout.find("Setup complete") != -1
 
 # Change password
 - name: Change password for admin user
@@ -91,6 +102,7 @@
           'newPassword': "{{password}}"
           'sessionTimeout': "{{lmi_session_timeout}}"
   when: first_steps_admin_pwd
+  notify: Commit And Restart
 
 - name: Get LMI Last Restart Timestamp
   isam:
@@ -127,13 +139,16 @@
 
 - name: Wait for LMI to Respond
   isam:
-      appliance: "{{inventory_hostname}}"
-      username: "{{username}}"
-      password: "{{password}}"
-      action: ibmsecurity.isam.base.lmi.await_startup
-      isamapi:
-          start_time: "{{old_start_time}}"
-          wait_time: "{{start_config_wait_time}}"
+    appliance: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.lmi.await_startup
+    isamapi:
+      start_time: "{{old_start_time}}"
+      wait_time: "{{start_config_wait_time}}"
   retries: 5
   delay: 30
   ignore_errors: true
