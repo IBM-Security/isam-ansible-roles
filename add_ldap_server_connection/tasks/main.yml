@@ -1,0 +1,20 @@
+# Add LDAP Server Connection
+
+- name: Add LDAP Server Connection
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.server_connections.ldap.add
+    isamapi:
+      name: "{{add_ldapserver_connection_name}}"
+      description: "{{add_ldapserver_connection_description}}"
+      locked: "{{add_ldapserver_connection_locked}}"
+      connection: "{{add_ldapserver_connection_connection}}"
+      connectionManager: "{{add_ldapserver_connection_connectionManager}}"
+      servers: "{{add_ldapserver_connection_servers}}"
+  notify:
+    - Commit Changes

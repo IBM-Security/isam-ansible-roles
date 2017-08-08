@@ -1,0 +1,6 @@
+# Provide the following minimal values to setup SCIM for MMFA
+# mmfa_scim_ldap_connection: "localldap"
+# mmfa_scim_user_suffix: "dc=iswga"
+# mmfa_scim_search_suffix: "dc=iswga"
+# mmfa_scim_isam_domain: "Default"
+# mmfa_scim_update_native_users: true

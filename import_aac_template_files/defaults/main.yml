@@ -1,0 +1,5 @@
+
+# Provide a list of file in the runtime template files directory to be updated
+#import_aac_template_path_name_filename:
+#  - {path: "C/mmfa/user/mgmt/mmfa/metadata",  name: "metadata.json",  filename: "~/Ansible/Repository/isam.mmfa.ibm.com/aac_templates/metadata.json"}
+

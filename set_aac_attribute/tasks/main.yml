@@ -1,0 +1,24 @@
+- name: Set AAC Attribute {{ set_aac_attribute_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.attributes.set
+    isamapi:
+      name:           "{{set_aac_attribute_name}}"
+      new_name:       "{{set_aac_attribute_new_name}}"
+      description:    "{{set_aac_attribute_description}}"
+      attributeURI:   "{{set_aac_attribute_attributeURI}}"
+      type:           "{{set_aac_attribute_type}}"
+      category:       "{{set_aac_attribute_category}}"
+      datatype:       "{{set_aac_attribute_datatype}}"
+      predefined:     "{{set_aac_attribute_predefined}}"
+      issuer:         "{{set_aac_attribute_issuer}}"
+      matcher:        "{{set_aac_attribute_matcher}}"
+      storageDomain:  "{{set_aac_attribute_storageDomain}}"
+  when: set_aac_attribute_name is defined and set_aac_attribute_description is defined and  set_aac_attribute_attributeURI is defined and set_aac_attribute_type is defined and set_aac_attribute_category is defined and set_aac_attribute_datatype is defined and set_aac_attribute_predefined is defined and set_aac_attribute_issuer is defined and set_aac_attribute_matcher is defined and set_aac_attribute_storageDomain is defined
+  notify:
+  - Commit Changes

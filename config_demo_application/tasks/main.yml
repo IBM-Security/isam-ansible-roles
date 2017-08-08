@@ -1,0 +1,13 @@
+- name: Configure ISAM Demo Application
+  uri: 
+    url: "{{config_demo_application_url }}"
+    method: "{{ config_demo_application_method }}"
+    user: "{{ config_demo_application_username }}"
+    password: "{{ config_demo_application_password }}"
+    return_content: "{{config_demo_return_content}}"
+    body: "{{config_demo_application_body}}"
+    body_format: "{{config_demo_application_body_format}}"
+    status_code: "{{config_demo_application_status_code}}"
+    use_proxy: false
+    validate_certs: false
+    HEADER_Accept: "text/html,application/xhtml+xml,application/xml"

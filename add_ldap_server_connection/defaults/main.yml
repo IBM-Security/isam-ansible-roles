@@ -1,0 +1,8 @@
+#
+#name: "localldap"
+#description: "Embedded LDAP Server"
+#locked: false
+#connection: '{"hostName":"isam.mmfa.ibm.com","hostPort":636,"bindDN":"cn=root,secAuthority=Default","ssl":"true","sslTruststore":"embedded_ldap_keys.kdb","sslAuthKey":"","bindPwd":"Passw0rd"}'
+#connectionManager: '{"connectTimeout": "30"}'
+connectionManager: null
+servers: null

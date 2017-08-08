@@ -1,0 +1,19 @@
+galaxy_info:
+  author: IBM
+  description: Role to create a directory in Template Files folder of AAC
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - aac
+  - teplate
+  - directory
+  - create
+
+dependencies:
+  - start_config

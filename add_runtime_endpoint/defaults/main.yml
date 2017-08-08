@@ -1,0 +1,4 @@
+#
+#add_runtime_endpoint_endpoint: "all-application-interfaces:80"
+#add_runtime_endpoint_port: 80
+#add_runtime_endpoint_secure: false

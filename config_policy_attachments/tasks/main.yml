@@ -1,4 +1,4 @@
-- name: Configure Policy Attachments - {{config_policy_attachments_name}}
+- name: Configure Policy Attachments - {{ config_policy_attachments_resourceUri }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

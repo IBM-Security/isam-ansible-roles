@@ -1,0 +1,28 @@
+- name: Retrieve all appliance interfaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.network.interfaces.get_all
+    isamapi:     
+  register: all_interfaces
+
+- name: "Select interface UUID"
+  set_fact: 
+    interface_uuid: "{{item}}"
+  with_items: "{{all_interfaces['data']|json_query(interface_uuid_query)}}"
+  vars:
+    interface_uuid_query: "interfaces[?label=='{{interface_label}}'].uuid"
+
+- name: "Select address UUID"
+  set_fact: 
+    address_uuid: "{{item}}"
+  with_items: "{{all_interfaces['data']|json_query(address_uuid_query)}}"
+  vars:
+    address_uuid_query: "interfaces[*].ipv4.addresses[?address=='{{ip_address}}'].uuid"
+
+- name: Set UUID IP fact
+  set_fact: uuidIP="{{interface_uuid}}.{{address_uuid}}"

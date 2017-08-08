@@ -1,0 +1,17 @@
+- name: Retrieve AAC endpoint parameters
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.tuning_parameters.get
+    isamapi:     
+  register: tuning_parameters
+
+- name: Set Endpoint UUID fact
+  set_fact: 
+    endpoints: "{{tuning_parameters['data']|json_query(endpoint_uuid_query)}}"
+  vars:
+    endpoint_uuid_query: "endpoints[*].id"

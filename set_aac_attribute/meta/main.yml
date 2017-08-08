@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to set AAC Attribute
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - aac
+  - attribute
+  - set
+
+dependencies:
+  - start_config

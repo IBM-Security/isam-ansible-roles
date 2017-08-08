@@ -1,0 +1,4 @@
+#
+#set_advanced_tunning_parameter_key: "scim_demo_enabled"
+#set_advanced_tunning_parameter_value: true
+#set_advanced_tunning_parameter_comment: "Enable SCIM Demo"

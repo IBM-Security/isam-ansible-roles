@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role that returns UUID value of interface for advanced AAC configuration
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - aac
+  - interface
+
+dependencies:
+  - start_config

@@ -1,0 +1,4 @@
+
+# Provide zip filename of the runtime template files
+#import_aac_template_zip_filename: "~/Ansible/Repository/isam.mmfa.ibm.com/aac_templates/template_files.zip"
+
