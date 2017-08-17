@@ -1,0 +1,32 @@
+- name: Snapshot Appliance Before Adding Module Chain
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ add_module_chain_comment }}"
+
+- name: Add Module Chain
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.sts.module_chains.add
+    isamapi:
+      name: "{{ module_chain_name }}"
+      chainName: "{{ module_chain_template_name }}"
+      requestType: "{{ module_chain_request_type }}"
+      description: "{{ module_chain_description | default(None) }}"
+      tokenType: "{{ module_chain_token_type | default(None) }}"
+      issuer: "{{ module_chain_issuer | default({}) }}"
+      appliesTo: "{{ module_chain_applies_to | default({}) }}"
+      properties: "{{ module_chain_properties | default({}) }}"
+  when: module_chain_name is defined and module_chain_template_name is defined and module_chain_request_type is defined
+  notify: Commit Changes

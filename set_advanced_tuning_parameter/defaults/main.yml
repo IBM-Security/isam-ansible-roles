@@ -1,0 +1,9 @@
+# Provide the name and value of the advanced tuning parameters
+# advanced_tuning_parameters:
+#   - advanced_tuning_parameter_key: "Key 1"
+#     advanced_tuning_parameter_value: "Value 1"
+#   - advanced_tuning_parameter_key: "Key 2"
+#     advanced_tuning_parameter_value: "Value 2"
+
+# Comment to be used for creating a snapshot file
+set_advanced_tuning_parameter_comment: "Automated Snapshot Before Setting Advanced Tuning Parameters"
