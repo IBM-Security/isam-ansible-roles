@@ -1,0 +1,4 @@
+# The following argument is required
+# set_keystore_desc_keystore: 'keystore_id'
+# set_keystore_desc_description: 'Description of sample keystore'
+#
