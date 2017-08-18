@@ -10,4 +10,4 @@
     isamapi:
       name: "{{ search_mapping_rule_name }}"
   when: search_mapping_rule_name is defined
-  register: search_mapping_rule
+  register: "{{ search_mapping_rule_register }}"

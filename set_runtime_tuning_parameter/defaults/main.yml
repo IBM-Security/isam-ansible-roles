@@ -1,0 +1,9 @@
+# Provide the name and value of the runtime tuning parameters
+# runtime_tuning_parameters:
+#   - runtime_tuning_parameter_option: "Option 1"
+#     runtime_tuning_parameter_value: "Value 1"
+#   - runtime_tuning_parameter_option: "Option 2"
+#     runtime_tuning_parameter_value: "Value 2"
+
+# Comment to be used for creating a snapshot file
+set_runtime_tuning_parameter_comment: "Automated Snapshot Before Setting Runtime Tuning Parameters"

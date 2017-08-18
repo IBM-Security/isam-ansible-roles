@@ -1,0 +1,3 @@
+# Provide name and registered variable name of Attribute Source to search
+# search_attribute_source_name: <name of attribute source>
+# search_attribute_source_register: <variable to register the result as>

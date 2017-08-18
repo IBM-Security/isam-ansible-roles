@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role that searches for an Attribute Source (for ID lookup)
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - attribute_source
+  - search
+
+dependencies:
+  - start_config

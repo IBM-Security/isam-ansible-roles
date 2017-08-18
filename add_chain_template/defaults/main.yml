@@ -1,0 +1,10 @@
+# Provide the name, description (optional), and chain items for the new chain template
+# chain_template_name: Template 1
+# chain_template_description: Description for Template 1
+# chain_template_items:
+#   - {"id": "default-username", "mode": "validate", "prefix": "my-ut"}
+#   - {"id": "default-map", "mode": "map", "prefix": "my-map"}
+#   - {"id": "default-saml2_0", "mode": "issue", "prefix": "my-saml2_0"}
+
+# Comment to be used for creating a snapshot file
+add_chain_template_comment: "Automated Snapshot Before Adding Chain Template"

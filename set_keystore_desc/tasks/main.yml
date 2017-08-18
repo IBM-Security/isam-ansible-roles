@@ -1,0 +1,14 @@
+- name: Set keystore description {{ set_certificate_db_keystore }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.set
+    isamapi:
+      cert_id: "{{ set_keystore_desc_keystore }}"
+      description: "{{ set_keystore_desc_description }}"
+  when: set_keystore_desc_keystore is defined and set_keystore_desc_description is defined
+  notify: Commit Changes

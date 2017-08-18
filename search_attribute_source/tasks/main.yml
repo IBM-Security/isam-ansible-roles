@@ -1,0 +1,13 @@
+- name: Search for an Attribute Source
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.attribute_source.search
+    isamapi:
+      name: "{{ search_attribute_source_name }}"
+  when: search_attribute_source_name is defined
+  register: "{{ search_attribute_source_register }}"
