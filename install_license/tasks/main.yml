@@ -18,7 +18,7 @@
     lmi_port:  "{{ lmi_port }}"
     log:       "{{ log_level }}"
     force:     "{{ force }}"
-    action: ibmsecurity.isam.base.license.install
+    action:     ibmsecurity.isam.base.license.install
     isamapi:
       license : "{{ install_license_file }}"
   when: install_license_file is defined
