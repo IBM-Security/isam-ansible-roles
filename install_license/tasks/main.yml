@@ -1,0 +1,28 @@
+- name: Snapshot Appliance Before Installing Product Support License
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ install_license_comment }}"
+
+- name: Import Product License
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.license.install
+    isamapi:
+      license : "{{ install_license_file }}"
+  when: install_license_file is defined
+  notify: Commit Changes
+
+ # Commit license before doing anything else
+- meta: flush_handlers
