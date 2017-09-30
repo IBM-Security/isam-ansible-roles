@@ -1,5 +1,5 @@
 # Update existing stanza(s)/entries in reverse proxy config file
-- name: Configure Reverse Proxy for AAC (Updates)
+- name: Configure Reverse Proxy stanza(s) entries (Updates)
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
