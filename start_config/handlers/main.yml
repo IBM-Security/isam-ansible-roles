@@ -4,9 +4,14 @@
 - name: Commit Changes
   isam:
     appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
     username:  "{{ username }}"
     password:  "{{ password }}"
-    lmi_port:  "{{ lmi_port }}"
+    lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level }}"
     force:     "{{ force }}"
     action: ibmsecurity.isam.appliance.commit_and_restart
