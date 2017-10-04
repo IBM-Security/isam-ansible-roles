@@ -25,7 +25,7 @@
 #       maskOrPrefix:       "24"
 #       allowManagement:    false
 #       enabled:            true
-- name: add interfaces [interfaces]
+- name: add interfaces
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
