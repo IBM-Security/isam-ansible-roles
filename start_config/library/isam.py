@@ -9,6 +9,7 @@ from StringIO import StringIO
 import datetime
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
+from ibmsecurity.appliance.isamappliance_adminproxy import ISAMApplianceAdminProxy
 from ibmsecurity.appliance.ibmappliance import IBMError
 from ibmsecurity.user.applianceuser import ApplianceUser
 
@@ -25,7 +26,12 @@ def main():
             force=dict(required=False, default=False, type='bool'),
             username=dict(required=False),
             password=dict(required=True),
-            isamapi=dict(required=False, type='dict')
+            isamapi=dict(required=False, type='dict'),
+            adminProxyProtocol=dict(required=False, default='https', choices=['http','https']),
+            adminProxyHostname=dict(required=False),
+            adminProxyPort=dict(required=False, default=443, type='int'),
+            adminProxyApplianceShortName=dict(required=False, default=False, type='bool'),
+            omitAdminProxy=dict(required=False, default=False, type='bool')
         ),
         supports_check_mode=True
     )
@@ -40,6 +46,11 @@ def main():
     lmi_port = module.params['lmi_port']
     username = module.params['username']
     password = module.params['password']
+    adminProxyProtocol = module.params['adminProxyProtocol']
+    adminProxyHostname = module.params['adminProxyHostname']
+    adminProxyPort = module.params['adminProxyPort']
+    adminProxyApplianceShortName = module.params['adminProxyApplianceShortName']
+    omitAdminProxy = module.params['omitAdminProxy']
 
     # Setup logging for format, set log level and redirect to string
     strlog = StringIO()
@@ -79,8 +90,14 @@ def main():
         u = ApplianceUser(password=password)
     else:
         u = ApplianceUser(username=username, password=password)
-    isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
 
+    # Create appliance object to be used for all calls
+    # if adminProxy hostname is set, use the ISAMApplianceAdminProxy
+    if adminProxyHostname == '' or adminProxyHostname is None or omitAdminProxy:
+        isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
+    else:
+        isam_server = ISAMApplianceAdminProxy(adminProxyHostname=adminProxyHostname, user=u, hostname=appliance, adminProxyProtocol=adminProxyProtocol, adminProxyPort=adminProxyPort, adminProxyApplianceShortName=adminProxyApplianceShortName)
+        
     # Create options string to pass to action method
     options = 'isamAppliance=isam_server, force=' + str(force)
     if module.check_mode is True:

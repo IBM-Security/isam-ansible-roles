@@ -12,10 +12,9 @@
     username:  "{{ username }}"
     password:  "{{ password }}"
     lmi_port:  "{{ port | default(omit) }}"
-    log:       "{{ log_level }}"
-    force:     "{{ force }}"
-    action: ibmsecurity.isam.appliance.commit_and_restart
-  notify: Await Appliance Commit LMI Response
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.appliance.commit_and_restart_and_wait
 
 # Commit and Restart may cause LMI to restart - so wait to be safe
 - name: Await Appliance Commit LMI Response
