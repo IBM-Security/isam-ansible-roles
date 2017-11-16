@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IFC
+  description: Role to import certificates database (kdb).
+  company: IFC
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - kdb
+  - certificate
+
+dependencies:
+  - start_config

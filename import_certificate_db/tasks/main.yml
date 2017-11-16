@@ -1,0 +1,15 @@
+- name: Import Certificate Database
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.import_db
+    isamapi:
+      kdb   : "{{ import_certificate_db_kdb }}"
+      stash : "{{ import_certificate_db_sth }}"
+  when: import_certificate_db_kdb is defined and import_certificate_db_sth is defined
+  notify:
+  - Commit Changes

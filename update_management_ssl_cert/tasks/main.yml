@@ -1,0 +1,14 @@
+- name: Update management ssl certificate
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_ssl_certificate.set
+    isamapi:
+      certificate   : "{{ update_management_ssl_cert_cert }}"
+      password      : "{{ update_management_ssl_cert_pwd }}"
+  when: update_management_ssl_cert_cert is defined and update_management_ssl_cert_pwd is defined
+  notify: Commit Changes
