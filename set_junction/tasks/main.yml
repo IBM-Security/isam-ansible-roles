@@ -1,4 +1,4 @@
-- name: Add a Junction - {{set_junction_junction_point}}
+- name: Update a Junction - {{set_junction_junction_point}}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -6,7 +6,7 @@
     lmi_port:  "{{ lmi_port }}"
     log:       "{{ log_level }}"
     force:     "{{ force }}"
-    action: ibmsecurity.isam.web.reverse_proxy.junctions.add
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.set
     isamapi:
       junction_point:                   "{{ set_junction_junction_point }}"
       junction_type:                    "{{ set_junction_junction_type }}"
