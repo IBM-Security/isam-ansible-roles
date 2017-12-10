@@ -41,7 +41,7 @@ set_junction_authz_rules: null
 set_junction_fsso_config_file: null
 set_junction_username: null
 set_junction_password: null
-set_junction_server_uid: null
+set_junction_server_uuid: null
 set_junction_local_ip: null
 set_junction_ltpa_keyfile_password: null
 set_junction_delegation_support: null
