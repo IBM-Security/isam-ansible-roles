@@ -48,7 +48,7 @@
       fsso_config_file:                 "{{ add_junction_fsso_config_file }}"
       username:                         "{{ add_junction_username }}"
       password:                         "{{ add_junction_password }}"
-      server_uid:                       "{{ add_junction_server_uid }}"
+      server_uuid:                      "{{ add_junction_server_uuid }}"
       local_ip:                         "{{ add_junction_local_ip }}"
       ltpa_keyfile_password:            "{{ add_junction_ltpa_keyfile_password }}"
       delegation_support:               "{{ add_junction_delegation_support }}"

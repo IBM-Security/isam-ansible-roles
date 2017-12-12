@@ -1,0 +1,9 @@
+# Provide the following values for this role to work
+# update_management_ssl_cert_cert
+# update_management_ssl_cert_pwd
+
+#  roles :
+#    - role: update_management_ssl_cert
+#      update_management_ssl_cert_cert : "somekeystore.p12"
+#      update_management_ssl_cert_pwd : "somekeystorepassword"
+
