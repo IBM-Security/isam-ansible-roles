@@ -1,4 +1,4 @@
-- name: Snapshot Appliance Before Setting Runtime Tuning Parameters 
+- name: Snapshot Appliance Before Setting Runtime Tuning Parameters
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -9,6 +9,7 @@
     action: ibmsecurity.isam.base.snapshots.create
     isamapi:
       comment: "{{ set_runtime_tuning_parameter_comment }}"
+  when: set_runtime_tuning_parameter_comment is defined
 
 - name: Set Runtime Tuning Parameters
   isam:
@@ -24,5 +25,6 @@
       value: "{{ item.runtime_tuning_parameter_value }}"
   with_items: "{{ runtime_tuning_parameters }}"
   when: runtime_tuning_parameters is defined
-  notify: Commit Changes
-
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
