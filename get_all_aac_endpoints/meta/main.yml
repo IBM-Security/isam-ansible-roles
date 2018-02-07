@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role that returns endpoint ID value from advanced runtime AAC configuration
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - aac
+  - endpoint
+
+dependencies:
+  - start_config

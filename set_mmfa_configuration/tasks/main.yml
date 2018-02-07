@@ -1,0 +1,17 @@
+
+- name: Set MMFA configuration 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.mmfa.set
+    isamapi:
+      client_id:            "{{ set_mmfa_configuration_client_id }}"
+      options:              "{{ set_mmfa_configuration_options }}"
+      endpoints:            "{{ set_mmfa_configuration_endpoints }}"
+      discovery_mechanisms: "{{ set_mmfa_configuration_discovery_mechanisms }}"
+  when: set_mmfa_configuration_client_id is defined and set_mmfa_configuration_endpoints is defined
+  notify: Commit Changes

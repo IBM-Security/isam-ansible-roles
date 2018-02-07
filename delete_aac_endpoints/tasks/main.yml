@@ -1,0 +1,17 @@
+- name: Delete AAC Endpoints
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.tuning_parameters.delete_endpoint
+    isamapi:
+      endpoint:     "{{item}}"
+  with_items: "{{endpoints_to_delete}}"
+  when: endpoints_to_delete.0 is defined
+  notify: 
+    - Commit Changes
+    - Restart AAC Runtime
+

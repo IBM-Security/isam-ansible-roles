@@ -1,0 +1,12 @@
+# Provide at the very least the name of the definition to create, override as needed
+# set_aac_attribute_name              : "transferAmount"
+set_aac_attribute_new_name            : False
+# set_aac_attribute_description       : "Transaction amount POST parameter"
+# set_aac_attribute_attributeURI      : "urn:ibm:demo:transferamount"
+# set_aac_attribute_type              : '{"policy":true, "risk":false}'
+# set_aac_attribute_category          : "Environment"
+# set_aac_attribute_datatype          : "Double"
+# set_aac_attribute_predefined        : false
+# set_aac_attribute_issuer            : ""
+# set_aac_attribute_matcher           : "1"
+# set_aac_attribute_storageDomain     : '{"device":false,"session":false,"behavior":false}'

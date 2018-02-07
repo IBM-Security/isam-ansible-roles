@@ -1,0 +1,17 @@
+# Set advanced tuning parameter
+
+- name: Set advanced tuning parameter
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key:     "{{set_advanced_tunning_parameter_key}}"
+      value:   "{{set_advanced_tunning_parameter_value}}"
+      comment: "{{set_advanced_tunning_parameter_comment}}"
+  notify:
+    - Commit Changes

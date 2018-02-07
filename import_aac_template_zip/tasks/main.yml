@@ -1,0 +1,14 @@
+- name: Import File into runtime template files directory from zip "{{ import_aac_template_zip_filename }}"
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.runtime_template.root.import_file
+    isamapi:
+      filename    : "{{ import_aac_template_zip_filename }}"
+  when: import_aac_template_zip_filename is defined
+  notify:
+  - Commit Changes

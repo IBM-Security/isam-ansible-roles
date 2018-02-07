@@ -1,0 +1,3 @@
+# Delete AAC endpoints for MMFA Demo
+# array of endpoints
+endpoints_to_delete: [ "all-application-interfaces:80", "all-application-interfaces:443" ]

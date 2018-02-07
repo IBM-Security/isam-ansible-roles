@@ -1,0 +1,33 @@
+- name: Configure SCIM User profile settings
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.scim.update_user_profile
+    isamapi:
+      ldap_connection: "{{ mmfa_scim_ldap_connection }}"
+      user_suffix:     "{{ mmfa_scim_user_suffix }}"
+      search_suffix:   "{{ mmfa_scim_search_suffix }}"
+  when: mmfa_scim_ldap_connection is defined
+  notify:
+  - Commit Changes
+
+- name: Configure SCIM ISAM user settings
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.scim.update_isam_user
+    isamapi:
+      ldap_connection: "{{ mmfa_scim_ldap_connection }}"
+      isam_domain:     "{{ mmfa_scim_isam_domain }}"
+      update_native_users:    "{{ mmfa_scim_update_native_users }}"
+  when: mmfa_scim_ldap_connection is defined
+  notify:
+  - Commit Changes

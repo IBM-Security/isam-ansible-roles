@@ -1,0 +1,9 @@
+# Override the following values as needed
+config_demo_application_url: "https:/www.mysp.ibm.com/isam/mobile-demo/setting/"  
+config_demo_application_method: "POST"  
+config_demo_application_body: "acHostAndPort=localhost%3A443&lmiHostAndPort=isam.mysp.ibm.com%3A443&lmiAdminId=admin&lmiAdminPwd=Passw0rd&websealHostNameAndPort=www.mysp.ibm.com%3A443&acUuidCookieName=ac.uuid"
+config_demo_return_content: "yes"
+config_demo_application_body_format: "raw"
+config_demo_application_username: null
+config_demo_application_password: null
+config_demo_application_status_code: 200

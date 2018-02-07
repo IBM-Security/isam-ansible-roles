@@ -1,0 +1,18 @@
+# Add runtime endpoint
+
+- name: Add Runtime Endpoint
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.tuning_parameters.add_endpoint
+    isamapi:
+      endpoint: "{{add_runtime_endpoint_endpoint}}"
+      port: "{{add_runtime_endpoint_port}}"
+      secure: "{{add_runtime_endpoint_secure}}"
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime

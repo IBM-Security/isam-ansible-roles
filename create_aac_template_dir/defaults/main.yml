@@ -1,0 +1,5 @@
+# Create AAC template directory
+
+# Provide details of directory to be created
+#create_aac_template_dir_id: 'C/mmfa/user/mgmt/mmfa/'
+#create_aac_template_dir_name: 'metadata'

@@ -1,0 +1,15 @@
+- name: Create Dirctory in AAC Template Files Dir {{ create_aac_template_dir_path }} Name {{ create_aac_template_dir_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.runtime_template.directory.create
+    isamapi:
+      path       : "{{ create_aac_template_dir_path }}"
+      name       : "{{ create_aac_template_dir_name }}"
+  when: create_aac_template_dir_path is defined and create_aac_template_dir_name is defined
+  notify:
+  - Commit Changes
