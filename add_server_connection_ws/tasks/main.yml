@@ -1,0 +1,29 @@
+- name: Snapshot Appliance Before Adding Web Service Server Connection
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ add_server_connection_ws_comment }}"
+
+- name: Add Web Service Connection
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.server_connections.ws.add
+    isamapi:
+      name: "{{ ws_server_connection_name }}"
+      connection: "{{ ws_server_connection_connection }}"
+      description: "{{ ws_server_connection_description }}"
+      locked: "{{ ws_server_connection_locked }}"
+  when: ws_server_connection_name is defined and ws_server_connection_connection is defined and ws_server_connection_description is defined and ws_server_connection_locked is defined
+  notify: Commit Changes
+

@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to add a new Web Service server connection to ISAM
+  company: IFC
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - server_connection
+  - ldap
+  - add
+
+dependencies:
+  - start_config
