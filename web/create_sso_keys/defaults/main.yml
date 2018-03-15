@@ -1,0 +1,5 @@
+# default values for sso key file
+# Example:
+#   sso_keys:
+#     - ssokey_name: "sso.key"
+sso_keys: []

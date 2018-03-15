@@ -1,0 +1,21 @@
+# main task to update mapping rules
+---
+- name: Update mapping rules
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.mapping_rules.update
+    isamapi:
+      name: "{{ item.name }}"
+      content: "{{ lookup('file', inventory_dir + '/' + item.file) | replace('\n', '\\n') | replace('\"','\\\"') }}"
+  with_items: "{{ mapping_rules }}"
+  notify: Commit Changes

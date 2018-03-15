@@ -1,0 +1,42 @@
+---
+- name: "Get junctions for {{ item.inst_name }}"
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.get_all
+    isamapi:
+      reverseproxy_id: "{{ item.inst_name }}"
+  register: ret_obj
+- name: Delete junction 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.delete
+    isamapi:
+      reverseproxy_id: "{{ item.inst_name }}"
+      junctionname: "{{ server.id }}"
+  vars:
+    filter: "[? inst_name == '{{ item.inst_name }}'].junctions[].junction_point"
+  when: server.id not in (instances | json_query(filter)) and server.id == (junction_point | default(server.id))
+  with_items: "{{ ret_obj.data }}"
+  loop_control:
+    loop_var: server
+    label: "{delete_junctions: {{ delete_junctions }}, inst_name: {{ item.inst_name }}, junction_point: {{ server.id }}}"

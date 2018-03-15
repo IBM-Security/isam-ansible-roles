@@ -1,0 +1,5 @@
+# Default variables for configuration of reverse proxy junctions
+
+# Configuration entry to control, if not listed junction servers should be deleted on the server
+delete_junction_server: false
+delete_junctions: false

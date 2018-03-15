@@ -1,0 +1,14 @@
+lmi_port: 443
+username: admin
+password: admin
+log_level: INFO
+force: false
+
+# LMI FIPS options
+FIPS_cfg: { fipsEnabled: true, tlsv10Enabled: false, tlsv11Enabled: true }
+
+lmi_session_timeout: 720
+
+# Override this setting if you do not want FIPS mode to be turned on
+first_steps_fips: True
+first_steps_admin_pwd: True

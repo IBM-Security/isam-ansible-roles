@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to upload Junction Mapping Table (jmt) files
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - upload
+  - jmt_files
+
+dependencies:
+  - start_config

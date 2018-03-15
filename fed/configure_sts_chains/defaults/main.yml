@@ -1,0 +1,11 @@
+# Default variables for configuration of sts chains
+sts_chains: []
+
+# Default variables to filter at runtime for specific conditions
+name: "{{ item.name }}"
+chainName: "{{ item.chainName }}"
+requestType: "{{ item.requestType }}"
+issuer:
+  address: "{{ item.issuer.address }}"
+appliesTo:
+  address: "{{ item.appliesTo.address }}"

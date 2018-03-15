@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to upload mapping rules
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - upload
+  - mapping_rules
+
+dependencies:
+  - start_config

@@ -1,0 +1,16 @@
+galaxy_info:
+  author: IBM
+  description: Role to load a signer certificate into a certificate store
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - load_signer_certificates
+
+dependencies:
+  - start_config

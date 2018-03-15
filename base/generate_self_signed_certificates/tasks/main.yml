@@ -1,0 +1,33 @@
+# main task for generating self signed certificates
+# Example inventory:
+#  generate_self_signed_certificates:
+#      kdb_id:     "{{ item.kdb_id }}"
+#      label:      "{{ item.label }}"
+#      dn:         "{{ item.dn }}"
+#      expire:     "{{ item.expire }}"
+#      default:    "{{ item.default }}"
+#      size:       "{{ item.size }}"
+---
+- name: Generate self signed certificates
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.ssl_certificates.personal_certificate.generate
+    isamapi:
+      kdb_id:     "{{ item.kdb_id }}"
+      label:      "{{ item.label }}"
+      dn:         "{{ item.dn }}"
+      expire:     "{{ item.expire }}"
+      default:    "{{ item.default }}"
+      size:       "{{ item.size }}"
+  with_items: "{{ generate_self_signed_certificates }}"
+  notify: Commit Changes

@@ -1,0 +1,24 @@
+# main task to upload jmt files
+# Example:
+#   http_transformations
+#     - file: uploads/http_transformations/default.xslt
+---
+- name: Upload http transformation files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.http_transformation.import_file
+    isamapi:
+      id: "{{ item.file | basename }}"
+      filename: "{{ inventory_dir }}/{{ item.file }}"
+  with_items: "{{ http_transformations }}"
+  notify: Commit Changes

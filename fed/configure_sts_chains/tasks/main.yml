@@ -1,0 +1,62 @@
+# main task to configure sts chains
+#   Example: STSUU to LTPA Token
+#     sts_chains:
+#       - name: TC_STSUU_TO_INFONET_LTPA_CHAIN
+#         chainName: STSUU_TO_LTPA_TEMPLATE
+#         description: Create LTPA-Token with INFONET specific DN and REALM for SI-TokenChanger
+#         requestType: http://schemas.xmlsoap.org/ws/2005/02/trust/Issue
+#         issuer:
+#           address: ISAM-STS
+#         appliesTo:
+#           address: SI-TokenChange
+#         signResponses: false
+#         validateRequests: false
+#         properties:
+#           self: 
+#             - name: uuid98f91a2f-ede5-4440-8b2e-f0bc845d967e.map.rule.type
+#               value: 
+#                 - JAVASCRIPT
+#             - name: uuid98f91a2f-ede5-4440-8b2e-f0bc845d967e.map.rule.reference.ids
+#               value:
+#                 - 18
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.filename
+#               value:
+#                 - asdf.ltpa
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.password
+#               value:
+#                 - asdf
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.usefips
+#               value:
+#                 - false
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.expiration
+#               value:
+#                 - 120
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.realm
+#               value:
+#                 - "ldtinfnet.hh.signal-iduna.de\\:1389"
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.version
+#               value:
+#                 - 2
+#             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.extattr
+#               value:
+#                 - "*"
+- name: Configure STS chains
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.fed.sts.module_chains.set
+    isamapi: "{{ item }}"
+  when: item.name == name and item.chainName == chainName and item.requestType == item.requestType and item.issuer.address == issuer.address and item.appliesTo.address == appliesTo.address
+  with_items: "{{ sts_chains }}"
+  notify: Commit Changes
+  loop_control:
+    label: "{ name: {{ item.name }}, chainName: {{ item.chainName }}, requestType: {{ item.requestType }}, issuer.address: {{ item.issuer.address }}, appliesTo.address: {{ item.appliesTo.address }}}"

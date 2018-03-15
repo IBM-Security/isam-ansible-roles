@@ -1,0 +1,24 @@
+# main task to upload ltpa files
+# Example:
+#   ltpa_files
+#     - file: uploads/ltpa/default.ltpa
+---
+- name: Upload ltpa files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.ltpa_key.import_key
+    isamapi:
+      id: "{{ item.file | basename }}"
+      ltpa_keyfile: "{{ inventory_dir }}/{{ item.file }}"
+  with_items: "{{ ltpa_files }}"
+  notify: Commit Changes

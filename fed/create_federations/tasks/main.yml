@@ -1,0 +1,47 @@
+# main task to create federations
+#   Example: OIDC connect provider
+#     federations:
+#       - name: oidc-provider
+#         protocol: OIDC
+#         role: op
+#         configuration:
+#           issuerIdentifier: https://oidc/test
+#           signatureAlgorithm: RS256
+#           signingKeystore: oidc_provider_keys
+#           signingKeyLabel: OpenIdConnectProvider-nonProd
+#           authorizationCodeLength: "30"
+#           refreshTokenLength: "50"
+#           accessTokenLength: "40"
+#           authorizationCodeLifetime: "30"
+#           accessTokenLifetime: "7200"
+#           authorizationGrantLifetime: "604800"
+#           idTokenLifetime: "7200"
+#           grantTypesSupported:
+#               - implicit
+#           identityMapping:
+#             activeDelegateId: default-map
+#             properties:
+#               identityMappingRuleReference: "5"
+- name: Create federations
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.fed.federations.set
+    isamapi:
+      name: "{{ item.name }}"
+      protocol: "{{ item.protocol }}"
+      role: "{{ item.role }}"
+      configuration: "{{ item.configuration }}"
+  with_items: "{{ federations }}"
+  notify: Commit Changes
+  loop_control:
+    label: "{u'name': u'{{ item.name }}'}"

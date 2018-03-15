@@ -1,0 +1,23 @@
+# main task: load_signer_certificates
+---
+- name: Load signer certificates into certificate store
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ port | default(omit) }}"
+    log: "{{ log_level | default(omit) }}"
+    force: "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.load
+    isamapi:
+      kdb_id: "{{ item.kdb_id }}"
+      label: "{{ item.label }}"
+      server: "{{ item.server }}"
+      port: "{{ item.port }}"
+  with_items: "{{ load_signer_certificates }}"
+  notify: Commit Changes

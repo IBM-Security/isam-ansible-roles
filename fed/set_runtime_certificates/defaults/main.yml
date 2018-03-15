@@ -1,0 +1,10 @@
+# Provide valid module identifiers - they can be wga, mga or federation
+# activate_module_id: 'wga'
+
+# Provide the activation code for the version of ISAM
+# The activation code can be read from the activation files downloaded from
+# IBM Passport Advantage
+# activate_module_code: 'xxxx-xxxx-xxxx...'
+
+# Comment to be used for creating a snapshot file
+activate_module_comment: "Automated Snapshot Before Activating"

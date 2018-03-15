@@ -1,0 +1,37 @@
+# main task to create authentication mechanisms
+#   Example:
+#     authentication_mechanisms:
+#       - name: MappinRule1
+#         uri: "urn:ibm:security:authentication:asf:mechanism:mappingRule1"
+#         description: "Mapping Rule 1"
+#         typeName: InfoMapAuthenticationName
+#         properties:     
+#           - key: infoMap.HTMLPage
+#             value: ""
+#           - key: infoMap.JSRule
+#             value: MappingRule1
+---
+- name: Create authentication mechanisms
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.mechanisms.add
+    isamapi:
+      name:               "{{ item.name }}"
+      uri:                "{{ item.uri  }}"
+      description:        "{{ item.description | default('') }}"
+      attributes:         "{{ item.attributes | default([]) }}"
+      properties:         "{{ item.properties | default([]) }}"
+      predefined:         "{{ item.predefined | default('False') }}"
+      typeName:           "{{ item.typeName | default([]) }}"
+  with_items: "{{ authentication_mechanisms }}"
+  notify: Commit Changes
