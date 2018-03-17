@@ -1,0 +1,23 @@
+# main task to upload mapping rules
+---
+- name: Upload mapping rules
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.mapping_rules.upload
+    isamapi:
+      name: "{{ item.name }}"
+      filename: "{{ item.file | basename }}"
+      upload_filename: "{{ inventory_dir }}/{{ item.file }}"
+      category: "{{ item.category }}"
+  with_items: "{{ mapping_rules }}"
+  notify: Commit Changes

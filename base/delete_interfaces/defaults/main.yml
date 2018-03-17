@@ -1,0 +1,18 @@
+# The following is needed to be provided for role to work
+# Example:
+#  interfaces:
+#      -   label:  '1.1'
+#          addresses:
+#              -   address:            "192.168.1.1"
+#                  maskOrPrefix:       "24"
+#                  allowManagement:    true
+#                  enabled:            true
+#          #   -   address:            "192.168.1.2"
+#          #        maskOrPrefix:       "24"
+#          #        allowManagement:    false
+#          #        enabled:            true
+# Attention: commented out or missing addresses will be deleted by this role
+# Default values for deleting an ipv4 interface - override as needed
+#
+# possible values: [ipv4, ipv6, vlan]
+delete_interfaces_action: ipv4 

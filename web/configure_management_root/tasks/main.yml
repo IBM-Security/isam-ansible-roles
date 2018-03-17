@@ -1,0 +1,80 @@
+# main task to configure management root content
+# Example:
+#     instances:
+#       - inst_name: default
+#         management_root:
+#           - action: upload
+#             target: management/C/login.html
+#             file: uploads/management_root/default/management/C/login.html
+#           - action: delete
+#             target: errors/C/38ad52fa.html
+#             type: file
+#           - action: delete
+#             target: errors/de
+#             type: directory
+#           - action: delete
+#             type: directory
+#             targets: 
+#               - errors/de
+#               - errors/fr
+---
+- name: Upload management root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.file.import_file
+    isamapi:
+      id: "{{ item.1.target }}"
+      filename: "{{ inventory_dir }}/{{ item.1.file }}"
+      instance_id: "{{ item.0.inst_name }}"
+  when: item.1.action == 'upload' and item.1.target is defined and item.1.file is defined and item.0.inst_name == inst_name and item.1.target == target and item.1.file == file
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label:  "(action: [{{ item.1.action }}], inst_name:[{{ item.0.inst_name }}], filename: [{{ filename }}], target:[{{ target }}])"
+  notify: Commit Changes
+- name: Delete management root file/directory
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.web.reverse_proxy.management_root.{{ item.1.type }}.delete"
+    isamapi: 
+      id:             "{{ item.1.target }}"
+      instance_id:    "{{ item.0.inst_name }}"
+  when: item.1.action == 'delete' and item.1.target is defined and item.1.type is defined and (item.1.type == 'file' or item.1.type == 'directory') and item.0.inst_name == inst_name and item.1.target == target
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label:  "(action: [{{ item.1.action }}], type: [{{ item.1.type | default('file')}}], inst_name:[{{ item.0.inst_name }}], target:[{{ item.1.target | default('none') }}])"
+  notify: Commit Changes
+- include: include_delete_management_root_contents.yml
+  when: item.1.action == 'delete' and item.1.targets is defined and item.1.type is defined and (item.1.type == 'file' or item.1.type == 'directory') and item.0.inst_name == inst_name and item.1.target == target
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label:  "(action: [{{ item.1.action }}], type: [{{ item.1.type | default('file') }}], inst_name:[{{ item.0.inst_name }}, target:[{{ item.1.target | default('none') }}])"
+  notify: Commit Changes

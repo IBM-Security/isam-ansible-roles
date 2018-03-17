@@ -1,0 +1,4 @@
+---
+- name: PDadmin
+  include: pdadmin.yml
+  when: pdadmin_commands is defined or include_pdadmin_commands is defined

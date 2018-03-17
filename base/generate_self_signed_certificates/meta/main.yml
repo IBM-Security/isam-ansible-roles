@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - self_signed_certificates
+  - generate
+
+dependencies:
+  - start_config

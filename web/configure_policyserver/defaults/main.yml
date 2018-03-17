@@ -1,0 +1,28 @@
+# Provide the following minimal values to setup Local Policy Server with Local Embedded LDAP
+#   policyserver_runtime:
+#     configuration:
+#       admin_pwd:              "{{ admin_pwd }}"
+#       ps_mode:                "local"
+#       user_registry:          "local"
+#       ldap_pwd:               "{{ ldap_pwd }}"
+#       clean_ldap:             "true"
+#       admin_cert_lifetime:    1460
+#       ssl_compliance:         "none"
+# The following are defaults to support local policy server/local embedded ldap
+# additional configuraitons can be looked up in the isam web service documentation: e.g.
+#      user_registry:       "{{ user_registry }}"
+#      ldap_host:           "{{ ldap_host }}"
+#      ldap_port:           "{{ ldap_port }}"
+#      ldap_dn:             "{{ ldap_dn }}"
+#      ldap_pwd:            "{{ ldap_pwd }}"
+#      ldap_ssl_db:         "{{ ldap_ssl_db }}"
+#      ldap_ssl_label:      "{{ ldap_ssl_label }}"
+#      ldap_suffix:         "{{ ldap_suffix }}"
+#      domain:              "{{ domain }}"
+#      isam_host:           "{{ isam_host }}"
+#      isam_port:           "{{ isam_port }}"
+policyserver_runtime:
+  configuration: []
+# By default change the "connection_inacvtivity" to be 270
+# This is meants to be lower than 5mins - when firewall typically close down unused connections
+policyserver_connection_inactivity: 270

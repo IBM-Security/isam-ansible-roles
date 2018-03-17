@@ -1,0 +1,27 @@
+# main task to configure api protection definition
+#   Example:
+#     api_protection:
+#       definitions:
+#         - name: oauth-provider
+#           description: API protection for Signal Iduna OAuth service provider
+#           grantTypes:
+#             - AUTHORIZATION_CODE
+#           tcmBehavior: NEVER_PROMPT
+---
+- name: Configure api protection definitions
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.api_protection.definitions.set
+    isamapi: "{{ item | exclude('clients') | exclude('mapping_rules') }}"
+  with_items: "{{ api_protection.definitions | default() }}"
+  notify: Commit Changes

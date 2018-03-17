@@ -1,0 +1,2 @@
+# Default variables for creation of authentication mechanisms
+authentication_mechanisms: []

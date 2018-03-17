@@ -1,0 +1,33 @@
+# main task for creation of authentication policies
+# Example:
+#   authentication_policies:
+#     - name: authPolicy1
+#       mechUri: "urn:ibm:security:authentication:asf:mechanism:authPolicy1"
+#       uri:            "urn:ibm:security:authentication:asf:authPolicy1"
+#       description:    "authentication policy 1"
+#       enabled:        "True"
+---
+- name: Create authentication policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.policies.set
+    isamapi:
+      name: "{{ item.name }}"
+      check_mode: "false"
+      uri: "{{ item.uri }}"
+      policy: "<Policy xmlns='urn:ibm:security:authentication:policy:1.0:schema' PolicyId='{{ item.uri }}'><Description>{{ item.description }}</Description><Step id='{{ item.uri | to_uuid }}' type='Authenticator'><Authenticator id='{{ item.mechUri | to_uuid }}' AuthenticatorId='{{ item.mechUri }}'/></Step></Policy>"
+      description: "{{ item.description | default('') }}"
+      dialect: "{{ item.dialect | default('urn:ibm:security:authentication:policy:1.0:schema') }}"
+      enabled: "{{ item.enabled | default('False') }}"
+  with_items: "{{ authentication_policies }}"
+  notify: Commit Changes

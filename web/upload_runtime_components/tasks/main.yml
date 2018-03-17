@@ -1,0 +1,24 @@
+# main task to upload runtime components
+# Example:
+#   runtime_components:
+#     - migrate_file: "{{ inventory_dir }}/uploads/runtime/ldap/ldap.conf"
+---
+- name: Upload runtime components
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.runtime.configuration.file.update
+    isamapi:
+      resource_id:    "{{ item.migrate_file | basename }}"
+      file_contents:  "{{ lookup('template', item.migrate_file) | replace('\n', '\\n') }}"
+  with_items: "{{ runtime_components }}"
+  notify: Commit Changes

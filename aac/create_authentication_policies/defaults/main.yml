@@ -1,0 +1,2 @@
+# Default variables for creation of authentication policies
+authentication_policies: []

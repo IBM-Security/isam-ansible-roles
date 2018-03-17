@@ -1,0 +1,29 @@
+# main task to configure reverse proxy instances
+#   Example:
+#     instances:
+#       -   inst_name: default
+#           entries:
+#               - { method: set, stanza: server, entry_name: server-name, value: default }
+---
+- name: Configure reverse proxy instances
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.web.reverse_proxy.configuration.entry.{{ action_method }}"
+    isamapi: "{{ action_params[action_method] }}"
+  with_subelements:
+    - "{{ instances }}"
+    - entries
+  when: item.0.inst_name == inst_name and item.1.stanza == stanza and item.1.entry_name == entry_name
+  loop_control:
+    label:  "(inst_name:[{{ item.0.inst_name }}], stanza: [{{ item.1.stanza }}], entry_name:[{{ item.1.entry_name }}], value:[{{ item.1.value }}])"
+  notify: Commit Changes

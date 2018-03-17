@@ -1,0 +1,27 @@
+# main task to upload management root files
+# Example:
+#   management_root_files:
+#       -   instance_id: default
+#           file: "uploads/management_root/management/C/example.html"
+#           target: "management/C/example.html"
+---
+- name: Upload management root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.file.import_file
+    isamapi:
+      id: "{{ item.target }}"
+      filename: "{{ inventory_dir }}/{{ item.file }}"
+      instance_id: "{{ item.instance_id }}"
+  with_items: "{{ management_root_files }}"
+  notify: Commit Changes

@@ -1,0 +1,31 @@
+# main task to restart reverse proxy instance
+---
+- name: Prepare restart specific instance
+  set_fact:
+      instance:
+          -   inst_name: "{{ inst_name }}"
+  when: inst_name != "all"
+- name: Prepare restart all instances
+  set_fact:
+      instance: "{{ instances }}"
+  when: inst_name == "all" and instances is defined
+- name: Restart reverse proxy instance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.execute
+    isamapi:
+      id: "{{ item.inst_name }}"
+  with_items: "{{ instance | default(instances)}}"
+  loop_control:
+    label: "{'u'inst_name': u'{{ item.inst_name }}'}"
+  notify: Commit Changes

@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to upload HTTP transformation files
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - upload
+  - http_tranformation
+
+dependencies:
+  - start_config

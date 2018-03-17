@@ -1,0 +1,27 @@
+- name: Run PDAdmin commands
+  isamadmin:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    isamuser:  "{{ admin_id }}"
+    isampwd:   "{{ admin_pwd }}"
+    isamdomain: "{{ admin_domain }}"
+    commands: "{{ pdadmin_commands | default([]) }} + {{ include_pdadmin_commands | default([]) }}"
+  ignore_errors: true
+  register: ret_obj
+
+- name: Output of PDAdmin command execution
+  debug: msg="{{ ret_obj['data']['result'].split('\n') }}"
+  when: (ret_obj is defined and 'result' in ret_obj['data'] and ret_obj|succeeded and (not ansible_check_mode))
+
+- name: Error Messages *if* PDAdmin command failed
+  debug: msg="{{ ret_obj['log'].split('\n') }}"
+  when: (ret_obj is defined and 'log' in ret_obj and ret_obj|failed and (not ansible_check_mode))

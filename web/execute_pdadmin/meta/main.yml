@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role that executes pdadmin commands against Policy Server
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - policy_server
+  - pdadmin
+
+dependencies:
+  - start_config

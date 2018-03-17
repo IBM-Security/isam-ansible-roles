@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configuration of management root content
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - upload
+  - management_root
+
+dependencies:
+  - start_config

@@ -1,0 +1,35 @@
+# main task for extracting certificates
+# Example inventory:
+#  extract_certificates:
+#      kdb_id:     "{{ item.kdb_id }}"
+#      cert_id:    "{{ item.cert_id }}"
+#      password:   "{{ item.password }}"
+#      filename:   "{{ inventory_dir }}/{{ item.filename }}"
+---
+- name: Create local directory structure
+  file: path="{{ inventory_dir }}/{{ item.filename | dirname }}" state=directory
+  with_items: "{{ extract_certificates }}"
+  loop_control:
+    label: "{u'kdb_id': u'{{ item.kdb_id }}', u'cert_id': u'{{ item.cert_id }}', u'filename': u'{{ inventory_dir }}/{{ item.filename }}'}"
+- name: Extract certificates
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.ssl_certificates.personal_certificate.extract_cert
+    isamapi:
+      kdb_id:     "{{ item.kdb_id }}"
+      cert_id:    "{{ item.cert_id }}"
+      password:   "{{ item.password }}"
+      filename:   "{{ inventory_dir }}/{{ item.filename }}"
+  with_items: "{{ extract_certificates }}"
+  loop_control:
+    label: "{u'kdb_id': u'{{ item.kdb_id }}', u'password': u'*****', u'cert_id': u'{{ item.cert_id }}', u'filename': u'{{ inventory_dir }}/{{ item.filename }}'}"

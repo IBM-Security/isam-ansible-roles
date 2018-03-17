@@ -1,0 +1,6 @@
+# Default variables for configuration of mapping rules
+mapping_rules: []
+
+# Default variables to filter for configuration of specific mapping rules at runtime
+name: "{{ item.name }}"
+category: "{{ item.category }}"
