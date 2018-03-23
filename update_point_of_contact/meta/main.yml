@@ -1,6 +1,6 @@
 galaxy_info:
   author: IFC
-  description: Role that updates an existing Point of Contact configurattion
+  description: Role that adds or updates an existing Point of Contact configuration
   company: IFC
 
   license: Apache
