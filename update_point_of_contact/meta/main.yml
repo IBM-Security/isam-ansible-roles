@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IFC
+  description: Role that updates an existing Point of Contact configurattion
+  company: IFC
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - point_of_contact
+  - set
+
+dependencies:
+  - start_config
