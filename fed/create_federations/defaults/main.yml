@@ -1,2 +1,5 @@
 # Default variables for creation of federations
 federations: []
+
+# variable to control whether to configure one federation or a specific one
+fed_name: "{{ item.name }}" 

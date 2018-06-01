@@ -3,7 +3,7 @@
 #     api_protection:
 #       definitions:
 #         - name: oauth-provider
-#           description: API protection for Signal Iduna OAuth service provider
+#           description: API protection for OAuth service provider
 #           grantTypes:
 #             - AUTHORIZATION_CODE
 #           tcmBehavior: NEVER_PROMPT
