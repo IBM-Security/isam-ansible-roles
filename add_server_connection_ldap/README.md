@@ -17,7 +17,7 @@ Provide the name, connection, description, locked flag, and the connection manag
   ldap_server_connection_connection: {"hostName": "ldap.int", "hostPort": "636", "bindDN": "cn=root", "bindPwd": "secret", "ssl": true, "sslTruststore": "trust.kdb", "sslAuthKey": "client_key"}
   ldap_server_connection_description: "This is a connection to an LDAP server"
   ldap_server_connection_locked: false
-  ldap_server_connection_connection_manager: {"connectTimeout": 300}
+  ldap_server_connection_manager: {"connectTimeout": 300}
 ```
 
 The role automatically takes a snapshot before adding the LDAP server connection, override as needed:
@@ -41,7 +41,7 @@ Here is an example of how to use this role:
            ldap_server_connection_connection: {"hostName": "ldap.int", "hostPort": "636", "bindDN": "cn=root", "bindPwd": "secret", "ssl": true, "sslTruststore": "trust.kdb", "sslAuthKey": "client_key"}
            ldap_server_connection_description: "This is a connection to an LDAP server"
            ldap_server_connection_locked: false
-           ldap_server_connection_connection_manager: {"connectTimeout": 300}
+           ldap_server_connection_manager: {"connectTimeout": 300}
            
 
 License
