@@ -1,14 +1,14 @@
 # main task to configure sts chains
 #   Example: STSUU to LTPA Token
 #     sts_chains:
-#       - name: TC_STSUU_TO_INFONET_LTPA_CHAIN
+#       - name: TC_STSUU_TO_LTPA_CHAIN
 #         chainName: STSUU_TO_LTPA_TEMPLATE
-#         description: Create LTPA-Token with INFONET specific DN and REALM for SI-TokenChanger
+#         description: Create LTPA-Token with specific DN and REALM for TokenChanger
 #         requestType: http://schemas.xmlsoap.org/ws/2005/02/trust/Issue
 #         issuer:
 #           address: ISAM-STS
 #         appliesTo:
-#           address: SI-TokenChange
+#           address: TokenChange
 #         signResponses: false
 #         validateRequests: false
 #         properties:
@@ -33,7 +33,7 @@
 #                 - 120
 #             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.realm
 #               value:
-#                 - "ldtinfnet.hh.signal-iduna.de\\:1389"
+#                 - "localhost\\:636"
 #             - name: uuid1bc4c3d8-cc79-4bc4-87dc-c264052a8655.ltpa.self.version
 #               value:
 #                 - 2
