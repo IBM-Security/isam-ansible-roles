@@ -38,7 +38,7 @@ multiple releases in one day (expected to be uncommon).
 ## Features
 
 The `start_config` role is a requirement for every playbok. It contains the custom modules and all handlers. All other 
-roles have a dependency on it and `start_config` will get automatically invoked as needed.
+roles have a dependency on it and `start_config` will get automatically invoked as needed.This repository contains a small selection of roles - users are encouraged to add more as needed.
 
 ### Custom Modules
 _”Modules (also referred to as “task plugins” or “library plugins”) are the ones that do the actual work in ansible, 
