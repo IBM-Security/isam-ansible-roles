@@ -1,0 +1,97 @@
+- name: Get runtime template root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.directory.get
+    isamapi:
+      path: "{{ item.target }}"
+  register: ret_obj
+  when: delete_files
+  failed_when: "(ret_obj.msg is defined and '500' in ret_obj.msg)"
+
+- name: Check local file
+  stat: path="{{ inventory_dir }}/{{ item.directory }}/{{ element.path }}"
+  with_items: "{{ (ret_obj.data.contents if (ret_obj.data is defined and ret_obj.data.contents is defined) else (ret_obj.data if (ret_obj.data is defined) else ([]))) | flatten_management_root }}"
+  loop_control:
+    loop_var: element
+  register: locals
+
+- name: Delete missing local files on the server 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.root.delete
+    isamapi:
+        id: "{{ item.target }}/{{ local.element.path }}"
+        type: "{{ local.element.type }}"
+  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and delete_files
+  with_items: "{{ locals.results }}"
+  loop_control:
+    loop_var: local
+    label: "(file={{ item.target }}/{{ local.element.path }})"
+  notify: Commit Changes
+
+- name: Check management root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.root.check
+    isamapi:
+      id: "{{ item.target }}{{ (local.root + '/' + local.path) | regex_replace(inventory_dir + '/' + item.directory ,'')}}"
+      type: "{{ local.state }}"
+  with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
+  loop_control:
+    loop_var: local
+    label: "(type=\"{{ local.state }}\", id=\"{{ item.target }}{{ (local.root + '/' + local.path) | regex_replace(inventory_dir + '/' + item.directory ,'')}}\")"
+  register: ret_obj
+
+- name: Temporary adding missing directories to management root [create_directory]
+  set_fact: 
+    updates: "{{ updates | default([]) + [{'action': 'create', 'type': create.data.type, 'path': create.data.path, 'name': create.data.name}] }}"
+  when: not create.data.id and create.data.type == 'directory'
+  with_items: "{{ ret_obj.results }}"
+  loop_control:
+    label: "(action=\"create\", type=\"{{ create.data.type }}\", path=\"{{ create.data.path }}\", name=\"{{ create.data.name }}\")"
+    loop_var: create
+
+- name: Temporary adding all files to management root [upload]
+  set_fact: 
+    updates: "{{ updates | default([]) + [{'action': 'upload', 'type': upload.data.type, 'target': (upload.data.path +'/'+ upload.data.name), 'file': upload.local.root +'/'+ upload.local.path }] }}"
+  when: upload.data.type != 'directory'
+  with_items: "{{ ret_obj.results }}"
+  loop_control:
+    label: "(type=\"{{ upload.data.type }}\", target=\"{{ upload.data.path }}/{{ upload.data.name }}\", file=\"{{ upload.local.root }}/{{ upload.local.path }}\")"
+    loop_var: upload  
+
+- set_fact:
+    runtime_template_root: "{{ hostvars[inventory_hostname].runtime_template_root }} + {{ updates }}"
+  with_items: "{{ updates }}"
+  loop_control:
+    loop_var: upload
