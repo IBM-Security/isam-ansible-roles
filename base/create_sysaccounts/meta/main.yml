@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to create system accounts
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - create
+  - sysaccounts
+
+dependencies:
+  - start_config
