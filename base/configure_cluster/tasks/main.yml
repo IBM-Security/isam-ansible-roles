@@ -1,0 +1,29 @@
+---
+# The following need to be provided for role to work
+# Example: External ISAM HVDB (DB2)
+#  cluster:
+#   hvdb_db_type: db2
+#   hvdb_embedded: false
+#   hvdb_address: db2.ibm.com
+#   hvdb_port: 50001
+#   hvdb_user: isam_hvdb_admin
+#   hvdb_password: test
+#   hvdb_db_name: ISAM_HVDB
+#   hvdb_db_secure: false
+- name: Configure cluster
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.cluster.configuration.set
+    isamapi: "{{ cluster }}"
+  when: cluster is defined
+  notify: Commit Changes
