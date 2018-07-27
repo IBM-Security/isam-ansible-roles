@@ -10,7 +10,7 @@ galaxy_info:
   galaxy_tags:
   - isam
   - ibm
-  - upload
+  - configure
   - runtime_template_root
 
 dependencies:

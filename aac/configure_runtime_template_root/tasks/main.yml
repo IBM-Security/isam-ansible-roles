@@ -1,4 +1,4 @@
-# main task to configure management root content
+# main task to configure runtime template root content
 # Example:
 #   runtime_template_root:
 #     - action: sync_up
