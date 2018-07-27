@@ -1,0 +1,25 @@
+# Commit all changes made to date before configuring oauth into reverse proxy
+- meta: flush_handlers
+
+- name: Configure Reverse Proxy {{config_reverseproxy_oauth_instance_id}} for Oauth
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ lmi_port }}"
+    log: "{{ log_level }}"
+    force: "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.oauth_configuration.config
+    isamapi:
+      instance_id: "{{ config_reverseproxy_oauth_instance_id }}"
+      hostname:    "{{ config_reverseproxy_oauth_hostname }}"
+      port:        "{{ config_reverseproxy_oauth_port }}"
+      username:    "{{ config_reverseproxy_oauth_username }}"
+      password:    "{{ config_reverseproxy_oauth_password }}"
+      reuse_certs: "{{ config_reverseproxy_oauth_reuse_certs }}"
+      reuse_acls:  "{{ config_reverseproxy_oauth_reuse_acls }}"
+      api:         "{{ config_reverseproxy_oauth_api }}"
+      browser:     "{{ config_reverseproxy_oauth_browser }}"
+  notify:
+    - Commit Changes
+    - Restart Reverse Proxy
