@@ -1,0 +1,47 @@
+# main task to export all application log files
+# A downloads folder has to exist in the inventory folder. Inside the downloads folder a folder for each appliance
+# hostname is necessary. It is possible to limit the export using the path variable. E.g append the following to your
+# ansible command: -e path=federation/runtime
+---
+- name: Get application log file list
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.application_logs.get_all
+    isamapi:
+      flat_details: yes
+  register: logs
+  
+- debug: 
+    msg: "{{ item }}"
+  when: path == item.path
+  with_items: "{{ logs.data }}"
+  
+- name: Get application log files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.application_logs.export_file
+    isamapi:
+      file_path: "{{ item.path }}/{{ item.name }}"
+      filename: "{{ inventory_dir }}/downloads/{{ inventory_hostname }}/{{ item.name }}"
+  when: path == item.path
+  with_items: "{{ logs.data }}"
