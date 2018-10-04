@@ -49,49 +49,32 @@
     label: "(file={{ item.target }}/{{ local.element.path }})"
   notify: Commit Changes
 
-- name: Check management root files
-  isam:
-    appliance: "{{ inventory_hostname }}"
-    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
-    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
-    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
-    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
-    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
-    username:  "{{ username }}"
-    password:  "{{ password }}"
-    lmi_port:  "{{ port | default(omit) }}"
-    log:       "{{ log_level | default(omit) }}"
-    force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.aac.runtime_template.root.check
-    isamapi:
-      id: "{{ item.target }}{{ (local.root + '/' + local.path) | regex_replace(inventory_dir + '/' + item.directory ,'')}}"
-      type: "{{ local.state }}"
+- name: list of directory update items
+  set_fact: 
+    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'path': item.target, 'name': create.path} }}"
+  when: create.state == "directory"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
-    loop_var: local
-    label: "(type=\"{{ local.state }}\", id=\"{{ item.target }}{{ (local.root + '/' + local.path) | regex_replace(inventory_dir + '/' + item.directory ,'')}}\")"
-  register: ret_obj
-
-- name: Temporary adding missing directories to management root [create_directory]
-  set_fact: 
-    updates: "{{ updates | default([]) + [{'action': 'create', 'type': create.data.type, 'path': create.data.path, 'name': create.data.name}] }}"
-  when: not create.data.id and create.data.type == 'directory'
-  with_items: "{{ ret_obj.results }}"
-  loop_control:
-    label: "(action=\"create\", type=\"{{ create.data.type }}\", path=\"{{ create.data.path }}\", name=\"{{ create.data.name }}\")"
     loop_var: create
-
-- name: Temporary adding all files to management root [upload]
+    label: "{{ {'action': 'create', 'type': create.state, 'path': item.target, 'name': create.path} }}"
+  register: directory_update_result
+- name: consolidate uptate items in a list of updates [directory]
   set_fact: 
-    updates: "{{ updates | default([]) + [{'action': 'upload', 'type': upload.data.type, 'target': (upload.data.path +'/'+ upload.data.name), 'file': upload.local.root +'/'+ upload.local.path }] }}"
-  when: upload.data.type != 'directory'
-  with_items: "{{ ret_obj.results }}"
-  loop_control:
-    label: "(type=\"{{ upload.data.type }}\", target=\"{{ upload.data.path }}/{{ upload.data.name }}\", file=\"{{ upload.local.root }}/{{ upload.local.path }}\")"
-    loop_var: upload  
+    directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
 
-- set_fact:
-    runtime_template_root: "{{ hostvars[inventory_hostname].runtime_template_root }} + {{ updates }}"
-  with_items: "{{ updates }}"
+- name: list of file update items
+  set_fact: 
+    file_update_item: "{{ {'action': 'upload', 'type': upload.state, 'target': (item.target+'/'+ upload.path), 'file': upload.src } }}"
+  when: upload.state == "file"
+  with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
     loop_var: upload
+    label: "{{ {'action': 'upload', 'type': item.state, 'target': (item.target +'/'+ upload.path), 'file': upload.src } }}"
+  register: file_update_result
+
+- name: consolidate uptate items in a list of updates [files]
+  set_fact: 
+    file_updates: "{{ file_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.file_update_item') | list }}"
+
+- set_fact:
+    runtime_template_root: "{{ hostvars[inventory_hostname].runtime_template_root }} + {{ directory_updates }} + {{ file_updates }}"

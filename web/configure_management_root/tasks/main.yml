@@ -49,7 +49,7 @@
       instance_id: "{{ item.0.inst_name }}"
       id: "{{ item.1.target.split('/')[0] }}"
       name: "{{ item.1.target | regex_replace(item.1.target.split('/')[0]+'/','') }}"
-  when: item.1.action == 'create' and item.1.type == 'directory' and item.1.target is defined and item.0.inst_name == inst_name and item.1.target == target
+  when: item.1.action == 'create' and item.1.type == 'directory' and item.1.target is defined and item.0.inst_name == inst_name
   with_subelements:
     - "{{ instances }}"
     - management_root

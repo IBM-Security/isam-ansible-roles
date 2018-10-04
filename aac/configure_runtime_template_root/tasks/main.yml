@@ -37,7 +37,8 @@
       name: "{{ item.name }}"
   when: item.action == 'create' and item.type == 'directory' and item.path is defined and item.name is defined and path in item.path and item.name == name
   with_items: "{{ runtime_template_root }}"
-  
+  notify: Commit Changes
+
 - name: Upload runtime template root files
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -57,3 +58,4 @@
       filename: "{{ item.file }}"
   when: item.action == 'upload' and item.type == 'file' and item.target is defined and item.file is defined and item.target == target and item.file == file
   with_items: "{{ runtime_template_root }}"
+  notify: Commit Changes
