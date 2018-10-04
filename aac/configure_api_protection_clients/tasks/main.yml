@@ -12,7 +12,7 @@
 #               companyName: IBM demo client for OAuth flows
 #               redirectUri: 
 #                 - https://localhost
-#               contactType: ADMINISTRATIVE
+#               contractType: ADMINISTRATIVE
 ---
 - name: Configure api protection client
   isam:
