@@ -46,3 +46,6 @@ add_junction_local_ip: null
 add_junction_ltpa_keyfile_password: null
 add_junction_delegation_support: null
 add_junction_insert_ltpa_cookies: null
+add_junction_http2_junction: null
+add_junction_http2_proxy: null
+add_junction_sni_name: null
