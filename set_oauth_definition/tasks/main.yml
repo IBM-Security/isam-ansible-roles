@@ -1,4 +1,4 @@
-- name: Set a new OAuth 2.0 Definition {{ set_oauth_definition_name }}
+- name: Create or update new OAuth 2.0 Definition {{ set_oauth_definition_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -26,6 +26,7 @@
       pinLength                                   : "{{ set_oauth_definition_pinLength }}"
       tokenCharSet                                : "{{ set_oauth_definition_tokenCharSet }}"
       oidc                                        : "{{ set_oauth_definition_oidc }}"
+      accessPolicyName                            : "{{ set_oauth_definition_accessPolicyName }}"
   when: set_oauth_definition_name is defined
   notify:
   - Commit Changes
