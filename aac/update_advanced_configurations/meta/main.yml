@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to update advanced configurations
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - update
+  - advanced_configurations
+
+dependencies:
+  - start_config
