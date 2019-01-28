@@ -21,6 +21,7 @@
 #      domain:              "{{ domain }}"
 #      isam_host:           "{{ isam_host }}"
 #      isam_port:           "{{ isam_port }}"
+policyserver_runtime: []
 
 # By default change the "connection_inacvtivity" to be 270
 # This is meants to be lower than 5mins - when firewall typically close down unused connections
