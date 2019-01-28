@@ -6,5 +6,6 @@ delete_files: false
 
 path: "{{ item.path | default('none') }}"
 name: "{{ item.name | default('none') }}"
+id: "{{ item.id | default('none') }}"
 file: "{{ item.file | default('none') }}"
 target: "{{ item.target | default('none') }}"
