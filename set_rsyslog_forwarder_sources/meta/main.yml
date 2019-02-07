@@ -1,0 +1,20 @@
+galaxy_info:
+  author: IBM
+  description: Role to set Remote Syslog Forwarder sources
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - remote
+  - syslog
+  - forwarder
+  - sources
+
+dependencies:
+  - start_config
+
