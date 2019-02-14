@@ -22,6 +22,7 @@
     isamapi:
       key: "{{ item.advanced_tuning_parameter_key }}"
       value: "{{ item.advanced_tuning_parameter_value }}"
+      comment: "{{ item.advanced_tuning_parameter_comment | default(None) }}"
   with_items: "{{ advanced_tuning_parameters }}"
   when: advanced_tuning_parameters is defined
   notify: Commit Changes

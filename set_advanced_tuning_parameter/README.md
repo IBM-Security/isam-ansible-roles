@@ -18,6 +18,7 @@ Provide the option key and value for the advanced tuning parameters to set
       advanced_tuning_parameter_value: "Value 1"
     - advanced_tuning_parameter_key: "Key 2"
       advanced_tuning_parameter_value: "Value 2"
+      advanced_tuning_parameter_comment: "Optional comment"
 ```
 
 The role automatically takes a snapshot before setting advanced tuning parameters, override as needed:
@@ -42,6 +43,7 @@ Here is an example of how to use this role:
                advanced_tuning_parameter_value: "Value 1"
              - advanced_tuning_parameter_key: "Key 2"
                advanced_tuning_parameter_value: "Value 2"
+               advanced_tuning_parameter_comment: "Optional comment"
 
 License
 -------

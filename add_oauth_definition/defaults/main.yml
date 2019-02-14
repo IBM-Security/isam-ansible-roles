@@ -38,4 +38,14 @@ add_oauth_definition_oidc                                        : null
 #      add_oauth_definition_pinPolicyEnabled                            	: False
 #      add_oauth_definition_pinLength                                   	: 4
 #      add_oauth_definition_tokenCharSet                                	: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-#      add_oauth_definition_oidc						: { "enabled": True, "alg": "RS256", "db": "rt_profile_keys", "cert": "server", "poc": "https://www.myWebSEAL.com", "lifetime": 3600, "enc":{ "enabled":False }, "attributeSources":[ { "attributeName": "exampleAttribute",   "attributeSourceId": "1" } ] }
+#      add_oauth_definition_oidc						:
+#        "enabled": True
+#        "alg": "RS256"
+#        "db": "rt_profile_keys"
+#        "cert": "server"
+#        "poc": "https://www.myWebSEAL.com"
+#        "lifetime": 3600
+#        "enc":
+#          "enabled":False
+#        "attributeSources":
+#          - {"attributeName": "exampleAttribute", "attributeSourceId": "1"}

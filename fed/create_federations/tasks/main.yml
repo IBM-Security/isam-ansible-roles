@@ -42,6 +42,7 @@
       role: "{{ item.role }}"
       configuration: "{{ item.configuration }}"
   with_items: "{{ federations }}"
+  when: item.name == fed_name
   notify: Commit Changes
   loop_control:
     label: "{u'name': u'{{ item.name }}'}"

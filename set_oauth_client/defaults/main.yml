@@ -16,3 +16,7 @@ set_oauth_client_otherInfo     : null
 # Might be best to override these - rather than allow them to randomly generate
 set_oauth_client_clientId      : null
 set_oauth_client_clientSecret  : null
+set_oauth_client_requirePkce   : null
+set_oauth_client_encryptionDb  : null
+set_oauth_client_encryptionCert: null
+set_oauth_client_jwksUri       : null

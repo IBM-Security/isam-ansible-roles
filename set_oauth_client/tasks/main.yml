@@ -20,6 +20,10 @@
       otherInfo     : "{{ set_oauth_client_otherInfo }}"
       clientId      : "{{ set_oauth_client_clientId }}"
       clientSecret  : "{{ set_oauth_client_clientSecret }}"
+      requirePkce   : "{{ set_oauth_client_requirePkce }}"
+      encryptionDb  : "{{ set_oauth_client_encryptionDb }}"
+      encryptionCert: "{{ set_oauth_client_encryptionCert }}"
+      jwksUri       : "{{ set_oauth_client_jwksUri }}"
   when: (set_oauth_client_name is defined and set_oauth_client_definitionName is defined and set_oauth_client_companyName is defined)
   notify:
   - Commit Changes

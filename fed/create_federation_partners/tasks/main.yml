@@ -44,6 +44,7 @@
     - "{{ federations }}"
     - partners
     - skip_missing: True
+  when: item.0.name == fed_name and partner_name == item.1.name
   notify: Commit Changes
   loop_control:
     label: "{u'federation_name': u'{{ item.0.name }}', u'partner_name': u'{{ item.1.name }}'}"

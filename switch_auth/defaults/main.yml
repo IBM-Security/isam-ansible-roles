@@ -15,9 +15,30 @@ switch_auth_anon_bind:  False
 switch_auth_enable: True
 
 # Define groups to be used for each role
+#
+# "Global Administrator" role
 #switch_auth_admin_group: []
+#
+# "Global Read Only Access" role
 #switch_auth_readonly_group: []
+#
+# "Security Administrator" role
 #switch_auth_security_group: []
+#
+# "Policy Administration Users" role
+#switch_auth_policy_admin_group: []
+#
+# "Security Monitoring" role
+#switch_auth_security_monitoring_group: []
+#
+# "Security Viewer" role
+#switch_auth_security_viewer_group: []
+#
+# "System Administrator" role
+#switch_auth_system_admin_group: []
+#
+# "System Monitoring" role
+#switch_auth_system_monitoring_group: []
 
 # Define CA certs to be loaded for SSL to external LDAP
 #switch_auth_ca_certandlabel
