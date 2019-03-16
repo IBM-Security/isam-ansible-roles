@@ -5,3 +5,9 @@
 #update_management_root_idandfilename:
 #  - {id: "management/C/login.html",   filename: "/mydir/local/login.html"}
 #  - {id: "junction-root/favicon.ico", filename: "/mydir/local/favicon.ico"}
+
+# Provide a management root zip filename (optional)
+#update_management_root_zip_filename:
+
+# Provide a list of locale to delete (optional)
+#update_management_root_locale_exclusion:
