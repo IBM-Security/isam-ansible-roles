@@ -50,4 +50,6 @@
       nw_interface_yn: "{{ item.nw_interface_yn | default('None') }}"
       ip_address: "{{ item.ip_address }}"
   with_items: "{{ instances }}"
+  loop_control:
+    label: "Creating  {{ item.inst_name }} on ip address {{ item.ip_address }}"
   notify: Commit Changes
