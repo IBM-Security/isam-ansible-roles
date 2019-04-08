@@ -1,5 +1,5 @@
 # These are the recommended values from IBM Support, please override with caution
-set_tcpip_tuning_ip_local_port_range: "16384 65535"
+set_tcpip_tuning_ip_local_port_range: '\"16384 65535\"'
 set_tcpip_tuning_tcp_fin_timeout: "30"
 set_tcpip_tuning_tcp_tw_reuse: "1"
 set_tcpip_tuning_tcp_tw_recycle: "0"

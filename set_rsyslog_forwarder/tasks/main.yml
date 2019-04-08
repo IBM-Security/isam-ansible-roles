@@ -1,0 +1,22 @@
+- name: Set Remote Syslog Forwarder {{set_rsyslog_forwarder_server}}:{{set_rsyslog_forwarder_port}}
+  isam:
+    appliance : "{{ inventory_hostname }}"
+    username  : "{{ username }}"
+    password  : "{{ password }}"
+    lmi_port  : "{{ lmi_port }}"
+    log       : "{{ log_level }}"
+    force     : "{{ force }}"
+    action: ibmsecurity.isam.base.remote_syslog.forwarder.set
+    isamapi:
+      server:             "{{ item.server   }}"
+      port:               "{{ item.port     }}"
+      protocol:           "{{ item.protocol }}"
+      debug:              "{{ set_rsyslog_forwarder_debug               }}"
+      keyfile:            "{{ set_rsyslog_forwarder_keyfile             }}"
+      ca_certificate:     "{{ set_rsyslog_forwarder_ca_certificate      }}"
+      client_certificate: "{{ set_rsyslog_forwarder_client_certificate  }}"
+      permitted_peers:    "{{ set_rsyslog_forwarder_permitted_peers     }}"
+      sources: []
+  when: set_rsyslog_forwarder is defined
+  with_items: "{{ set_rsyslog_forwarder }}"
+  notify: Commit Changes
