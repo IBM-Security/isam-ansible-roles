@@ -24,6 +24,7 @@
       encryptionDb  : "{{ set_oauth_client_encryptionDb }}"
       encryptionCert: "{{ set_oauth_client_encryptionCert }}"
       jwksUri       : "{{ set_oauth_client_jwksUri }}"
+      extProperties : "{{ set_oauth_client_extProperties }}"
   when: (set_oauth_client_name is defined and set_oauth_client_definitionName is defined and set_oauth_client_companyName is defined)
   notify:
   - Commit Changes
