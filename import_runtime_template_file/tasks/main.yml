@@ -1,16 +1,12 @@
 # main task to import template files
 #   Example:
 #     runtime_templates:
-#       - type: dir
-#         path: C/authsvc/api
 #       - type: file
-#         path: C/authsvc/api
-#         filename: uploads/template_files/s
-#         name: success_response.json
+#         filename: uploads/template_files/s.json
+#         id: C/authsvc/api/success_response.json
 #       - type: file
-#         path: C/authsvc/api
-#         filename: uploads/template_files/s
-#         name: success_response.html
+#         filename: uploads/template_files/s.html
+#         id: C/authsvc/api/success_response.html
 ---
 - name: Import template files
   isam:
@@ -27,9 +23,8 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.file.import_file
     isamapi:
-      name: "{{ item.name }}"
-      path: "{{ item.path }}"
-      filename: "{{ inventory_dir }}/{{ item.filename }}"
+      id: "{{ item.id }}"
+      filename: "{{ item.filename }}"
   with_items: "{{ runtime_templates }}"
   when: item.type == "file"
   notify: Commit Changes
