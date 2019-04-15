@@ -1,8 +1,8 @@
-# main task to create sso key files
+# main task to import sso key files
 # Example:
 #   sso_keys:
 #     - file: uploads/sso_keys/failover.key
-- name: Create sso key files
+- name: Import sso key files
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -15,11 +15,12 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.web.sso_keys.add
+    action: ibmsecurity.isam.web.sso_keys.import_key
     isamapi:
-      ssokey_name: "{{ item.file | basename }}"
+      id: "{{ item.file | basename }}"
+      filename: "{{ inventory_dir }}/{{ item.file }}"
   when: item.file is defined
   with_items: "{{ sso_keys }}"
   loop_control:
-    label: "{{ item.file | basename }}"
+    label: "{ id: \"{{ item.file | basename }}\", filename: \"{{ inventory_dir }}/{{ item.file }}\" }"
   notify: Commit Changes

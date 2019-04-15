@@ -40,36 +40,36 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.root.delete
     isamapi:
-        id: "{{ item.target }}/{{ local.element.path }}"
+        id: "{{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }}"
         type: "{{ local.element.type }}"
   when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and delete_files
   with_items: "{{ locals.results }}"
   loop_control:
     loop_var: local
-    label: "(file={{ item.target }}/{{ local.element.path }})"
+    label: "(file={{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }})"
   notify: Commit Changes
 
 - name: list of directory update items
   set_fact: 
-    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'path': item.target, 'name': create.path} }}"
+    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
   when: create.state == "directory"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
     loop_var: create
-    label: "{{ {'action': 'create', 'type': create.state, 'path': item.target, 'name': create.path} }}"
-  register: directory_update_result
+    label: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
+  register: directory_update_result  
 - name: consolidate uptate items in a list of updates [directory]
   set_fact: 
     directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
 
 - name: list of file update items
   set_fact: 
-    file_update_item: "{{ {'action': 'upload', 'type': upload.state, 'target': (item.target+'/'+ upload.path), 'file': upload.src } }}"
+    file_update_item: "{{ {'action': 'upload', 'target': (item.target+'/'+ upload.path) if (item.target != '') else (upload.path), 'type': upload.state, 'file': upload.src } }}"
   when: upload.state == "file"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
     loop_var: upload
-    label: "{{ {'action': 'upload', 'type': item.state, 'target': (item.target +'/'+ upload.path), 'file': upload.src } }}"
+    label: "{{ {'action': 'upload', 'type': item.state, 'target': (item.target+'/'+ upload.path) if (item.target != '') else (upload.path), 'file': upload.src } }}"
   register: file_update_result
 
 - name: consolidate uptate items in a list of updates [files]

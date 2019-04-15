@@ -1,8 +1,5 @@
-# main task to create sso key files
-# Example:
-#   sso_keys:
-#     - file: uploads/sso_keys/failover.key
-- name: Create sso key files
+# main task to backup appliance firmware
+- name: Swap active partition of appliance firmware
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -15,11 +12,4 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.web.sso_keys.add
-    isamapi:
-      ssokey_name: "{{ item.file | basename }}"
-  when: item.file is defined
-  with_items: "{{ sso_keys }}"
-  loop_control:
-    label: "{{ item.file | basename }}"
-  notify: Commit Changes
+    action: ibmsecurity.isam.base.firmware.swap
