@@ -15,6 +15,7 @@
     action: ibmsecurity.isam.web.reverse_proxy.junctions.get_all
     isamapi:
       reverseproxy_id: "{{ item.inst_name }}"
+  when: item.inst_name == inst_name
   register: ret_obj
 - name: Delete junction 
   isam:
@@ -35,8 +36,8 @@
       junctionname: "{{ server.id }}"
   vars:
     filter: "[? inst_name == '{{ item.inst_name }}'].junctions[].junction_point"
-  when: server.id not in (instances | json_query(filter)) and server.id == (junction_point | default(server.id))
-  with_items: "{{ ret_obj.data }}"
+  when: server.id not in (instances | json_query(filter)) and server.id == (junction_point | default(server.id)) and item.inst_name == inst_name
+  with_items: "{{ ret_obj.data | default([]) }}"
   loop_control:
     loop_var: server
     label: "{delete_junctions: {{ delete_junctions }}, inst_name: {{ item.inst_name }}, junction_point: {{ server.id }}}"

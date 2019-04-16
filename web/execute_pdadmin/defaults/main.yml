@@ -5,3 +5,5 @@
 
 # Use Default domain, override as needed
 admin_domain: Default
+pdadmin_commands: []
+include_pdadmin_commands: []

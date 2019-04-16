@@ -1,3 +1,3 @@
 # default variables for snaphot creation
 # Example:
-#   snapshot_comment: "Test"
+#   comment: "Test"

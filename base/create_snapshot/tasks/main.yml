@@ -14,5 +14,5 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.base.snapshots.create
     isamapi:
-      comment: "{{ snapshot_comment }}"
-  when: snapshot_comment is defined
+      comment: "{{ comment }}"
+  when: comment is defined

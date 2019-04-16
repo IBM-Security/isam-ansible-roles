@@ -23,6 +23,7 @@
   with_subelements:
     - "{{ instances }}"
     - entries
+    - skip_missing: True
   when: item.0.inst_name == inst_name and item.1.stanza == stanza and item.1.entry_name == entry_name
   loop_control:
     label:  "(inst_name:[{{ item.0.inst_name }}], stanza: [{{ item.1.stanza }}], entry_name:[{{ item.1.entry_name }}], value:[{{ item.1.value }}])"
