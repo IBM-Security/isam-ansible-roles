@@ -1,7 +1,7 @@
 # Commit all changes made to date before configuring aac into reverse proxy
 - meta: flush_handlers
 
-- name: Configure Reverse Proxy {{config_reverseproxy_aac_instance_id}} for Oauth
+- name: Configure Reverse Proxy {{config_reverseproxy_aac_instance_id}} for AAC
   isam:
     appliance: "{{ inventory_hostname }}"
     username: "{{ username }}"
@@ -18,8 +18,6 @@
       password:    "{{ config_reverseproxy_aac_password }}"
       reuse_certs: "{{ config_reverseproxy_aac_reuse_certs }}"
       reuse_acls:  "{{ config_reverseproxy_aac_reuse_acls }}"
-      api:         "{{ config_reverseproxy_aac_api }}"
-      browser:     "{{ config_reverseproxy_aac_browser }}"
   notify:
     - Commit Changes
     - Restart Reverse Proxy
