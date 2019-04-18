@@ -43,4 +43,5 @@
   with_subelements:
     -   "{{ interfaces }}"
     -   addresses
+    -   skip_missing: True
   notify: Commit Changes
