@@ -4,12 +4,12 @@
 #   - name: Create easuser in the embedded ldap
 #     tags: ["oauth"]
 #     include_role:
-#       name: base/create_embedded_ldap_user
+#       name: web/create_embedded_ldap_user
 #     vars:
-#       embeddedldap_user_username: "easuser"
-#       embeddedldap_user_password: "{{ vault_easuser_password }}"
+#       user_registry_user_username: "easuser"
+#       user_registry_user_password: "{{ vault_easuser_password }}"
 #
-- name: Create Embedded Ldap User
+- name: Create User in the AAC User Registry
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -22,9 +22,9 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.web.embedded_ldap.user.add
+    action: ibmsecurity.isam.aac.user_registry.user.add
     isamapi:
-      id: "{{ embeddedldap_user_username }}"
-      password: "{{ embeddedldap_user_password }}"
-  when: embeddedldap_user_username is defined
+      id: "{{ user_registry_user_username }}"
+      password: "{{ user_registry_user_password }}"
+  when: user_registry_user_username is defined
   notify: Commit Changes

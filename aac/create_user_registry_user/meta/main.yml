@@ -11,7 +11,7 @@ galaxy_info:
   - isam
   - ibm
   - password
-  - embedded_ldap
+  - user_registry
   - create
 
 dependencies:
