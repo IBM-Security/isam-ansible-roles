@@ -1,7 +1,7 @@
 # check whether ISAM appliance LMI is ready and accept default password
-- name: Check ISAM appliance for First Steps Execution
+- name: Check ISAM appliance for First Steps Execution - updated
   uri:
-    url: "https://{{inventory_hostname}}/lmi"
+    url: "https://{{ ':'.join((inventory_hostname,lmi_port)) }}/lmi"
     user: admin
     password: admin
     method: GET
