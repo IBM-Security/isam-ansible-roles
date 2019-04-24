@@ -1,0 +1,4 @@
+# defaults for creating an embedded ldap user
+# Both of these are required variables
+embeddedldap_user_username: null
+embeddedldap_user_password: null
