@@ -1,0 +1,5 @@
+# Default variables for configuration of server connections
+server_connections: []
+
+# Default variables to filter for configuration of specific server connections at runtime
+name: "{{ item.name }}"

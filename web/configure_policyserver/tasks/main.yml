@@ -25,7 +25,7 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.runtime.process.config
     isamapi: "{{ policyserver_runtime.configuration }}"
-      
+  when: policyserver_runtime.configuration is defined
 
 - name: Update Connection Inactivity to be less than infinity
   isam:

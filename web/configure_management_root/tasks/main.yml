@@ -17,7 +17,46 @@
 #             targets: 
 #               - errors/de
 #               - errors/fr
----
+#           - action: sync_up
+#             target: errors
+#             directory: uploads/management_root/default/errors
+# ---
+- name: Sync management root [local => server]
+  include: include_sync_management_root.yml
+  when: item.1.action == 'sync_up' and item.0.inst_name == inst_name
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label: "{{ item.1 }}"
+
+- name: Create management root directories
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.directory.create
+    isamapi:
+      instance_id: "{{ item.0.inst_name }}"
+      id: "{{ item.1.target.split('/')[0] }}"
+      name: "{{ item.1.target | regex_replace(item.1.target.split('/')[0]+'/','') }}"
+  when: item.1.action == 'create' and item.1.type == 'directory' and item.1.target is defined and item.0.inst_name == inst_name
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label:  "(action=\"{{ item.1.action }}\", inst_name=\"{{ item.0.inst_name }}\", target=\"{{ item.1.target | default(None) }}\", type=\"{{ item.1.type | default(None) }}\")"
+
 - name: Upload management root files
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -33,17 +72,18 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.management_root.file.import_file
     isamapi:
-      id: "{{ item.1.target }}"
-      filename: "{{ inventory_dir }}/{{ item.1.file }}"
       instance_id: "{{ item.0.inst_name }}"
-  when: item.1.action == 'upload' and item.1.target is defined and item.1.file is defined and item.0.inst_name == inst_name and item.1.target == target and item.1.file == file
+      id: "{{ item.1.target }}"
+      filename: "{{ item.1.file if((item.1.file | regex_search('^/') == '/') ) else (inventory_dir +'/'+ item.1.file) }}"
+  when: item.1.action == 'upload' and item.1.type == 'file' and item.1.target is defined and item.1.file is defined and item.0.inst_name == inst_name and item.1.target == target and item.1.file == file
   with_subelements:
     - "{{ instances }}"
     - management_root
     - skip_missing: True
   loop_control:
-    label:  "(action: [{{ item.1.action }}], inst_name:[{{ item.0.inst_name }}], filename: [{{ filename }}], target:[{{ target }}])"
+    label:  "(action=\"{{ item.1.action }}\", inst_name=\"{{ item.0.inst_name }}\", filename=\"{{ item.1.file | default(None) }}\", target=\"{{ item.1.target | default(None) }}\", type=\"{{ item.1.type | default(None) }}\")"
   notify: Commit Changes
+
 - name: Delete management root file/directory
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -69,6 +109,7 @@
   loop_control:
     label:  "(action: [{{ item.1.action }}], type: [{{ item.1.type | default('file')}}], inst_name:[{{ item.0.inst_name }}], target:[{{ item.1.target | default('none') }}])"
   notify: Commit Changes
+
 - include: include_delete_management_root_contents.yml
   when: item.1.action == 'delete' and item.1.targets is defined and item.1.type is defined and (item.1.type == 'file' or item.1.type == 'directory') and item.0.inst_name == inst_name and item.1.target == target
   with_subelements:
@@ -76,5 +117,5 @@
     - management_root
     - skip_missing: True
   loop_control:
-    label:  "(action: [{{ item.1.action }}], type: [{{ item.1.type | default('file') }}], inst_name:[{{ item.0.inst_name }}, target:[{{ item.1.target | default('none') }}])"
+    label:  "(action=\"{{ item.1.action }}\", type=\"{{ item.1.type | default('file') }}\", inst_name=\"{{ item.0.inst_name }}\", target=\"{{ item.1.target | default('none') }}\")"
   notify: Commit Changes

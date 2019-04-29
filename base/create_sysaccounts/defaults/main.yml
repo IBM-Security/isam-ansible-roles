@@ -1,0 +1,6 @@
+# The following need to be provided for role to work
+# Example:
+#  sysaccounts:
+#    - id: sec_master
+#      password: "{{ basicauth_dummy_passwd }}"
+sysaccounts: []

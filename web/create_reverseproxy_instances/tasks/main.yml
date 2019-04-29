@@ -51,5 +51,5 @@
       ip_address: "{{ item.ip_address }}"
   with_items: "{{ instances }}"
   loop_control:
-    label: "Creating  {{ item.inst_name }} on ip address {{ item.ip_address }}"
+   label: "Creating (( item.inst_name )) with ip address (( item.ip_address ))"
   notify: Commit Changes
