@@ -1,0 +1,30 @@
+# Role to create a user in the embedded ldap directory
+#
+# Example:
+#   - name: Create easuser in the runtime registry
+#     tags: ["oauth"]
+#     include_role:
+#       name: aac/create_user_registry_user
+#     vars:
+#       user_registry_user_username: "easuser"
+#       user_registry_user_password: "{{ vault_easuser_password }}"
+#
+- name: Create User in the AAC User Registry
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.user_registry.user.add
+    isamapi:
+      id: "{{ user_registry_user_username }}"
+      password: "{{ user_registry_user_password }}"
+  when: user_registry_user_username is defined
+  notify: Commit Changes
