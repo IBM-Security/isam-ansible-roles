@@ -21,7 +21,7 @@
     action: ibmsecurity.isam.base.dsc.set
     isamapi:
       service_port             : "{{ set_dsc_config_service_port }}"
-      replication_port         : "{{ set_dsc_config_replicationport }}"
+      replication_port         : "{{ set_dsc_config_replication_port }}"
       worker_threads           : "{{ set_dsc_config_worker_threads }}"
       max_session_lifetime     : "{{ set_dsc_config_max_session_lifetime }}"
       client_grace             : "{{ set_dsc_config_client_grace }}"
