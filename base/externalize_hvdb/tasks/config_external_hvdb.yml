@@ -1,0 +1,63 @@
+#def set(isamAppliance, primary_master='127.0.0.1', secondary_master=None, master_ere=None, tertiary_master=None,
+#        quaternary_master=None, dsc_external_clients=False, dsc_port=None, dsc_use_ssl=None, dsc_ssl_keyfile=None,
+#        dsc_ssl_label=None, dsc_worker_threads=64, dsc_maximum_session_lifetime=3600, dsc_client_grace_period=600,
+#        hvdb_embedded=True, hvdb_max_size=40, hvdb_db_type=None, hvdb_address=None, hvdb_port=None, hvdb_user=None,
+#        hvdb_password=None, hvdb_db2_alt_address=None, hvdb_db2_alt_port=None, hvdb_db_name=None, hvdb_db_secure=None,
+#        hvdb_driver_type=None, hvdb_solid_tc=None, cfgdb_embedded=True, cfgdb_db_type=None, cfgdb_address=None,
+#        cfgdb_port=None, cfgdb_user=None, cfgdb_password=None, cfgdb_db2_alt_address=None, cfgdb_db2_alt_port=None,
+#        cfgdb_db_name=None, cfgdb_db_secure=None, cfgdb_driver_type=None, cfgdb_solid_tc=None, first_port=2020,
+#        cfgdb_fs=None, dsc_trace_level=None, check_mode=False, force=False):
+
+- name: Configure External HVDB (using "{{ externalize_hvdb_hvdb_db_type }}" database type)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.cluster.configuration.set
+    isamapi:
+      cfgdb_embedded:               "{{ externalize_hvdb_cfgdb_embedded }}"
+      dsc_client_grace_period:      "{{ externalize_hvdb_dsc_client_grace_period }}"
+      dsc_external_clients:         "{{ externalize_hvdb_dsc_external_clients }}"
+      dsc_maximum_session_lifetime: "{{ externalize_hvdb_dsc_maximum_session_lifetime }}"
+      dsc_worker_threads:           "{{ externalize_hvdb_dsc_worker_threads }}"
+      first_port:                   "{{ externalize_hvdb_first_port }}"
+      hvdb_address:                 "{{ externalize_hvdb_hvdb_address }}"
+      hvdb_db2_alt_address:         "{{ externalize_hvdb_db2_hvdb_alt_address }}"
+      hvdb_db_name:                 "{{ externalize_hvdb_hvdb_db_name }}"
+      hvdb_db_secure:               "{{ externalize_hvdb_hvdb_db_secure }}"
+      hvdb_db_type:                 "{{ externalize_hvdb_hvdb_db_type }}"
+      hvdb_driver_type:             "{{ externalize_hvdb_hvdb_driver_type }}"
+      hvdb_embedded:                "{{ externalize_hvdb_hvdb_embedded }}"
+      hvdb_port:                    "{{ externalize_hvdb_hvdb_port }}"
+      hvdb_user:                    "{{ externalize_hvdb_hvdb_user }}"
+      hvdb_password:                "{{ externalize_hvdb_hvdb_password }}"
+      primary_master:               "{{ externalize_hvdb_primary_master }}"
+      secondary_master:             "{{ externalize_hvdb_secondary_master }}"
+      master_ere:                   "{{ externalize_hvdb_master_ere }}"
+      tertiary_master:              "{{ externalize_hvdb_tertiary_master }}"
+      quaternary_master:            "{{ externalize_hvdb_quaternary_master }}"
+      dsc_port:                     "{{ externalize_hvdb_dsc_port }}"
+      dsc_use_ssl:                  "{{ externalize_hvdb_dsc_use_ssl }}"
+      hvdb_max_size:                "{{ externalize_hvdb_hvdb_max_size }}"
+      hvdb_solid_tc:                "{{ externalize_hvdb_hvdb_solid_tc }}"
+      cfgdb_db_type:                "{{ externalize_hvdb_cfgdb_db_type }}"
+      cfgdb_address:                "{{ externalize_hvdb_cfgdb_address }}"
+      cfgdb_port:                   "{{ externalize_hvdb_cfgdb_port }}"
+      cfgdb_user:                   "{{ externalize_hvdb_cfgdb_user }}"
+      cfgdb_password:               "{{ externalize_hvdb_cfgdb_password }}"
+      cfgdb_db2_alt_address:        "{{ externalize_hvdb_db2_cfgdb_alt_address }}"
+      cfgdb_db2_alt_port:           "{{ externalize_hvdb_db2_cfgdb_alt_port }}"
+      cfgdb_db_name:                "{{ externalize_hvdb_cfgdb_db_name }}"
+      cfgdb_db_secure:              "{{ externalize_hvdb_cfgdb_db_secure }}"
+      cfgdb_driver_type:            "{{ externalize_hvdb_cfgdb_driver_type }}"
+      cfgdb_solid_tc:               "{{ externalize_hvdb_cfgdb_solid_tc }}"
+      cfgdb_fs:                     "{{ externalize_hvdb_cfgdb_fs }}"
+      dsc_trace_level:              "{{ externalize_hvdb_dsc_trace_level }}"
+  when: externalize_hvdb_hvdb_address is defined
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
