@@ -33,7 +33,6 @@
       clean_ldap:          "{{ config_policyserver_clean_ldap }}"
       domain:              "{{ config_policyserver_domain }}"
       admin_cert_lifetime: "{{ config_policyserver_admin_cert_lifetime }}"
-      ssl_compliance:      "{{ config_policyserver_ssl_compliance }}"
       isam_host:           "{{ config_policyserver_isam_host }}"
       isam_port:           "{{ config_policyserver_isam_port }}"
 

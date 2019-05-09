@@ -28,7 +28,6 @@
       servers                  : "{{ set_dsc_config_servers }}"
   notify: 
     - Commit Changes
-    - Restart AAC Runtime
 
  # Commit activation of module before doing anything else
 - meta: flush_handlers
