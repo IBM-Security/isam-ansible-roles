@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to export runtime template root content
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - export
+  - runtime_template_root
+
+dependencies:
+  - start_config
