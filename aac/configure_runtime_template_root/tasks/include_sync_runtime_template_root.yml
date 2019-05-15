@@ -15,7 +15,7 @@
     isamapi:
       path: "{{ item.target }}"
   register: ret_obj
-  when: delete_files
+  when: (delete_files | upper) == "TRUE"
   failed_when: "(ret_obj.msg is defined and '500' in ret_obj.msg)"
 
 - name: Check local file
@@ -42,7 +42,7 @@
     isamapi:
         id: "{{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }}"
         type: "{{ local.element.type }}"
-  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and delete_files
+  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and (delete_files | upper) == "TRUE"
   with_items: "{{ locals.results }}"
   loop_control:
     loop_var: local
