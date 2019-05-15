@@ -28,4 +28,7 @@
     action: ibmsecurity.isam.aac.authentication.mechanisms.set
     isamapi: "{{ item }}"
   with_items: "{{ authentication_mechanisms }}"
+  when: item.name == name
+  loop_control:
+    label: "{{ item.name }}"
   notify: Commit Changes
