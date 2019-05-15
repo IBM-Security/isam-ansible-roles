@@ -1,0 +1,40 @@
+# main task to create api protection definition
+#   Example:
+#     api_protection:
+#       definitions:
+#         - name: oauth-provider
+#           description: API protection for OAuth service provider
+#           grantTypes:
+#             - AUTHORIZATION_CODE
+#           tcmBehavior: NEVER_PROMPT
+#           clients: 
+#             - name: TestApp
+#               companyName: IBM demo client for OAuth flows
+#               redirectUri: 
+#                 - https://localhost
+#               contractType: ADMINISTRATIVE
+#               definitionName: oauth-provider
+---
+- name: Create api protection client
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.api_protection.clients.update
+    isamapi: "{{ item.1 | combine({ 'definitionName': item.0.name }) }}"
+  when: item.1.name == client_name
+  with_subelements: 
+    - "{{ api_protection.definitions | default([]) }}"
+    - clients
+    - skip_missing: True
+  loop_control:
+    label: "{ 'definitionName': {{ item.0.name }}, 'clients[i].name': {{ item.1.name }} }"
+  notify: Commit Changes
