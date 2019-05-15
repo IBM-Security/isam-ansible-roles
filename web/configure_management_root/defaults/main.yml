@@ -6,5 +6,5 @@ inst_name: "{{ item.0.inst_name if (item is defined) else 'none' }}"
 target: "{{ item.1.target | default('none') }}"
 file: "{{ item.1.file if (item is defined and item.1 is defined and item.1.file is defined) else 'none' }}"
 filename: "{{ (inventory_dir + '/' + item.1.file) if (item.1.file is defined) else 'none' }}"
-delete_missing: False
-skip_import: False
+delete_missing: "FALSE"
+skip_imports: "FALSE"

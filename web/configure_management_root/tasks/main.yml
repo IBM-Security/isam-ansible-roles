@@ -123,7 +123,7 @@
   
 - name: Import management root zip files
   include: include_import_management_root.yml
-  when: item.1.action == 'import_file' and item.0.inst_name == inst_name and not skip_import
+  when: item.1.action == 'import_file' and item.0.inst_name == inst_name and (skip_imports | upper) != "TRUE"
   with_subelements:
     - "{{ instances }}"
     - management_root
@@ -131,7 +131,7 @@
   loop_control:
     label: "{{ item.1 }}"
 
-- name: Import a single management root zip file
+- name: Import a single runtime template zip file
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
