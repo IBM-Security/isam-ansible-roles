@@ -12,9 +12,10 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.web.reverse_proxy.junctions.add
-    isamapi: "{{ item.1 | exclude('servers') | combine({'reverseproxy_id':item.0.inst_name,'server_hostname':item.1.servers[0].server_hostname,'server_port':item.1.servers[0].server_port}) }}"
-
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.set
+    isamapi: "{{ item.1 | exclude('servers') | combine(item.1.servers[0]) | combine({'reverseproxy_id':item.0.inst_name}) }}"
+  register: ret_obj
+ 
 - name: Add junction servers
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -30,7 +31,7 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.junctions_server.add
     isamapi: "{{ server | combine({'reverseproxy_id':item.0.inst_name,'junction_point': item.1.junction_point,'junction_type': item.1.junction_type}) }}"
-  when: not force
+  when: ((ret_obj.changed != true and ansible_check_mode) or not ansible_check_mode) and not (server.server_hostname == item.1.servers[0].server_hostname and force)
   with_items: "{{ item.1.servers }}"
   loop_control:
     loop_var: server
