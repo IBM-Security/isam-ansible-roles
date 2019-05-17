@@ -29,7 +29,7 @@
     isamapi:
       name: "{{ item.name }}"
       path: "{{ item.path }}"
-      filename: "{{ inventory_dir }}/{{ item.filename }}"
+      filename: "{{ item.filename }}"
   with_items: "{{ runtime_templates }}"
   when: item.type == "file"
   notify: Commit Changes
