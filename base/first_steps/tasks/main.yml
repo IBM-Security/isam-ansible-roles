@@ -9,7 +9,8 @@
     force_basic_auth: yes
     status_code: 200, 403
     validate_certs: false
-    HEADER_Accept: "application/json"
+    headers:
+     "Accept": "application/json"
   check_mode: no
   register: result
 
