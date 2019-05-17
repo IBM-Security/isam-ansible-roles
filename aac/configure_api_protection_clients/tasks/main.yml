@@ -13,7 +13,6 @@
 #               redirectUri: 
 #                 - https://localhost
 #               contractType: ADMINISTRATIVE
-#               definitionName: oauth-provider
 ---
 - name: Configure api protection client
   isam:

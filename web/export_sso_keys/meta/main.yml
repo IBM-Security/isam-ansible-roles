@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to export a sso key files
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - export
+  - sso_key
+
+dependencies:
+  - start_config

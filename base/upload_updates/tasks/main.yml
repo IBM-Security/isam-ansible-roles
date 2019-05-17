@@ -1,0 +1,38 @@
+- name: Upload multiple updates [updates]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.available_updates.upload
+    isamapi:
+      file: "{{ item.file if((item.file | regex_search('^/')) == '/') else (inventory_dir +'/'+ item.file) }}"
+  when: item is defined and item.file is defined and file == item.file and filename == ( item.file | basename )
+  with_items: "{{ updates }}"
+  loop_control:
+    label: "(file=\"{{ item.file }}\")"
+
+- name: Upload single update file [update_file]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.available_updates.upload
+    isamapi:
+      file: "{{ update_file if((update_file | regex_search('^/')) == '/') else (inventory_dir +'/'+ update_file) }}"
+  when: update_file is defined

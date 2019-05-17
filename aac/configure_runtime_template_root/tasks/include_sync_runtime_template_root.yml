@@ -1,0 +1,80 @@
+- name: Get runtime template root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.directory.get
+    isamapi:
+      path: "{{ item.target }}"
+  register: ret_obj
+  when: delete_files
+  failed_when: "(ret_obj.msg is defined and '500' in ret_obj.msg)"
+
+- name: Check local file
+  stat: path="{{ inventory_dir }}/{{ item.directory }}/{{ element.path }}"
+  with_items: "{{ (ret_obj.data.contents if (ret_obj.data is defined and ret_obj.data.contents is defined) else (ret_obj.data if (ret_obj.data is defined) else ([]))) | flatten_management_root }}"
+  loop_control:
+    loop_var: element
+  register: locals
+
+- name: Delete missing local files on the server 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.root.delete
+    isamapi:
+        id: "{{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }}"
+        type: "{{ local.element.type }}"
+  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and delete_files
+  with_items: "{{ locals.results }}"
+  loop_control:
+    loop_var: local
+    label: "(file={{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }})"
+  notify: Commit Changes
+
+- name: list of directory update items
+  set_fact: 
+    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
+  when: create.state == "directory"
+  with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
+  loop_control:
+    loop_var: create
+    label: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
+  register: directory_update_result  
+- name: consolidate uptate items in a list of updates [directory]
+  set_fact: 
+    directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
+
+- name: list of file update items
+  set_fact: 
+    file_update_item: "{{ {'action': 'upload', 'target': (item.target+'/'+ upload.path) if (item.target != '') else (upload.path), 'type': upload.state, 'file': upload.src } }}"
+  when: upload.state == "file"
+  with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
+  loop_control:
+    loop_var: upload
+    label: "{{ {'action': 'upload', 'type': item.state, 'target': (item.target+'/'+ upload.path) if (item.target != '') else (upload.path), 'file': upload.src } }}"
+  register: file_update_result
+
+- name: consolidate uptate items in a list of updates [files]
+  set_fact: 
+    file_updates: "{{ file_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.file_update_item') | list }}"
+
+- set_fact:
+    runtime_template_root: "{{ hostvars[inventory_hostname].runtime_template_root }} + {{ directory_updates }} + {{ file_updates }}"

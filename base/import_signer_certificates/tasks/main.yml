@@ -1,0 +1,27 @@
+# main task to import signer certificates
+#   Example:
+#      signer_certificates:
+#         -   kdb_id: "{{ item.kdb_id }}"
+#             cert: "{{ inventory_dir }}/{{ item.cert  }}"
+#             label: "{{ item.label }}"
+---
+- name: Import signer certificates
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
+    isamapi:
+      kdb_id: "{{ item.kdb_id }}"
+      cert: "{{ inventory_dir }}/{{ item.cert  }}"
+      label: "{{ item.label }}"
+  with_items: "{{ signer_certificates }}"
+  notify: Commit Changes

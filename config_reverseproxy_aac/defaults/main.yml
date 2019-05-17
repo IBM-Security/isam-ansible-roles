@@ -1,0 +1,10 @@
+# Please provide the following variable at the very minimum
+#config_reverseproxy_aac_instance_id:
+
+# The following should be overriden as needed
+config_reverseproxy_aac_hostname:   "localhost"
+config_reverseproxy_aac_port:        443
+config_reverseproxy_aac_username:    "easuser"
+config_reverseproxy_aac_password:    "passw0rd"
+config_reverseproxy_aac_reuse_certs: False
+config_reverseproxy_aac_reuse_acls:  False

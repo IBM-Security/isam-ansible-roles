@@ -3,7 +3,6 @@
 #     sts_chains:
 #       - name: TC_STSUU_TO_LTPA_CHAIN
 #         chainName: STSUU_TO_LTPA_TEMPLATE
-#         description: Create LTPA-Token with specific DN and REALM for TokenChanger
 #         requestType: http://schemas.xmlsoap.org/ws/2005/02/trust/Issue
 #         issuer:
 #           address: ISAM-STS

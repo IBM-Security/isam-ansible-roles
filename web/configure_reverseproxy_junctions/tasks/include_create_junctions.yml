@@ -13,7 +13,7 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.junctions.add
-    isamapi: "{{ item.1 | exclude('servers') | combine({'reverseproxy_id':item.0.inst_name,'server_hostname':item.1.servers[0].server_hostname,'server_port':item.1.servers[0].server_port}) }}" 
+    isamapi: "{{ item.1 | exclude('servers') | combine({'reverseproxy_id':item.0.inst_name,'server_hostname':item.1.servers[0].server_hostname,'server_port':item.1.servers[0].server_port}) }}"
 
 - name: Add junction servers
   isam:
@@ -29,7 +29,8 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.junctions_server.add
-    isamapi: "{{ server | combine({'reverseproxy_id':item.0.inst_name,'junction_point': item.1.junction_point,'junction_type': item.1.junction_type}) }}" 
+    isamapi: "{{ server | combine({'reverseproxy_id':item.0.inst_name,'junction_point': item.1.junction_point,'junction_type': item.1.junction_type}) }}"
+  when: not force
   with_items: "{{ item.1.servers }}"
   loop_control:
     loop_var: server
