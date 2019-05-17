@@ -1,0 +1,19 @@
+galaxy_info:
+  author: IBM
+  description: Role that configure a reverse proxy for AAC (replaces isamcfg)
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - reverseproxy
+  - aac
+  - configuration
+  - isamcfg
+
+dependencies:
+  - start_config

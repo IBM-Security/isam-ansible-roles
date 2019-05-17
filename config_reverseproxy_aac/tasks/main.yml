@@ -1,0 +1,23 @@
+# Commit all changes made to date before configuring aac into reverse proxy
+- meta: flush_handlers
+
+- name: Configure Reverse Proxy {{config_reverseproxy_aac_instance_id}} for AAC
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ lmi_port }}"
+    log: "{{ log_level }}"
+    force: "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.aac_configuration.config
+    isamapi:
+      instance_id: "{{ config_reverseproxy_aac_instance_id }}"
+      hostname:    "{{ config_reverseproxy_aac_hostname }}"
+      port:        "{{ config_reverseproxy_aac_port }}"
+      username:    "{{ config_reverseproxy_aac_username }}"
+      password:    "{{ config_reverseproxy_aac_password }}"
+      reuse_certs: "{{ config_reverseproxy_aac_reuse_certs }}"
+      reuse_acls:  "{{ config_reverseproxy_aac_reuse_acls }}"
+  notify:
+    - Commit Changes
+    - Restart Reverse Proxy

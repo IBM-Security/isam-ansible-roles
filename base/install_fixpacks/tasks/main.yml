@@ -1,0 +1,42 @@
+- name: Install multiple fixpacks [fix_packs]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.fixpack.install
+    isamapi:
+      file: "{{ item.file if((item.file | regex_search('^/')) == '/') else (inventory_dir +'/'+ item.file) }}"
+  when: item is defined and item.file is defined and file == item.file and filename == ( item.file | basename )
+  with_items: "{{ fix_packs }}"
+  register: result
+  fail_when: result.rc not in ["0"]
+  loop_control:
+    label: "(file=\"{{ item.file }}\")"
+
+- name: Install single fixpack file [fix_pack_file]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.fixpack.install
+    isamapi:
+      file: "{{ fix_pack_file if((fix_pack_file | regex_search('^/')) == '/') else (inventory_dir +'/'+ fix_pack_file) }}"
+  when: fix_pack_file is defined
+  register: result
+  fail_when: result.rc not in ["0"]  

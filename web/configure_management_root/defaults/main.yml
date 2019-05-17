@@ -1,7 +1,7 @@
 # Default variables for configuration of management root content
 instances: []
 
-# variables to control whether to configure one instance and/or one target at a time or everythin from the configurations
+# variables to control whether to configure one instance and/or one target at a time or everything from the configurations
 inst_name: "{{ item.0.inst_name }}"
 target: "{{ item.1.target | default('none') }}"
 file: "{{ item.1.file | default('none') }}"
