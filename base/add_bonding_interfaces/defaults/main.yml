@@ -1,0 +1,7 @@
+---
+# defaults file for bonding_interfaces
+#
+# Default values for adding an ipv4 address - override as needed
+# interfaces: []
+# possible values: [interfaces_ipv4, interfaces_ipv6, interfaces_vlan]
+add_interfaces_action: interfaces_vlan
