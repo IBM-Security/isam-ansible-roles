@@ -33,11 +33,15 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.directory.create
     isamapi:
-      id: "{{ item.id }}"
-  when: item.action == 'create' and item.type == 'directory' and item.id is defined and item.id == id
-  with_items: "{{ runtime_template_root }}"
+      name: "{{ item.name }}"
+      path: "{{ item.path }}"
+  when: runtime_template_root is defined and item.action == 'create' and item.type == 'directory' and item.name is defined
+  loop: "{{ runtime_template_root }}"
+  loop_control:
+   label: "Creating {{ item.name | default('nothing') }} in {{ item.path | default('nowhere') }}"
   notify: Commit Changes
 
+  # def import_file(isamAppliance, path, name, filename, check_mode=False, force=False):
 - name: Upload runtime template root files
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -53,7 +57,8 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.file.import_file
     isamapi:
-      id: "{{ item.target }}"
+      path: "{{ item.target | dirname }}"
+      name: "{{ item.target | basename }}"
       filename: "{{ item.file }}"
   when: item.action == 'upload' and item.type == 'file' and item.target is defined and item.file is defined and item.target == target and item.file == file
   with_items: "{{ runtime_template_root }}"
