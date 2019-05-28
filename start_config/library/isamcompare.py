@@ -23,11 +23,11 @@ def main():
             appliance1=dict(required=True),
             lmi_port1=dict(required=False, default=443, type='int'),
             username1=dict(required=False),
-            password1=dict(required=True),
+            password1=dict(required=True, no_log=True),
             appliance2=dict(required=True),
             lmi_port2=dict(required=False, default=443, type='int'),
             username2=dict(required=False),
-            password2=dict(required=True),
+            password2=dict(required=True, no_log=True),
             isamapi=dict(required=False, type='dict')
         ),
         supports_check_mode=False
