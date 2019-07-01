@@ -1,0 +1,3 @@
+# Default variables for confiuratino of runtime components
+policyserver_runtime: 
+  entries: []
