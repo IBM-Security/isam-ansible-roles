@@ -1,0 +1,20 @@
+# main task to change appliance admin user password
+- name: Change admin user password
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ old_password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.admin.set_pw
+    isamapi:
+      oldPassword: "{{ old_password }}"
+      newPassword: "{{ password }}"
+      sessionTimeout: "{{ sessionTimeout | default(omit) }}"
+  notify: Commit Changes
