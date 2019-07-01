@@ -33,8 +33,9 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.directory.create
     isamapi:
-      id: "{{ item.id }}"
-  when: item.action == 'create' and item.type == 'directory' and item.id is defined and item.id == id
+      path: "{{ item.path }}"
+      name: "{{ item.name }}"
+  when: item.action == 'create' and item.type == 'directory' and item.path is defined and item.path == path and item.name is defined and item.name == name
   with_items: "{{ runtime_template_root }}"
   notify: Commit Changes
 
@@ -53,7 +54,8 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.file.import_file
     isamapi:
-      id: "{{ item.target }}"
+      path: "{{ (item.target | dirname ) }}"
+      name: "{{ (item.target | basename ) }}
       filename: "{{ item.file }}"
   when: item.action == 'upload' and item.type == 'file' and item.target is defined and item.file is defined and item.target == target and item.file == file
   with_items: "{{ runtime_template_root }}"
