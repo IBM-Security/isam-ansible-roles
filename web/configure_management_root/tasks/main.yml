@@ -81,7 +81,7 @@
     - management_root
     - skip_missing: True
   loop_control:
-    label:  "(action=\"{{ item.1.action }}\", inst_name=\"{{ item.0.inst_name }}\", filename=\"{{ item.1.file | default(None) }}\", target=\"{{ item.1.target | default(None) }}\", type=\"{{ item.1.type | default(None) }}\")"
+    label:  "(action=\"{{ item.1.action }}\", inst_name=\"{{ item.0.inst_name }}\", filename=\"{{ item.1.file if (item is defined and item.1 is defined and item.1.file is defined) else 'none' }}\", target=\"{{ item.1.target | default(None) }}\", type=\"{{ item.1.type | default(None) }}\")"
   notify: Commit Changes
 
 - name: Delete management root file/directory
@@ -118,4 +118,35 @@
     - skip_missing: True
   loop_control:
     label:  "(action=\"{{ item.1.action }}\", type=\"{{ item.1.type | default('file') }}\", inst_name=\"{{ item.0.inst_name }}\", target=\"{{ item.1.target | default('none') }}\")"
+  notify: Commit Changes
+  
+- name: Import management root zip files
+  include: include_import_management_root.yml
+  when: item.1.action == 'import_file' and item.0.inst_name == inst_name and (skip_imports | upper) != "TRUE"
+  with_subelements:
+    - "{{ instances }}"
+    - management_root
+    - skip_missing: True
+  loop_control:
+    label: "{{ item.1 }}"
+
+- name: Import a single runtime template zip file
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.all.import_zip
+    isamapi: 
+      filename: "{{ inventory_dir }}/{{ file }}"
+      instance_id: "{{ inst_name }}"
+      delete_missing: "{{ delete_missing }}"
+  when: file is defined and file != 'none' and inst_name is defined and inst_name != 'none'
   notify: Commit Changes
