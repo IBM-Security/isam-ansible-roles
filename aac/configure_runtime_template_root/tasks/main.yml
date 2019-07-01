@@ -55,7 +55,7 @@
     action: ibmsecurity.isam.aac.runtime_template.file.import_file
     isamapi:
       path: "{{ (item.target | dirname ) }}"
-      name: "{{ (item.target | basename ) }}
+      name: "{{ (item.target | basename ) }}"
       filename: "{{ item.file }}"
   when: item.action == 'upload' and item.type == 'file' and item.target is defined and item.file is defined and item.target == target and item.file == file
   with_items: "{{ runtime_template_root }}"
