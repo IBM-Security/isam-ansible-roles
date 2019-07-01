@@ -1,2 +1,4 @@
 # Default variables for uploading http transformation files
 http_transformations: []
+
+name: "{{ item.file | basename }}"
