@@ -21,3 +21,5 @@
     isamapi: "{{ item }}"
   with_items: "{{ sysaccounts }}"
   notify: Commit Changes
+  loop_control:
+    label: "item={u'password': u'**********', u'id': u'{{ item.id }}'}"
