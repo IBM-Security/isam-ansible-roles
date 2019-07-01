@@ -1,2 +1,4 @@
 # Default variables for uploading jmt files
 dynurl_files: []
+
+name: "{{ item.file | basename }}"
