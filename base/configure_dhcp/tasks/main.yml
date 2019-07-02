@@ -1,0 +1,21 @@
+# main task to configure dhcp on an interface
+- name: Configure dhcp on interface
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.base.network.{{ configure_dhcp_action }}.set_dhcp"
+    isamapi: "{{ item.dhcp | combine({ 'label': item.label })}}"
+  with_items: "{{ interfaces }}"
+  when: item.dhcp is defined and item.label is defined
+  loop_control:
+    label: "interface: [{{ item.label }}], dhcp: [{{ item.dhcp | default(none)}}]"
+  notify: Commit Changes
