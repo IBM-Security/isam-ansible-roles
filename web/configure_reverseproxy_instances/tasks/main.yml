@@ -3,7 +3,10 @@
 #     instances:
 #       -   inst_name: default
 #           entries:
-#               - { method: set, stanza: server, entry_name: server-name, value: default }
+#               - { method: set, stanza: server, entries: [[server-name, default]] }
+#               - { method: add, stanza: server, entries: [[server-name, default]] }
+#               - { method: delete, stanza: server, entry_id: server-name, value_id: default }
+#               - { method: delete_all, stanza: server, entry_id: server-name }
 ---
 - name: Configure reverse proxy instances
   isam:
@@ -18,13 +21,13 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: "ibmsecurity.isam.web.reverse_proxy.configuration.entry.{{ action_method }}"
-    isamapi: "{{ action_params[action_method] }}"
+    action: "ibmsecurity.isam.web.reverse_proxy.configuration.entry.{{ item.1.method }}"
+    isamapi: "{{ item.1 | exclude('method') | combine({ 'reverseproxy_id': item.0.inst_name }) | include_only(entry_name) }}"
   with_subelements:
     - "{{ instances }}"
     - entries
-    - skip_missing: True
-  when: item.0.inst_name == inst_name and item.1.stanza == stanza and item.1.entry_name == entry_name
+    - skip_missing: true
+  when: "item.0.inst_name == inst_name and item.1.method == method and item.1.stanza_id == stanza_id and ( item.1.entries is defined and ((item.1.entries | include_only(entry_name)) != []) or item.1.entry_id is defined)"
   loop_control:
-    label:  "(inst_name:[{{ item.0.inst_name }}], stanza: [{{ item.1.stanza }}], entry_name:[{{ item.1.entry_name }}], value:[{{ item.1.value }}])"
+    label: "( method: [{{ item.1.method }}], inst_name:[{{ item.0.inst_name }}], stanza_id: [{{ item.1.stanza_id }}], entries: [{{ item.1.entries if item.1.entries is defined else 'None'}}], entry_id: [{{ item.1.entry_id if item.1.entry_id is defined else 'None'}}], value_id: [{{ item.1.value_id if item.1.value_id is defined else 'None'}}])"
   notify: Commit Changes
