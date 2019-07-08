@@ -1,7 +1,6 @@
 # Default variables for configuration of reverse proxy junctions
 instances: []
 
-inst_name: "{{ item.inst_name }}"
 
 # Configuration entry to control, if not listed junction servers should be deleted on the server
 delete_junction_server: false
