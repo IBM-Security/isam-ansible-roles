@@ -20,7 +20,15 @@
 
 - name: Output of PDAdmin command execution
   debug: msg="{{ ret_obj['data']['result'].split('\n') }}"
-  when: (ret_obj is defined and 'result' in ret_obj['data'] and ret_obj|succeeded and (not ansible_check_mode))
+  when: > 
+    ret_obj is defined and 
+    (
+      'skipped' in ret_obj and ret_obj['skipped'] != true or
+      'skipped' not in ret_obj
+    ) and
+    'result' in ret_obj['data'] and 
+    ret_obj|succeeded and 
+    (not ansible_check_mode)
 
 - name: Error Messages *if* PDAdmin command failed
   debug: msg="{{ ret_obj['log'].split('\n') }}"
