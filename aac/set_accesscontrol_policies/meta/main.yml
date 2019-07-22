@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure authentication policies
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.5
+
+  galaxy_tags:
+  - v1.0.0
+  - isam
+  - ibm
+  - configure
+  - accesscontrol_policies
+
+dependencies:
+  - start_config

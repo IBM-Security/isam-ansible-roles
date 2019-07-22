@@ -1,0 +1,4 @@
+# Default variables for configuration of authentication policies
+accesscontrol_policies: []
+# Default domain
+aac_access_control_domain: 'Default'
