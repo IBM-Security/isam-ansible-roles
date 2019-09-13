@@ -5,7 +5,7 @@ import logging.config
 import sys
 import importlib
 from ansible.module_utils.basic import AnsibleModule
-from StringIO import StringIO
+from io import StringIO
 import datetime
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
@@ -14,6 +14,10 @@ from ibmsecurity.appliance.ibmappliance import IBMError
 from ibmsecurity.user.applianceuser import ApplianceUser
 
 logger = logging.getLogger(sys.argv[0])
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes)
 
 
 def main():
@@ -97,13 +101,13 @@ def main():
         isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
     else:
         isam_server = ISAMApplianceAdminProxy(adminProxyHostname=adminProxyHostname, user=u, hostname=appliance, adminProxyProtocol=adminProxyProtocol, adminProxyPort=adminProxyPort, adminProxyApplianceShortName=adminProxyApplianceShortName)
-        
+
     # Create options string to pass to action method
     options = 'isamAppliance=isam_server, force=' + str(force)
     if module.check_mode is True:
         options = options + ', check_mode=True'
     if isinstance(module.params['isamapi'], dict):
-        for key, value in module.params['isamapi'].iteritems():
+        for key, value in module.params['isamapi'].items():
             if isinstance(value, basestring):
                 options = options + ', ' + key + '="' + value + '"'
             else:
