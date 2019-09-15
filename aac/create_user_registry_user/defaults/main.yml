@@ -1,0 +1,4 @@
+# defaults for creating an embedded ldap user
+# Both of these are required variables
+user_registry_user_username: null
+user_registry_user_password: null
