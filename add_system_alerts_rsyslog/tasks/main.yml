@@ -8,7 +8,7 @@
     force:     "{{ force }}"
     action: ibmsecurity.isam.base.system_alerts.rsyslog.add
     isamapi:
-      name          : "RSyslog Alert to {{ add_system_alerts_rsyslog_collector }}"
+      name          : "{{ add_system_alerts_rsyslog_name | default('RSyslog Alert to ' + add_system_alerts_rsyslog_collector) }}"
       collector     : "{{ add_system_alerts_rsyslog_collector }}"
       collectorPort : "{{ add_system_alerts_rsyslog_collectorPort }}"
       collectorLeef : "{{ add_system_alerts_rsyslog_collectorLeef }}"
