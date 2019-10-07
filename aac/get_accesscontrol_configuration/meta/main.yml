@@ -1,0 +1,19 @@
+galaxy_info:
+  author: IBM
+  description: Role to get access control policies and stuff
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.5
+
+  galaxy_tags:
+  - v1.0.0
+  - isam
+  - ibm
+  - configure
+  - access_control_policies
+  - aac
+
+dependencies:
+  - start_config

@@ -1,0 +1,30 @@
+# Role to set policy based on policy file
+
+---
+- name: Create Policy based on policy files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policies.set_file
+    isamapi:
+           name: "{{ item.name }}"
+           attributesrequired: "{{ item.attributesrequired }}"
+           policy_file: "{{ item.policy_file }}"
+           description: "{{ item.description | default(omit) }}"
+           dialect: "{{ item.dialect | default(omit) }}"
+           predefined: "{{ item.predefined | default(omit) }}"
+           new_name: "{{ item.name | default(omit) }}"
+  loop: "{{ accesscontrol_policies }}"
+  loop_control:
+      label: "Configuring {{ item.name }} with policy file {{ item.policy_file | default('skipping - no file defined ...') }}"
+  when: item.policy_file is defined
+  notify: Commit Changes

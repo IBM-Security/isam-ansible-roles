@@ -1,0 +1,138 @@
+- name: Get all Access Control Policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policies.get_all
+    isamapi:
+  register: ret_obj
+
+- name: Set variable get_accesscontrolpolicies for use by rest of playbook
+  set_fact:
+       get_accesscontrolpolicies: "{{ ret_obj.data | default([]) }}"
+       unique_code: "{{ 10000 | random }}"
+
+- name: Make sure destination directory "{{ access_control_output_dir }}/{{ unique_code }}" exists
+  become: "{{ access_control_output_become | default(false) }}"
+  file  :
+     path   : "{{ access_control_output_dir }}/{{ unique_code }}"
+     state  : directory
+     mode   : "{{ access_control_output_export_mode }}"
+     group  : "{{ access_control_output_export_group }}"
+     recurse: true
+
+- name: Create a file with the output "{{ access_control_output_dir }}/{{ unique_code }}/access_control_policies.yaml"
+  copy:
+    content: "{{ get_accesscontrolpolicies | to_nice_yaml }}"
+    dest: "{{ access_control_output_dir }}/{{ unique_code }}/access_control_policies.yaml"
+
+- name: Export all policies to XACML
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policies.export_xacml
+    isamapi:
+           name: "{{ item.name }}"
+           filename: "{{ access_control_output_dir }}/{{ unique_code }}/{{ item.name.split(' ') | join('_') }}.xml"
+  loop: "{{ get_accesscontrolpolicies }}"
+  loop_control:
+      label: "EXPORT : {{ access_control_output_dir }}/{{ unique_code }}/{{ item.name.split(' ') | join('_') }}.xml"
+  when: get_accesscontrolpolicies is defined
+
+- name: Get all Access Control Policy Resources
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.get_all
+    isamapi:
+  register: ret_obj
+
+- name: Set variable get_accesscontrolpolicyresources for use by rest of playbook
+  set_fact:
+       get_accesscontrolpolicyresources: "{{ ret_obj.data | default([]) }}"
+
+- name: Create a file with the output "{{ access_control_output_dir }}/{{ unique_code }}/access_control_policyresources.yaml"
+  copy:
+    content: "{{ get_accesscontrolpolicyresources | to_nice_yaml }}"
+    dest: "{{ access_control_output_dir }}/{{ unique_code }}/access_control_policyresources.yaml"
+
+- name: Authenticate to the Security Access Manager domain "{{ webseal_domain }}"
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.authenticate
+    isamapi:
+           username: "{{ sec_master_id }}"
+           password: "{{ sec_master_pwd }}"
+           domain: "{{ webseal_domain }}"
+  register: ret_obj
+
+- name: Create a file with the output
+  copy:
+    content: "{{ ret_obj.data | default([]) | to_nice_yaml }}"
+    dest: "{{ access_control_output_dir }}/{{ unique_code }}/authenticate.yaml"
+
+- name: Get all Access Control Policy Attachments
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policy_attachments.get_attachments
+    isamapi:
+           server: "{{ item.server }}"
+           resourceUri: "{{ item.resourceUri }}"
+  loop: "{{ get_accesscontrolpolicyresources }}"
+  when: get_accesscontrolpolicyresources is defined and get_accesscontrolpolicyresources != []
+  register: ret_obj_loop
+
+- name: Set variable get_accesscontrolpolicyattachments for use by rest of playbook
+  set_fact:
+       get_accesscontrolpolicyattachments: "{{ ret_obj_loop | default([]) | json_query('results[*].item') }}"
+
+- name: Create a file with the output
+  copy:
+    content: "{{ get_accesscontrolpolicyattachments | to_nice_yaml }}"
+    dest: "{{ access_control_output_dir }}/{{ unique_code }}/access_control_policyattachments.yaml"
