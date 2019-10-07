@@ -1,2 +1,4 @@
 # Default variables for uploading ltpa files
 ltpa_files: []
+
+name: "{{ item.file | basename }}"

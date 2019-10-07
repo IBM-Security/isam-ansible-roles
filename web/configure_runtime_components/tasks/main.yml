@@ -1,0 +1,36 @@
+# main task to set runtime components
+# Example:
+#   policyserver_runtime:
+#     entries:
+#       - { resource_id: "ldap.conf", stanza_id: "bind-credentials", entry_id: "bind-dn", value_id: "{{ ldap_dn }}" }
+#       - { resource_id: "ldap.conf", stanza_id: "bind-credentials", entry_id: "bind-pwd", value_id: "{{ ldap_pwd }}" }
+---
+- name: Set runtime components
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.web.runtime.configuration.entry.{{ item.method }}"
+    isamapi: "{{ item | exclude('method') }}"
+  with_items: "{{ policyserver_runtime.entries if (policyserver_runtime.entries is defined and (policyserver_runtime.entries != None)) else [] }}"
+  when: >
+    item.method is defined and
+    item.resource_id == resource_id and 
+    item.stanza_id == stanza_id and 
+    ( 
+      (item.entries is defined and (item.entries | include_only(entry_id)) != [] ) or
+      (item.entry_id is defined)
+    )
+  loop_control:
+    label: "( method: [{{ item.method }}], resource_id: [{{ item.resource_id }}], stanza_id: [{{ item.stanza_id }}], entries: [{{ item.entries if item.entries is defined else 'None'}}], entry_id: [{{ item.entry_id if item.entry_id is defined else 'None'}}], value_id: [{{ item.value_id if item.value_id is defined else 'None'}}])"
+  notify: 
+    - Commit Changes
+    - Restart Web Runtime

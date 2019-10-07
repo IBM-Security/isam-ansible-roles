@@ -24,4 +24,5 @@
       filename: "{{ inventory_dir }}/{{ item.file }}"
       instance_id: "{{ item.instance_id }}"
   with_items: "{{ management_root_files }}"
+  when: (item.file | basename) == name and item.instance_id == inst_name 
   notify: Commit Changes

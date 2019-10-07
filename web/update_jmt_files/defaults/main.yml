@@ -1,2 +1,4 @@
 # Default variables for updating jmt files
 jmt_files: []
+
+name: "{{ item.file | basename }}"

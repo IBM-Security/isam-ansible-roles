@@ -21,4 +21,5 @@
       id: "{{ item.file | basename }}"
       jmt_config_data: "{{ lookup('file', inventory_dir + '/' + item.file) | replace('\n', '\\n') | replace('\"','\\\"') }}"
   with_items: "{{ jmt_files }}"
+  when: (item.file | basename) == name
   notify: Commit Changes

@@ -15,7 +15,7 @@
     isamapi:
       path: "{{ item.target }}"
   register: ret_obj
-  when: delete_files
+  when: (delete_files | upper) == "TRUE"
   failed_when: "(ret_obj.msg is defined and '500' in ret_obj.msg)"
 
 - name: Check local file
@@ -42,7 +42,7 @@
     isamapi:
         id: "{{ (item.target +'/'+ local.element.path) if (item.target != '') else (local.element.path) }}"
         type: "{{ local.element.type }}"
-  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and delete_files
+  when: (local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.target]))) and (delete_files | upper) == "TRUE"
   with_items: "{{ locals.results }}"
   loop_control:
     loop_var: local
@@ -51,12 +51,12 @@
 
 - name: list of directory update items
   set_fact: 
-    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
+    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'path': ((item.target+'/'+create.path) | dirname) if (item.target != '') else (create.path | dirname), 'name': (create.path | basename) } }}"
   when: create.state == "directory"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
     loop_var: create
-    label: "{{ {'action': 'create', 'type': create.state, 'id': (item.target+'/'+create.path) if (item.target != '') else (create.path)} }}"
+    label: "{{ {'action': 'create', 'type': create.state, 'path': ((item.target+'/'+create.path) | dirname) if (item.target != '') else (create.path | dirname), 'name': (create.path | basename) } }}"
   register: directory_update_result  
 - name: consolidate uptate items in a list of updates [directory]
   set_fact: 

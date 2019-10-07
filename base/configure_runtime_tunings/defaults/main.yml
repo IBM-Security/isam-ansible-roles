@@ -1,0 +1,5 @@
+# Default variables for configuration of runtime tuning parameters
+runtime_tuning: []
+
+# Default variables to filter for configuration of specific runtime tuning parameters at runtime
+option: "{{ item.option }}"

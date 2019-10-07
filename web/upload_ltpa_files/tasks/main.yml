@@ -21,4 +21,5 @@
       id: "{{ item.file | basename }}"
       ltpa_keyfile: "{{ inventory_dir }}/{{ item.file }}"
   with_items: "{{ ltpa_files }}"
+  when: (item.file | basename) == name
   notify: Commit Changes

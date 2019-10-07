@@ -1,0 +1,4 @@
+# Default variables for confiuratino of runtime components
+resource_id: "{{ item.resource_id }}"
+stanza_id: "{{ item.stanza_id }}"
+entry_id: ""

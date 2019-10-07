@@ -2,10 +2,13 @@
 runtime_template_root: []
 
 # variables to control whether to configure one instance and/or one target at a time or everything from the configurations
-delete_files: false
+delete_files: "FALSE"
+delete_missing: "FALSE"
+skip_imports: "FALSE"
+skip_sync: "FALSE"
 
 path: "{{ item.path | default('none') }}"
 name: "{{ item.name | default('none') }}"
 id: "{{ item.id | default('none') }}"
-file: "{{ item.file | default('none') }}"
+file: "{{ item.file if (item is defined and item.file is defined) else 'none'}}"
 target: "{{ item.target | default('none') }}"
