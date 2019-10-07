@@ -5,7 +5,7 @@ import logging.config
 import sys
 import importlib
 from ansible.module_utils.basic import AnsibleModule
-from StringIO import StringIO
+from io import StringIO
 import datetime
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
@@ -24,9 +24,9 @@ def main():
             appliance=dict(required=True),
             lmi_port=dict(required=False, default=443, type='int'),
             username=dict(required=False),
-            password=dict(required=True),
+            password=dict(required=True, no_log=True),
             isamuser=dict(required=False),
-            isampwd=dict(required=True),
+            isampwd=dict(required=True, no_log=True),
             isamdomain=dict(required=False, default='Default'),
             commands=dict(required=True, type='list'),
             adminProxyProtocol=dict(required=False, default='https', choices=['http','https']),
@@ -94,13 +94,15 @@ def main():
         u = ApplianceUser(password=password)
     else:
         u = ApplianceUser(username=username, password=password)
-    
-	# Create appliance object to be used for all calls
+
+    # Create appliance object to be used for all calls
     # if adminProxy hostname is set, use the ISAMApplianceAdminProxy
     if adminProxyHostname == '' or adminProxyHostname is None or omitAdminProxy:
         isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
     else:
-        isam_server = ISAMApplianceAdminProxy(adminProxyHostname=adminProxyHostname, user=u, hostname=appliance, adminProxyProtocol=adminProxyProtocol, adminProxyPort=adminProxyPort, adminProxyApplianceShortName=adminProxyApplianceShortName)
+        isam_server = ISAMApplianceAdminProxy(adminProxyHostname=adminProxyHostname, user=u, hostname=appliance,
+                                              adminProxyProtocol=adminProxyProtocol, adminProxyPort=adminProxyPort,
+                                              adminProxyApplianceShortName=adminProxyApplianceShortName)
 
     if isamuser == '' or isamuser is None:
         iu = ISAMUser(password=isampwd)

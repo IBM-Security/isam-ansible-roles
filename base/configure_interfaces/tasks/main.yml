@@ -1,0 +1,93 @@
+---
+# Configure interface with custom isamapi parameters
+# Therefore combining label with interface parameter:
+# Example: 
+#  interfaces:
+#    - label:  '1.1'
+#      addresses:
+#       - address:            "192.168.230.130"
+#         maskOrPrefix:       "24"
+#         allowManagement:    true
+#         enabled:            true
+#       - address:            "192.168.230.131"
+#         maskOrPrefix:       "24"
+#         allowManagement:    false
+#         enabled:            true
+- name: Add interfaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.base.network.{{ configure_interfaces_action }}.add"
+    isamapi:
+      label: "{{ item.0.label }}"
+      address: "{{ item.1.address }}"
+      maskOrPrefix: "{{ item.1.maskOrPrefix }}"
+      allowManagement: "{{ item.1.allowManagement }}"
+      enabled: "{{ item.1.enabled | default(False) }}"
+  loop:  "{{ interfaces | subelements('addresses', {'skip_missing': True}) }}"
+  loop_control:
+    label: "Processing interface {{ item.0.label }} and ip address {{ item.1.address }}"
+  notify: Commit Changes
+
+- name: Get interfaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.network.interfaces._get_interface
+    isamapi:
+      label: "{{ item.label }}"
+  loop:  "{{ interfaces }}"
+  when: (delete_missing | upper) == 'TRUE' and item.label is defined
+  register: ret_obj
+  loop_control:
+    label: "Getting interface {{ item.label }}"
+  notify: Commit Changes
+
+- vars:
+    filter_current_interfaces: "[].{label: label , addresses: ipv4.addresses[].address}"
+  set_fact:
+    addresses_list_server: "{{ ret_obj.results | json_query(filter_current_interfaces) }}"
+
+- vars:
+    filter_current_interfaces: "[? label=='{{ item.0.label }}'].addresses[].address"
+  name: Delete missing ip addresses from interfaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.base.network.{{ configure_interfaces_action }}.delete"
+    isamapi:
+      label: "{{ item.0.label }}"
+      address: "{{ item.1 }}"
+      # vlanId: {{ item.1.vlanId }}
+  when: item.1 is not in (interfaces | json_query(filter_current_interfaces)) and (delete_missing | upper) == 'TRUE'
+  with_subelements: 
+    - "{{ addresses_list_server }}"
+    - addresses
+  notify: Commit Changes

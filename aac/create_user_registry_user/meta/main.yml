@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that creates an embedded ldap user
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.6
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - password
+  - user_registry
+  - create
+
+dependencies:
+  - start_config

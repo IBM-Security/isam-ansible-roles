@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to confiure access control attributes
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - configure
+  - attributes
+
+dependencies:
+  - start_config

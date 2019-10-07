@@ -1,17 +1,17 @@
 - name: Set Feature and Access into Mgmt Azn Role
- isam:
-    appliance: "{{ inventory_hostname }}"
-    username:  "{{ username }}"
-    password:  "{{ password }}"
-    lmi_port:  "{{ lmi_port }}"
-    log:       "{{ log_level }}"
-    force:     "{{ force }}"
-    action: ibmsecurity.isam.base.management_authorization.role_feature.set
-    isamapi:
-      name:         "{{ item.name }}"
-      feature_name: "{{ item.feature_name }}"
-      access:       "{{ item.access | default(None) }}"
- with_items: "{{ set_mgmtazn_role_features }}"
- when: set_mgmtazn_role_features is defined
- notify:
-   - Commit Changes
+  isam:
+     appliance: "{{ inventory_hostname }}"
+     username:  "{{ username }}"
+     password:  "{{ password }}"
+     lmi_port:  "{{ lmi_port }}"
+     log:       "{{ log_level }}"
+     force:     "{{ force }}"
+     action: ibmsecurity.isam.base.management_authorization.role_feature.set
+     isamapi:
+       name:         "{{ item.name }}"
+       feature_name: "{{ item.feature_name }}"
+       access:       "{{ item.access | default(None) }}"
+  with_items: "{{ set_mgmtazn_role_features }}"
+  when: set_mgmtazn_role_features is defined
+  notify:
+    - Commit Changes

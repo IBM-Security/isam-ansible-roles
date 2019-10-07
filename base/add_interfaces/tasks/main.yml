@@ -2,7 +2,7 @@
 # Adding interface with custom isamapi parameters
 # Therefore combining label with interface parameter:
 # Example: 
-#  inventroy:
+#  interfaces:
 #    - label:  '1.1'
 #      addresses:
 #       - address:            "192.168.230.130"
@@ -13,19 +13,7 @@
 #         maskOrPrefix:       "24"
 #         allowManagement:    false
 #         enabled:            true
-#  modul transformation:
-#   item:
-#     - label: '1.1'
-#       address:            "192.168.230.130"
-#       maskOrPrefix:       "24"
-#       allowManagement:    true
-#       enabled:            true
-#     - label: '1.1'
-#       address:            "192.168.230.131"
-#       maskOrPrefix:       "24"
-#       allowManagement:    false
-#       enabled:            true
-- name: add interfaces
+- name: Add interfaces
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -39,8 +27,13 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: "ibmsecurity.isam.base.network.{{ add_interfaces_action }}.add"
-    isamapi: "{{ {} | combine(item.0) | combine(item.1) }}"
-  with_subelements:
-    -   "{{ interfaces }}"
-    -   addresses
+    isamapi:
+      label: "{{ item.0.label }}"
+      address: "{{ item.1.address }}"
+      maskOrPrefix: "{{ item.1.maskOrPrefix }}"
+      allowManagement: "{{ item.1.allowManagement }}"
+      enabled: "{{ item.1.enabled | default(False) }}"
+  loop:  "{{ interfaces | subelements('addresses', {'skip_missing': True}) }}"
+  loop_control:
+    label: "Processing interface {{ item.0.label }} and ip address {{ item.1.address }}"
   notify: Commit Changes

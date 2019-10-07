@@ -1,0 +1,6 @@
+# Provide a list of groups for this role to work on
+
+#set_mgmtazn_role_groups:
+#  - name: "Security Administrator"
+#    group_name: "administrator-grp"
+#    type: "local"

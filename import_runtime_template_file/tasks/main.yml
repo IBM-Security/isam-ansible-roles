@@ -1,0 +1,30 @@
+# main task to import template files
+#   Example:
+#     runtime_templates:
+#       - type: file
+#         filename: uploads/template_files/s.json
+#         id: C/authsvc/api/success_response.json
+#       - type: file
+#         filename: uploads/template_files/s.html
+#         id: C/authsvc/api/success_response.html
+---
+- name: Import template files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.file.import_file
+    isamapi:
+      id: "{{ item.id }}"
+      filename: "{{ item.filename }}"
+  with_items: "{{ runtime_templates }}"
+  when: item.type == "file"
+  notify: Commit Changes

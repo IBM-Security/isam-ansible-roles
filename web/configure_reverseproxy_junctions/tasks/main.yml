@@ -22,6 +22,6 @@
 - name: Include to delete undefined junctions
   include: include_delete_junctions.yml
   with_items: "{{ instances }}"
-  when: (delete_junctions == true) and item.inst_name == (inst_name | default(item.inst_name))
+  when: delete_junctions == true
   loop_control:
-    label: " {inst_name: {{ item.inst_name }}, delete_junctions: {{ delete_junctions }}}"
+    label: "{inst_name: {{ item.inst_name }}, delete_junctions: {{ delete_junctions }}}"

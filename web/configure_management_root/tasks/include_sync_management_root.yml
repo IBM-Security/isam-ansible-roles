@@ -1,0 +1,132 @@
+- name: Get management root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.file.get_all
+    isamapi:
+      instance_id: "{{ item.0.inst_name }}"
+  register: ret_obj
+
+- name: Check local file
+  stat: path="{{ inventory_dir }}/{{ item.1.directory }}{{ element.path | regex_replace(item.1.target,'') }}"
+  when: (element.path | regex_search('^'+item.1.target)) == item.1.target
+  with_items: "{{ ret_obj.data | flatten_management_root }}"
+  loop_control:
+    loop_var: element
+    label: "{ inst_name=\"{{ item.0.inst_name }}\", path: \"{{ element.path }}\", type: \"{{ element.type }}\", name: \"{{ element.name }}\"}"
+  register: locals
+
+- name: Delete missing local files on the server 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.web.reverse_proxy.management_root.{{ local.element.type }}.delete"
+    isamapi:
+        instance_id: "{{ item.0.inst_name }}"
+        id: "{{ local.element.path }}"
+  when: local.stat is defined and not local.stat.exists and (local.element.path | dirname) not in (locals.results | json_query('[? !(stat.exists)].element.path') | difference([item.1.target]))
+  with_items: "{{ locals.results }}"
+  loop_control:
+    loop_var: local
+    label: "{ instance_id=\"{{ item.0.inst_name }}\", path=\"{{ local.element.path }}\"}"
+
+- name: list of directory update items
+  set_fact:
+    directory_update_item: "{{ {'action': 'create', 'type': create.state, 'target': item.1.target +'/'+ create.path } }}"
+  when: create.state == "directory"
+  with_filetree: "{{ inventory_dir }}/{{ item.1.directory }}"
+  loop_control:
+    loop_var: create
+    # label: "{ action=create, type=\"{{ create.state }}\", target=\"{{ item.1.target +'/'+ create.path }}\" }"
+    label: "{'action': 'create', 'type': \"{{ create.state }}\", 'target': \"{{ item.1.target +'/'+ create.path }}\" }"
+  register: directory_update_result
+- name: consolidate update items in a list of updates [directory]
+  set_fact: 
+    directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
+
+- name: list of file update items
+  set_fact:
+    file_update_item: "{{ {'action': 'upload', 'type': upload.state, 'target': item.1.target +'/'+ upload.path, 'file': upload.root +'/'+ upload.path} }}"
+  when: upload.state == "file"
+  with_filetree: "{{ inventory_dir }}/{{ item.1.directory }}"
+  loop_control:
+    loop_var: upload
+    label: "{'action': 'upload', 'type': \"{{ upload.state }}\", 'target': \"{{ item.1.target +'/'+ upload.path }}\", 'file': \"{{ upload.root +'/'+ upload.path }}\"}"
+  register: file_update_result
+
+- name: consolidate uptate items in a list of updates [file]
+  set_fact: 
+    file_updates: "{{ file_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.file_update_item') | list }}"
+
+- vars:
+    filter_current_management_root: "[? inst_name == '{{ item.0.inst_name }}'].management_root"
+  set_fact:
+    management_root: "{{ hostvars[inventory_hostname].instances | json_query(filter_current_management_root) }} + {{ directory_updates }} + {{ file_updates }}"
+
+- name: Create management root directories [sync_up]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.directory.create
+    isamapi:
+      instance_id: "{{ item.0.inst_name }}"
+      id: "{{ sync_create.target.split('/')[0] }}"
+      name: "{{ sync_create.target | regex_replace(item.1.target.split('/')[0]+'/','') }}"
+  when: sync_create.action == 'create' and sync_create.type == 'directory'
+  with_items: "{{ management_root }}"
+  loop_control:
+    label:  "(action=\"{{ sync_create.action }}\", inst_name=\"{{ item.0.inst_name }}\", target=\"{{ sync_create.target | default(None) }}\", type=\"{{ sync_create.type | default(None) }}\")"
+    loop_var: sync_create
+  notify: Commit Changes
+
+- name: Upload management root files [sync_up]
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.file.import_file
+    isamapi:
+      instance_id: "{{ item.0.inst_name }}"
+      id: "{{ sync_upload.target }}"
+      filename: "{{ sync_upload.file if((sync_upload.file | regex_search('^/') == '/') ) else (inventory_dir +'/'+ sync_upload.file) }}"
+  when: sync_upload.action == 'upload' and sync_upload.type == 'file'
+  with_items: "{{ management_root }}"
+  loop_control:
+    label:  "(action=\"{{ sync_upload.action }}\", inst_name=\"{{ item.0.inst_name }}\", filename=\"{{ (sync_upload.target | basename) }}\", target=\"{{ (sync_upload.target | default(None)) | dirname }}\", type=\"{{ sync_upload.type | default(None) }}\")"
+    loop_var: sync_upload
+  notify: Commit Changes

@@ -1,0 +1,20 @@
+# main task to apply a snapshot
+- name: Apply a snapshot
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.snapshots.apply
+    isamapi:
+      comment: "{{ comment | default(omit) }}"
+      id: "{{ id | default(omit) }}"
+      filename: "{{ filename | default(omit) }}"
+  when: comment is defined or id is defined or filename is defined

@@ -1,0 +1,22 @@
+# main task to configure user registry
+---
+- name: Configure user registry
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: "ibmsecurity.isam.aac.user_registry.user.{{ item.action }}"
+    isamapi: "{{ item | exclude('action') }}"
+  when: item.action and item.id == id
+  with_items: "{{ user_registry }}"
+  loop_control:
+    label: "item={u'password': u'******'',u'action: u'{{ item.action }}', u'id: u'{{ item.id }}' }"
+  notify: Commit Changes

@@ -1,0 +1,85 @@
+---
+- name: Lookup interfaces
+  isam:
+      appliance                   : "{{ inventory_hostname }}"
+      adminProxyProtocol          : "{{ adminProxyProtocol | default(omit) }}"
+      adminProxyHostname          : "{{ adminProxyHostname | default(omit) }}"
+      adminProxyPort              : "{{ adminProxyPort | default(omit) }}"
+      adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+      omitAdminProxy              : "{{ omitAdminProxy | default(omit) }}"
+      username                    : "{{ username }}"
+      password                    : "{{ password }}"
+      lmi_port                    : "{{ port | default(omit) }}"
+      log                         : "{{ log_level | default(omit) }}"
+      force                       : "{{ force | default(omit) }}"
+      action                      : ibmsecurity.isam.base.network.interfaces._get_interface
+      isamapi                     :
+        label: "{{ item.bondedTo | default(omit) }}"
+        vlanId: "{{ item.vlandId | default(omit) }}"
+  with_items:
+      - "{{ interfaces }}"
+  when:  interfaces is defined and item.bondingMode is defined and item.bondingMode == 'slave'
+  register: ret_obj
+
+- name : Debug output of lookup interface
+  debug:
+    msg      : "{{ item.uuid + ' for label ' + item.item.label }}"
+    verbosity: 3
+  loop: "{{ ret_obj.results | flatten }}"
+  loop_control:
+      label: "{{ item.uuid | default('skipped...') }}"
+  when: ret_obj is defined and item.uuid is defined
+
+- name: Update bonding master
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ port | default(omit) }}"
+    log: "{{ log_level | default(omit) }}"
+    force: "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.network.{{ add_interfaces_action }}.update
+    isamapi:
+     comment:  "{{ item.comment }}"
+     bondingMode: "{{ item.bondingMode | default(omit) }}"
+     label: "{{ item.label }}"
+     name: "{{ item.name | default('') }}"
+     enabled: True
+  with_items:
+      - "{{ interfaces }}"
+  when: interfaces is defined and item.bondingMode is defined and item.bondingMode != 'slave'
+  notify: Commit Changes
+
+- name: Update bonding slave
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ port | default(omit) }}"
+    log: "{{ log_level | default(omit) }}"
+    force: "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.network.{{ add_interfaces_action }}.update
+    isamapi:
+     comment:  "{{ item.item.comment | default(omit) }}"
+     bondingMode: "{{ item.item.bondingMode | default(omit) }}"
+     bondedTo: "{{ item.uuid }}"
+     label: "{{ item.item.label }}"
+     name: "{{ item.item.name | default('') }}"
+     enabled: True
+  loop: "{{ ret_obj.results | flatten }}"
+  loop_control:
+      label: "{{ item.uuid | default('skipped...') }}"
+  when: ret_obj is defined and item.uuid is defined
+  notify: Commit Changes
+
+

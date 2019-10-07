@@ -1,0 +1,12 @@
+# Please provide the following variable at the very minimum
+#config_reverseproxy_oauth_instance_id:
+
+# The following should be overriden as needed
+config_reverseproxy_oauth_hostname:   "localhost"
+config_reverseproxy_oauth_port:        443
+config_reverseproxy_oauth_username:    "easuser"
+config_reverseproxy_oauth_password:    "passw0rd"
+config_reverseproxy_oauth_reuse_certs: False
+config_reverseproxy_oauth_reuse_acls:  False
+config_reverseproxy_oauth_api:         True
+config_reverseproxy_oauth_browser:     True

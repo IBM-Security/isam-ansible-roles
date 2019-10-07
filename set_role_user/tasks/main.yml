@@ -1,0 +1,23 @@
+# Example to add an LDAP user to the Security Administrator management authorization role group
+# - name: set management authorization role user
+#   include_role:
+#     name: set_role_user
+#   vars:
+#     set_role_group_name: Security Administrator
+#     set_role_user_user_name: test_user
+#     set_role_user_type: ldap
+- name: Add a user to a management authorization role group
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.role_user.set
+    isamapi:
+      name: "{{ set_role_group_name }}"
+      user_name: "{{ set_role_user_user_name }}"
+      type: "{{ set_role_user_type }}"
+  when: set_role_user_name is defined and set_role_user_user_name is defined
+  notify: Commit Changes
