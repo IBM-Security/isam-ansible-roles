@@ -13,5 +13,6 @@
       cert     : "{{ import_personal_cert_cert }}"
       password : "{{ import_personal_cert_password }}"
   when: import_personal_cert_kdb_id is defined and import_personal_cert_label is defined and import_personal_cert_cert is defined and import_personal_cert_password is defined
+  no_log: true
   notify:
   - Commit Changes
