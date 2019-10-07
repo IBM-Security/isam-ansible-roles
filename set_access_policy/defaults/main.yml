@@ -1,0 +1,8 @@
+---
+# Provide the following values for role to succeed
+#set_access_policy_name:
+#set_access_policy_file or set_access_policy_content:
+
+# Default values from ibmsecurity python module
+set_access_policy_category: "OIDC"
+set_access_policy_type: "JavaScript"
