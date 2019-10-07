@@ -1,0 +1,5 @@
+# Default variables for update of api protection clients
+api_protection: []
+
+# variables to control whether to configure one client at a time or everything from the configurations
+client_name: "{{ item.1.name }}"

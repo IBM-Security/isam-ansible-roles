@@ -1,0 +1,4 @@
+# Default variables for user_registry configuration
+user_registry: []
+
+id: "{{ item.id }}"

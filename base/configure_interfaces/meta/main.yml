@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure addresses to an interface
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.5
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - configure
+  - networking
+
+dependencies:
+  - start_config

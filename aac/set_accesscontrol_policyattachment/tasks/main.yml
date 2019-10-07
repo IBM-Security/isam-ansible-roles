@@ -1,0 +1,93 @@
+# Role to set policy attachment and publish
+#
+#
+#
+---
+- name: Authenticate
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.colruyt_policy_attachments.authenticate
+    isamapi:
+           username: "{{ sec_master_id | default('sec_master') }}"
+           password: "{{ sec_master_pwd }}"
+           domain: "{{ aac_access_control_domain | default('Default') }}"
+
+- name: Create Policy Attachments
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.colruyt_policy_attachments.config
+    isamapi:
+           server: "{{ item.server }}"
+           resourceUri: "{{ item.resourceUri }}"
+           policies: "{{ item.policies }}"
+           policyCombiningAlgorithm: "{{ item.policyCombiningAlgorithm | default(omit) }}"
+           cache: "{{ item.cache | default(omit) }}"
+  loop: "{{ accesscontrol_policy_attachments }}"
+  loop_control:
+      label: "Configuring resource {{ item.resourceUri }} with policy {{ item.policies.0.name | default('skipping - no name defined ...') }}"
+  when: item.resourceUri is defined and item.policies.0.name is defined
+  notify: Commit Changes
+
+- name: Get all Access Control Policy Resources
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.colruyt_policy_attachments.get_all
+    isamapi:
+  register: ret_obj
+
+- name: Set variable ret_attachments for use by rest of playbook
+  set_fact:
+       ret_attachments: "{{ ret_obj.data | default([]) }}"
+
+- name: Publish attachments that require publishing
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.colruyt_policy_attachments.publish
+    isamapi:
+           server: "{{ item.server }}"
+           resourceUri: "{{ item.resourceUri }}"
+  loop: "{{ ret_attachments }}"
+  loop_control:
+      label: "{{ 'PUBLISHING' if (not item.deployed) else 'SKIPPING' }} {{ item.resourceUri }}"
+  when: item.resourceUri is defined and (not item.deployed)
+  notify: Commit Changes

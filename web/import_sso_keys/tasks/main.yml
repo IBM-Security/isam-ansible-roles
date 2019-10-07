@@ -19,7 +19,7 @@
     isamapi:
       id: "{{ item.file | basename }}"
       filename: "{{ inventory_dir }}/{{ item.file }}"
-  when: item.file is defined
+  when: item.file is defined and (item.file | basename) == name
   with_items: "{{ sso_keys }}"
   loop_control:
     label: "{ id: \"{{ item.file | basename }}\", filename: \"{{ inventory_dir }}/{{ item.file }}\" }"

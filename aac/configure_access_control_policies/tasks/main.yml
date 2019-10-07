@@ -1,0 +1,30 @@
+# main task to configure access control policies
+# example:
+#   access_control_policies:
+#     - name: test_access_policy
+#       attributesrequired: false
+#       description: ""
+#       dialect: "urn:oasis:names:tc:xacml:2.0:policy:schema:os"
+#       predefined: False
+#       policy: '<PolicySet xmlns=\"urn:oasis:names:tc:xacml:2.0:policy:schema:os\" PolicySetId=\"urn:ibm:security:config-policy\" PolicyCombiningAlgId=\"urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable\">
+#                <Description></Description>
+#                <PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xacml-context="urn:oasis:names:tc:xacml:2.0:context:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os http://docs.oasis-open.org/xacml/access_control-xacml-2.0-policy-schema-os.xsd" PolicySetId="urn:ibm:security:config-policy" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides"><Description/><Target/><Policy PolicyId="urn:ibm:security:rule-container:0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"><Target/><Rule RuleId="urn:ibm:security:rule:0" Effect="Permit"/></Policy></PolicySet>'
+---
+- name: Configure access control policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_control.policies.set
+    isamapi: "{{ item }}"
+  when: item is defined
+  with_items: "{{ access_control_policies }}"
+  notify: Commit Changes

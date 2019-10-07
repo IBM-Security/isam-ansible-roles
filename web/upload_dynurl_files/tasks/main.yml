@@ -21,4 +21,5 @@
       id: "{{ item.file | basename }}"
       filename: "{{ inventory_dir }}/{{ item.file }}"
   with_items: "{{ dynurl_files }}"
+  when: (item.file | basename) == name
   notify: Commit Changes

@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure scim
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - configure
+  - scim
+
+dependencies:
+  - start_config

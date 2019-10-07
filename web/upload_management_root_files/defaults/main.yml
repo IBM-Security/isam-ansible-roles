@@ -1,2 +1,5 @@
 # Default variables for uploading management root files
 management_root_files: []
+
+name: "{{ item.file | basename }}"
+inst_name: "{{ item.instance_id }}"

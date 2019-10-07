@@ -1,0 +1,32 @@
+# main task to configure federated directories
+# Example:
+#   policyserver_runtime:
+#     federated_directories:
+#       - id: internal_ldap 
+#         hostname: localhost
+#         port: 389
+#         bind_dn: "cn=root,secAuthority=Default"
+#         bind_pwd: ****
+#         suffix: 
+#           - id: "dc=isam-usc"
+---
+- name: Configure federated directories
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.runtime.federated_directories.stanza.set
+    isamapi: "{{ item }}"
+  with_items: "{{ policyserver_runtime.federated_directories }}"
+  when: policyserver_runtime.federated_directories is defined
+  notify: 
+    - Commit Changes
+    - Restart Web Runtime

@@ -2,8 +2,9 @@
 instances: []
 
 # variables to control whether to configure one instance and/or one target at a time or everything from the configurations
-inst_name: "{{ item.0.inst_name }}"
+inst_name: "{{ item.0.inst_name if (item is defined) else 'none' }}"
 target: "{{ item.1.target | default('none') }}"
-file: "{{ item.1.file | default('none') }}"
+file: "{{ item.1.file if (item is defined and item.1 is defined and item.1.file is defined) else 'none' }}"
 filename: "{{ (inventory_dir + '/' + item.1.file) if (item.1.file is defined) else 'none' }}"
-
+delete_missing: "FALSE"
+skip_imports: "FALSE"

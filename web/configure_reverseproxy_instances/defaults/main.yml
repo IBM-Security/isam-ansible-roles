@@ -3,34 +3,6 @@ instances: []
   
 # variables to control whether to configure one instance and/or a specific stanza at a time or everything from the configurations
 inst_name: "{{ item.0.inst_name }}"
-stanza: "{{ item.1.stanza }}"
-entry_name: "{{ item.1.entry_name }}"
-
-# variables to manage trigger action
-action_method: "{{ 'set' if item.1.method == 'set' else
-                        'add' if item.1.method == 'add' else
-                            'delete' if item.1.method == 'delete' else
-                                'get'
-                }}"
-
-# parameter to be passed to ansible module
-action_params:
-    set:
-        reverseproxy_id: "{{ item.0.inst_name }}"
-        stanza_id:       "{{ item.1.stanza }}"
-        entries:
-                -   
-                    - "{{ item.1.entry_name }}"
-                    - "{{ item.1.value }}"
-    add:
-        reverseproxy_id: "{{ item.0.inst_name }}"
-        stanza_id:       "{{ item.1.stanza }}"
-        entries:
-                -   
-                    - "{{ item.1.entry_name }}"
-                    - "{{ item.1.value }}"
-    delete:
-        reverseproxy_id: "{{ item.0.inst_name }}"
-        stanza_id:       "{{ item.1.stanza }}"
-        entry_id: "{{ item.1.entry_name }}"
-        value_id: "{{ item.1.value }}"
+stanza_id: "{{ item.1.stanza_id }}"
+method: "{{ item.1.method }}"
+entry_name: ""
