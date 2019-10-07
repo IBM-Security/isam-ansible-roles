@@ -13,6 +13,11 @@ add_oauth_client_contactType   : null
 add_oauth_client_email         : null
 add_oauth_client_phone         : null
 add_oauth_client_otherInfo     : null
+add_oauth_client_extProperties : null
 # Might be best to override these - rather than allow them to randomly generate
 add_oauth_client_clientId      : null
 add_oauth_client_clientSecret  : null
+add_oauth_client_requirePkce   : null
+add_oauth_client_encryptionDb  : null
+add_oauth_client_encryptionCert: null
+add_oauth_client_jwksUri       : null

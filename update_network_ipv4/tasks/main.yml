@@ -8,7 +8,7 @@
     force:     "{{ force }}"
     action: ibmsecurity.isam.base.snapshots.create
     isamapi:
-      comment: "{{ update_network_interface_vlan_comment }}"
+      comment: "{{ update_network_ipv4_comment }}"
   when: update_network_ipv4_address is defined
 
 - name: Update IPv4 Address on Interface {{ update_network_ipv4_label }}

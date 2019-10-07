@@ -1,0 +1,50 @@
+# main task to create federation partners
+#   Example: OIDC connect provider and Test-App partner
+#     federations:
+#       - name: oidc-provider
+#         partners:
+#             - name: Test-App
+#               enabled: true
+#               role: op
+#               configuration:
+#                 clientName: Test-App
+#                 clientSecret: "ABCDEFG12345"
+#                 clientId: Test-App
+#                 redirectUris:
+#                   - http://test-app.demo.com
+#                 responseTypes:
+#                   - id_token token
+#                 allowRefreshGrant: no
+#                 allowIntrospect: no
+#                 scope:
+#                   - openid
+#                 preauthorizedScope:
+#                   - openid
+- name: Create federation partners
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.fed.partners.set
+    isamapi:
+      federation_name: "{{ item.0.name }}"
+      partner_name: "{{ item.1.name }}"
+      enabled: "{{ item.1.enabled }}"
+      role: "{{ item.1.role }}"
+      configuration: "{{ item.1.configuration }}"
+  with_subelements :
+    - "{{ federations }}"
+    - partners
+    - skip_missing: True
+  when: item.0.name == fed_name and partner_name == item.1.name
+  notify: Commit Changes
+  loop_control:
+    label: "{u'federation_name': u'{{ item.0.name }}', u'partner_name': u'{{ item.1.name }}'}"

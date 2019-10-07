@@ -1,0 +1,52 @@
+# Generic approach for isamapi parameters
+# Following structure is supported: e.g.
+#   policyserver_runtime:
+#     configuration:
+#       admin_pwd:              "{{ admin_pwd }}"
+#       ps_mode:                "local"
+#       user_registry:          "local"
+#       ldap_pwd:               "{{ ldap_pwd }}"
+#       clean_ldap:             "true"
+#       admin_cert_lifetime:    1460
+#       ssl_compliance:         "none"
+#       ...     <- additional parameters
+- name: Configure Policy Server
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.runtime.process.config
+    isamapi: "{{ policyserver_runtime.configuration }}"
+  when: policyserver_runtime.configuration is defined
+
+- name: Update Connection Inactivity to be less than infinity
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action    : ibmsecurity.isam.web.runtime.configuration.entry.update
+    isamapi:
+      resource_id : "ldap.conf"
+      stanza_id   : "ldap"
+      entry_id    : "connection-inactivity"
+      value_id    : "{{ policyserver_connection_inactivity }}"
+  when: not ansible_check_mode
+  notify:
+  - Commit Changes
+  - Restart Web Runtime

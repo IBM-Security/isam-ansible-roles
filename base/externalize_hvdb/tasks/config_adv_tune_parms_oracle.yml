@@ -1,0 +1,91 @@
+- name: Configure Oracle connection string for hvdb
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: isam_cluster.hvdb.properties.URL
+      value: "{{ externalize_hvdb_oracle_connection_string }}"
+      comment: "ISAM Cluster hvdb jdbc URL"
+  when: externalize_hvdb_oracle_connection_string is defined and externalize_hvdb_hvdb_db_type == "oracle"
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+# Trace Oracle LMI connections
+- name: Enable Oracle tracing in the LMI
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: lmi.jvm_option.
+      value: "-Doracle.jdbc.Trace=true"
+      comment: "Enable LMI Trace for oracle"
+  when: externalize_hvdb_oracle_connection_string is defined and externalize_hvdb_hvdb_db_type == "oracle" and debug_oracle_enable_lmi_trace
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+- name: Disable Oracle tracing in the LMI for hvdb
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.delete
+    isamapi:
+      key: lmi.jvm_option.
+  when: externalize_hvdb_oracle_connection_string is defined and externalize_hvdb_hvdb_db_type == "oracle" and not debug_oracle_enable_lmi_trace
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+- name: Enable Oracle tracing for configdb
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: runtime_profile.jvm_option.
+      value: '-Doracle.jdbc.Trace=true'
+      comment: "Enable runtime Trace for oracle"
+  when: externalize_hvdb_config_oracle_connection_string is defined and externalize_hvdb_hvdb_db_type == "oracle" and debug_oracle_enable_runtime_trace
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+- name: Disable Oracle tracing in the runtime
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.delete
+    isamapi:
+      key: runtime_profile.jvm_option.
+  when: externalize_hvdb_oracle_connection_string is defined and externalize_hvdb_hvdb_db_type == "oracle" and not debug_oracle_enable_runtime_trace
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI

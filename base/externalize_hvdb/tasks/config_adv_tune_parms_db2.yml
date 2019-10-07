@@ -1,0 +1,94 @@
+- name: Configure TCP Retries2 for DB2 Failovers
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: sysctl.net.ipv4.tcp_retries2
+      value: "{{ externalize_hvdb_db2_tcp_retries2 }}"
+      comment: "TCP Tuning to allow for Quicker/Predictable DB2 Failovers"
+  when: externalize_hvdb_db2_hvdb_address is defined and externalize_hvdb_hvdb_db_type == "db2"
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+- name: Configure HVDB maxRetries for DB2 Client Re-route
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: isam_cluster.hvdb.properties.maxRetriesForClientReroute
+      value: "{{ externalize_hvdb_db2_maxRetriesForClientReroute }}"
+      comment: "HVDB maxRetries for DB2 Client Re-route"
+  when: externalize_hvdb_db2_hvdb_address is defined and externalize_hvdb_hvdb_db_type == "db2"
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+- name: Configure HVDB retryInterval for DB2 Client Re-route
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: isam_cluster.hvdb.properties.retryIntervalForClientReroute
+      value: "{{ externalize_hvdb_db2_retryIntervalForClientReroute }}"
+      comment: "HVDB retryInterval for DB2 Client Re-route"
+  when: externalize_hvdb_db2_hvdb_address is defined and externalize_hvdb_hvdb_db_type == "db2"
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime
+    - Restart LMI
+
+# The following will not take effect since ConfigDB is not being externalized to DB2 database
+# Leaving it here for when a role to externalize config database is needed
+#- name: Configure ConfigDB maxRetries for DB2 Client Re-route
+#  isam:
+#    appliance: "{{ inventory_hostname }}"
+#    username: "{{ username }}"
+#    password: "{{ password }}"
+#    lmi_port: "{{ lmi_port }}"
+#    log: "{{ log_level }}"
+#    force: "{{ force }}"
+#    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+#    isamapi:
+#      key: isam_cluster.config.properties.maxRetriesForClientReroute
+#      value: "{{ configdb_maxRetriesForClientReroute }}"
+#      comment: "ConfigDB maxRetries for DB2 Client Re-route"
+#  notify:
+#    - Commit Changes
+#    - Restart AAC Runtime
+#    - Restart LMI
+#
+#- name: Configure ConfigDB retryInterval for DB2 Client Re-route
+#  isam:
+#    appliance: "{{ inventory_hostname }}"
+#    username: "{{ username }}"
+#    password: "{{ password }}"
+#    lmi_port: "{{ lmi_port }}"
+#    log: "{{ log_level }}"
+#    force: "{{ force }}"
+#    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+#    isamapi:
+#      key: isam_cluster.config.properties.retryIntervalForClientReroute
+#      value: "{{ configdb_retryIntervalForClientReroute }}"
+#      comment: "ConfigDB retryInterval for DB2 Client Re-route"
+#  notify:
+#    - Commit Changes
+#    - Restart AAC Runtime
+#    - Restart LMI

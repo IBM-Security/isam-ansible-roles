@@ -1,0 +1,17 @@
+- name: Set group into Mgmt Azn Role
+  isam:
+      appliance: "{{ inventory_hostname }}"
+      username:  "{{ username }}"
+      password:  "{{ password }}"
+      lmi_port:  "{{ lmi_port }}"
+      log:       "{{ log_level }}"
+      force:     "{{ force }}"
+      action: ibmsecurity.isam.base.management_authorization.role_group.set
+      isamapi:
+        name:       "{{ item.name }}"
+        group_name: "{{ item.group_name }}"
+        type:       "{{ item.type | default(None) }}"
+  with_items: "{{ set_mgmtazn_role_groups }}"
+  when: set_mgmtazn_role_groups is defined
+  notify:
+    - Commit Changes

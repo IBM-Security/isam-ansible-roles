@@ -1,0 +1,31 @@
+# main task to set runtime components
+# Example:
+#   policyserver_runtime:
+#     entries:
+#       - { resource_id: "ldap.conf", stanza_id: "bind-credentials", entry_id: "bind-dn", value_id: "{{ ldap_dn }}" }
+#       - { resource_id: "ldap.conf", stanza_id: "bind-credentials", entry_id: "bind-pwd", value_id: "{{ ldap_pwd }}" }
+---
+- name: Set runtime components
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.runtime.configuration.entry.update
+    isamapi:
+      resource_id: "{{ item.resource_id }}"
+      stanza_id: "{{ item.stanza_id }}"
+      entry_id: "{{ item.entry_id }}"
+      value_id: "{{ item.value_id }}"
+  with_items: "{{ policyserver_runtime.entries }}"
+  when: policyserver_runtime.entries is defined
+  notify: 
+    - Commit Changes
+    - Restart Web Runtime

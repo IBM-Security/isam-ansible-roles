@@ -1,0 +1,6 @@
+# default variables for installing multiple fix packs
+updates: []
+
+# limit the to be installed fix packs at runtime
+file: "{{ item.file }}"
+filename: "{{ item.file | basename }}"

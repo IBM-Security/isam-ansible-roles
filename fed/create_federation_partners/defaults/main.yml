@@ -1,0 +1,5 @@
+# Default variables for creation of federation partners
+federations: []
+
+fed_name: "{{ item.0.name }}"
+partner_name: "{{ item.1.name }}"

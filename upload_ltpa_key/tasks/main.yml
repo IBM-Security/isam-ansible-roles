@@ -1,0 +1,28 @@
+- name: Snapshot Appliance Before Uploading LTPA Keys
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ upload_ltpa_key_comment }}"
+
+- name: Upload LTPA Keys
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.ltpa_key.import_key
+    isamapi:
+      id: "{{ item.ltpa_key_id }}"
+      ltpa_keyfile: "{{ item.ltpa_key_keyfile }}"
+  with_items: "{{ ltpa_keys }}"
+  when: ltpa_keys is defined
+  notify: Commit Changes
+

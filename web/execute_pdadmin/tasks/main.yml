@@ -1,0 +1,4 @@
+---
+- name: PDadmin
+  include: pdadmin.yml
+  when: (pdadmin_commands|length > 0) or (include_pdadmin_commands|length > 0)

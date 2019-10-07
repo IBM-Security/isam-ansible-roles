@@ -1,0 +1,4 @@
+# Default variables for configuration of api protection definitions
+api_protection: []
+
+name: "{{ item.name | default('none') }}"

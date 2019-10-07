@@ -1,0 +1,25 @@
+- name: Create keystore {{ create_keystore_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.create
+    isamapi:
+      kdb_name: "{{ create_keystore_name }}"
+      type:     "{{ create_keystore_type }}"
+      token_label:      "{{ create_keystore_token_label }}"
+      passcode: "{{ create_keystore_passcode }}"
+      hsm_type: "{{ create_keystore_hsm_type }}"
+      ip:       "{{ create_keystore_ip }}"
+      port:     "{{ create_keystore_port }}"
+      kneti_hash:       "{{ create_keystore_kneti_hash }}"
+      esn:      "{{ create_keystore_esn }}"
+      rfs:      "{{ create_keystore_rfs }}"
+      rfs_port: "{{ create_keystore_rfs_port }}"
+      rfs_auth: "{{ create_keystore_rfs_auth }}"
+      safenet_pw:       "{{ create_keystore_safenet_pw }}"
+  when: create_keystore_name is defined
+  notify: Commit Changes

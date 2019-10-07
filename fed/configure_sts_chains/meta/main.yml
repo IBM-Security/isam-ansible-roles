@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure STS chains
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - create
+  - sts_chain
+
+dependencies:
+  - start_config

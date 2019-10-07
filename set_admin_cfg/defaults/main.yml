@@ -1,3 +1,19 @@
 # Set tkey/value for admin config
-#set_admin_cfg_key:
-#set_admin_cfg_value:
+set_admin_cfg_maxHeapSize               : null
+set_admin_cfg_minHeapSize               : null
+set_admin_cfg_sessionTimeout            : 30
+set_admin_cfg_oldPassword               : null
+set_admin_cfg_httpPort                  : null
+set_admin_cfg_httpsPort                 : null
+set_admin_cfg_minThreads                : null
+set_admin_cfg_maxThreads                : null
+set_admin_cfg_maxPoolSize               : null
+set_admin_cfg_lmiDebuggingEnabled       : null
+set_admin_cfg_consoleLogLevel           : null
+set_admin_cfg_acceptClientCerts         : null
+set_admin_cfg_validateClientCertIdentity: null
+set_admin_cfg_excludeCsrfChecking       : null
+set_admin_cfg_enableSSLv3               : null
+set_admin_cfg_maxFiles                  : null
+set_admin_cfg_maxFileSize               : null
+set_admin_cfg_newPassword               : null

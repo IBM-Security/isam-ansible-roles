@@ -48,9 +48,12 @@
       fsso_config_file:                 "{{ add_junction_fsso_config_file }}"
       username:                         "{{ add_junction_username }}"
       password:                         "{{ add_junction_password }}"
-      server_uid:                       "{{ add_junction_server_uid }}"
+      server_uuid:                      "{{ add_junction_server_uuid }}"
       local_ip:                         "{{ add_junction_local_ip }}"
       ltpa_keyfile_password:            "{{ add_junction_ltpa_keyfile_password }}"
       delegation_support:               "{{ add_junction_delegation_support }}"
       insert_ltpa_cookies:              "{{ add_junction_insert_ltpa_cookies }}"
+      http2_junction:                   "{{ add_junction_http2_junction }}"
+      http2_proxy:                      "{{ add_junction_http2_proxy }}"
+      sni_name:                         "{{ add_junction_sni_name }}"      
   when: add_junction_junction_point is defined and add_junction_junction_type is defined and add_junction_reverseproxy_id is defined and add_junction_server_hostname is defined and add_junction_server_port is defined

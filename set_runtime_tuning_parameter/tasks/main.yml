@@ -1,0 +1,30 @@
+- name: Snapshot Appliance Before Setting Runtime Tuning Parameters
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ set_runtime_tuning_parameter_comment }}"
+  when: set_runtime_tuning_parameter_comment is defined
+
+- name: Set Runtime Tuning Parameters
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.runtime.tuning_parameters.set
+    isamapi:
+      option: "{{ item.runtime_tuning_parameter_option }}"
+      value: "{{ item.runtime_tuning_parameter_value }}"
+  with_items: "{{ runtime_tuning_parameters }}"
+  when: runtime_tuning_parameters is defined
+  notify:
+    - Commit Changes
+    - Restart AAC Runtime

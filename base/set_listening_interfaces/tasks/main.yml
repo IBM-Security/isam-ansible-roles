@@ -1,0 +1,22 @@
+# main task to set listening interfaces
+---
+- name: Set listening interfaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.runtime.listening_interfaces.set_by_address
+    isamapi:
+      address: "{{ item.address }}"
+      port: "{{ item.port }}"
+      secure: "{{ item.secure }}"
+  with_items: "{{ listening_interfaces }}"
+  notify: Commit Changes

@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure federated directories
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - configure
+  - federated directories
+
+dependencies:
+  - start_config

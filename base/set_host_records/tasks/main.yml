@@ -1,0 +1,44 @@
+- name: Help INFO (-e help=true)
+  pause:
+    echo: yes
+    prompt: |
+      NAME
+        set_host_records
+      
+      DESCRIPTION
+        task for setting host file entries
+      
+      Examples
+      
+      inventory:
+      ==========
+      host_records:
+        - addr: 192.168.0.1
+          hostnames:
+            - isam.ibm.com
+      ==========
+      
+      INTERACTION
+        ENTER         = continue
+        Ctrl+C + 'C'  = continue
+        Ctrl+C + 'A'  = abort
+  when: help is defined
+- name: Set host file entries
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.network.host_records.set
+    isamapi:
+      addr:   "{{ item.addr }}"
+      hostnames:   "{{ item.hostnames }}"
+  with_items: "{{ host_records }}"
+  notify: Commit Changes

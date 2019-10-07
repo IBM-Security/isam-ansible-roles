@@ -1,0 +1,21 @@
+- name: Update/add Point of Contact configuration - {{ update_point_of_contact_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.point_of_contact.set
+    isamapi:
+      name: "{{ update_point_of_contact_name }}"
+      description: "{{ update_point_of_contact_description }}"
+      authenticateCallbacks: "{{ update_point_of_contact_authenticateCallbacks }}"
+      authnPolicyCallbacks: "{{ update_point_of_contact_authnPolicyCallbacks }}"
+      localIdCallbacks: "{{ update_point_of_contact_localIdCallbacks }}"
+      signInCallbacks: "{{ update_point_of_contact_signInCallbacks }}"
+      signOutCallbacks: "{{ update_point_of_contact_signOutCallbacks }}"
+  when: update_point_of_contact_name is defined
+  notify: 
+    - Commit Changes
+    - Restart AAC Runtime

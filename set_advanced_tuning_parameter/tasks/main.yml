@@ -1,0 +1,29 @@
+- name: Snapshot Appliance Before Setting Advanced Tuning Parameters 
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ set_advanced_tuning_parameter_comment }}"
+
+- name: Set Advanced Tuning Parameters
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.advanced_tuning_parameters.set
+    isamapi:
+      key: "{{ item.advanced_tuning_parameter_key }}"
+      value: "{{ item.advanced_tuning_parameter_value }}"
+      comment: "{{ item.advanced_tuning_parameter_comment | default(None) }}"
+  with_items: "{{ advanced_tuning_parameters }}"
+  when: advanced_tuning_parameters is defined
+  notify: Commit Changes
+

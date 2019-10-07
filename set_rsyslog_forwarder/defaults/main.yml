@@ -1,0 +1,12 @@
+# This is a required value
+#set_rsyslog_forwarder_server:
+set_rsyslog_forwarder_port    : 514
+set_rsyslog_forwarder_protocol: 'udp'
+set_rsyslog_forwarder_debug   : False
+set_rsyslog_forwarder_keyfile : null
+set_rsyslog_forwarder_ca_certificate: null
+set_rsyslog_forwarder_client_certificate: null
+set_rsyslog_forwarder_permitted_peers: null
+# The following will be hardcoded - use another role to set sources
+#set_rsyslog_forwarder_sources  : []
+

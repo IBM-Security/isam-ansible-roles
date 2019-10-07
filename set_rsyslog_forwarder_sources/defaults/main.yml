@@ -1,0 +1,10 @@
+# This is a required value
+#set_rsyslog_forwarder_sources_server:
+set_rsyslog_forwarder_sources_port    : 514
+set_rsyslog_forwarder_sources_protocol: 'udp'
+# Need the following for this role to work
+#set_rsyslog_forwarder_sources
+#  - name:
+#    tag:
+#    facility:
+#    severity:

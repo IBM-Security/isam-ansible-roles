@@ -1,0 +1,18 @@
+---
+- name: Set an Access Policy - {{set_access_policy_name}}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.access_policy.set
+    isamapi:
+      name    : "{{ set_access_policy_name }}"
+      category: "{{ set_access_policy_category }}"
+      type    : "{{ set_access_policy_type }}"
+      file    : "{{ set_access_policy_file | default(None) }}"
+      content : "{{ set_access_policy_content | default(None) }}"
+  when: set_access_policy_name is defined
+  notify: Commit Changes

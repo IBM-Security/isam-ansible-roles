@@ -1,0 +1,17 @@
+galaxy_info:
+  author: IBM
+  description: Role to configure reverse proxy instances
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - configure
+  - reverse_proxy
+
+dependencies:
+  - start_config

@@ -1,0 +1,3 @@
+# Default variables for configuration of federated directories
+policyserver_runtime:
+  federated_directories: []

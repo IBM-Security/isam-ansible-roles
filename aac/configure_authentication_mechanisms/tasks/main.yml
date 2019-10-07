@@ -1,0 +1,34 @@
+# main task to configure api protection definition
+#   Example:
+#     authentication_mechanisms:
+#       - name: InfoMapAuthenticationName
+#         description: test
+#         predefined:	false
+#         properties:
+#           - key: infoMap.JSRule
+#             value:	test
+#           - key: infoMap.HTMLPage
+#             value:	test.html
+#         typeName: InfoMapAuthenticationName
+#         uri:	urn:ibm:security:authentication:asf:mechanism:test
+---
+- name: Configure authentication mechanisms
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.mechanisms.set
+    isamapi: "{{ item }}"
+  with_items: "{{ authentication_mechanisms }}"
+  when: item.name == name
+  loop_control:
+    label: "{{ item.name }}"
+  notify: Commit Changes

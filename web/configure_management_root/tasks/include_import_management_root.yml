@@ -1,0 +1,20 @@
+- name: "Import managment root zip files inst_name: [{{ item.0.inst_name }}] file: [{{ inventory_dir }}/{{ item.1.file }}]"
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.all.import_zip
+    isamapi: 
+      filename: "{{ inventory_dir }}/{{ item.1.file }}"
+      instance_id: "{{ item.0.inst_name }}"
+      delete_missing: "{{ item.1.delete_missing | default(delete_missing) }}"
+  when: item.1.file is defined
+  notify: Commit Changes

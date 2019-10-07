@@ -1,0 +1,25 @@
+---
+# The following need to be provided for role to work
+# Example:
+#  sysaccounts:
+#    - id: sec_master
+#      password: "{{ basicauth_dummy_passwd }}"
+- name: create sysaccount
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.base.sysaccount.users.create
+    isamapi: "{{ item }}"
+  with_items: "{{ sysaccounts }}"
+  notify: Commit Changes
+  loop_control:
+    label: "item={u'password': u'**********', u'id': u'{{ item.id }}'}"

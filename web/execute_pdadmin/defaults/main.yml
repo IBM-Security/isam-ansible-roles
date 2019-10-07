@@ -1,0 +1,9 @@
+# Provide a list of pdadmin commands to execute
+#pdadmin_commands:
+#  - "acl show default-management"
+#  - "user list * 10"
+
+# Use Default domain, override as needed
+admin_domain: Default
+pdadmin_commands: []
+include_pdadmin_commands: []

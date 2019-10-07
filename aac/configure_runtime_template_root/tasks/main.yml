@@ -1,0 +1,87 @@
+# main task to configure runtime template root content
+# Example:
+#   runtime_template_root:
+#     - action: sync_up
+#       target: C/authsvc/authenticator
+#       directory: uploads/template_files/C/authsvc/authenticator
+#     - action: create
+#       name: new_dir
+#       path: C/authsvc/authenticator
+#       type: directory
+#     - action: upload
+#       file: /ansible/inventory/INT/uploads/template_files/C/authsvc/authenticator/new_dir/new_file.html
+#       target: C/authsvc/authenticator/new_dir/new_file.html
+#       type: file
+# ---
+- name: Sync runtime template root [local => server]
+  include: include_sync_runtime_template_root.yml
+  when: item.action == 'sync_up' and (skip_sync | upper) != "TRUE"
+  with_items: "{{ runtime_template_root }}"
+
+- name: Create runtime template root directories
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.directory.create
+    isamapi:
+      path: "{{ item.path }}"
+      name: "{{ item.name }}"
+  when: item.action == 'create' and item.type == 'directory' and item.path is defined and item.path == path and item.name is defined and item.name == name
+  with_items: "{{ runtime_template_root }}"
+  notify: Commit Changes
+
+- name: Upload runtime template root files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.file.import_file
+    isamapi:
+      path: "{{ (item.target | dirname ) }}"
+      name: "{{ (item.target | basename ) }}"
+      filename: "{{ item.file }}"
+  when: item.action == 'upload' and item.type == 'file' and item.target is defined and item.file is defined and item.target == target and item.file == file
+  with_items: "{{ runtime_template_root }}"
+  notify: Commit Changes
+  
+- name: Import runtime template zip files
+  include: include_import_runtime_template_root.yml
+  when: item.action == 'import_file' and (skip_imports | upper) != "TRUE"
+  with_items: "{{ runtime_template_root }}"
+  
+- name: Import a single runtime template zip file
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.runtime_template.root.import_file
+    isamapi: 
+      filename: "{{ inventory_dir }}/{{ file }}"
+      delete_missing: "{{ delete_missing }}"
+  when: file is defined and file != 'none'
+  notify: Commit Changes

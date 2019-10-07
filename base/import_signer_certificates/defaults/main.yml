@@ -1,0 +1,2 @@
+# Default variables for importing signer certificates
+signer_certificates: []

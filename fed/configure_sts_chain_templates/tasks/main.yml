@@ -1,0 +1,29 @@
+# main task to configure sts chain templates
+#   Example: STSUU to LTPA Token
+#     sts_chain_templates:
+#       - name: STSUU_TO_LTPA_TEMPLATE
+#         description: STSUU_TO_LTPA_TEMPLATE
+#         chainItems:
+#           - id: default-stsuu
+#             mode: validate
+#           - id: default-map
+#             mode: map
+#           - id: default-ltpa
+#             mode: issue
+- name: Configure STS chain templates
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.fed.sts.templates.set
+    isamapi: "{{ item }}"
+  with_items: "{{ sts_chain_templates }}"
+  notify: Commit Changes

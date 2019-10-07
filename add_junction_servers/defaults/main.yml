@@ -13,8 +13,8 @@ add_junction_servers_virtual_https_hostname: null
 add_junction_servers_virtual_hostname:    null
 add_junction_servers_server_dn:           null
 add_junction_servers_query_contents:      null
-add_junction_servers_case_sensitive_urls: "no"
-add_junction_servers_windows_style_urls:  "no"
+add_junction_servers_case_sensitive_url:  "no"
+add_junction_servers_windows_style_url:   "no"
 add_junction_servers_https_port:          null
 add_junction_servers_http_port:           null
 add_junction_servers_proxy_hostname:      null

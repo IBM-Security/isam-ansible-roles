@@ -1,0 +1,5 @@
+#Provide a valid SMTP collector server name
+add_system_alerts_smtpServer: null
+add_system_alerts_smtpPort: 25
+add_system_alerts_from_email: null
+add_system_alerts_to_email: null

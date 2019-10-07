@@ -1,0 +1,26 @@
+# main task to import certificate mapping files
+# Example:
+#   certificate_mapping_files:
+#     - file: uploads/certificate_mappings/cert_map.xsl
+- name: Import certificate mapping files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.client_certificate_mapping.import_file
+    isamapi:
+      id: "{{ item.file | basename }}"
+      filename: "{{ inventory_dir }}/{{ item.file }}"
+  when: item.file is defined and (item.file | basename) == name
+  with_items: "{{ certificate_mapping_files }}"
+  loop_control:
+    label: "{ id: \"{{ item.file | basename }}\", filename: \"{{ inventory_dir }}/{{ item.file }}\" }"
+  notify: Commit Changes

@@ -1,4 +1,4 @@
-- name: Configure Reverse Proxy for AAC (Deletes)
+- name: Configure Reverse Proxy stanza(s) entries (Deletes)
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

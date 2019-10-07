@@ -5,14 +5,19 @@ import logging.config
 import sys
 import importlib
 from ansible.module_utils.basic import AnsibleModule
-from StringIO import StringIO
+from io import StringIO
 import datetime
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
+from ibmsecurity.appliance.isamappliance_adminproxy import ISAMApplianceAdminProxy
 from ibmsecurity.appliance.ibmappliance import IBMError
 from ibmsecurity.user.applianceuser import ApplianceUser
 
 logger = logging.getLogger(sys.argv[0])
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes)
 
 
 def main():
@@ -24,8 +29,13 @@ def main():
             action=dict(required=True),
             force=dict(required=False, default=False, type='bool'),
             username=dict(required=False),
-            password=dict(required=True),
-            isamapi=dict(required=False, type='dict')
+            password=dict(required=True, no_log=True),
+            isamapi=dict(required=False, type='dict'),
+            adminProxyProtocol=dict(required=False, default='https', choices=['http','https']),
+            adminProxyHostname=dict(required=False),
+            adminProxyPort=dict(required=False, default=443, type='int'),
+            adminProxyApplianceShortName=dict(required=False, default=False, type='bool'),
+            omitAdminProxy=dict(required=False, default=False, type='bool')
         ),
         supports_check_mode=True
     )
@@ -40,6 +50,11 @@ def main():
     lmi_port = module.params['lmi_port']
     username = module.params['username']
     password = module.params['password']
+    adminProxyProtocol = module.params['adminProxyProtocol']
+    adminProxyHostname = module.params['adminProxyHostname']
+    adminProxyPort = module.params['adminProxyPort']
+    adminProxyApplianceShortName = module.params['adminProxyApplianceShortName']
+    omitAdminProxy = module.params['omitAdminProxy']
 
     # Setup logging for format, set log level and redirect to string
     strlog = StringIO()
@@ -79,14 +94,20 @@ def main():
         u = ApplianceUser(password=password)
     else:
         u = ApplianceUser(username=username, password=password)
-    isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
+
+    # Create appliance object to be used for all calls
+    # if adminProxy hostname is set, use the ISAMApplianceAdminProxy
+    if adminProxyHostname == '' or adminProxyHostname is None or omitAdminProxy:
+        isam_server = ISAMAppliance(hostname=appliance, user=u, lmi_port=lmi_port)
+    else:
+        isam_server = ISAMApplianceAdminProxy(adminProxyHostname=adminProxyHostname, user=u, hostname=appliance, adminProxyProtocol=adminProxyProtocol, adminProxyPort=adminProxyPort, adminProxyApplianceShortName=adminProxyApplianceShortName)
 
     # Create options string to pass to action method
     options = 'isamAppliance=isam_server, force=' + str(force)
     if module.check_mode is True:
         options = options + ', check_mode=True'
     if isinstance(module.params['isamapi'], dict):
-        for key, value in module.params['isamapi'].iteritems():
+        for key, value in module.params['isamapi'].items():
             if isinstance(value, basestring):
                 options = options + ', ' + key + '="' + value + '"'
             else:

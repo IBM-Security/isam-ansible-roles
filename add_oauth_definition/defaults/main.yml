@@ -16,3 +16,36 @@ add_oauth_definition_enableMultipleRefreshTokensForFaultTolerance: False
 add_oauth_definition_pinPolicyEnabled                            : False
 add_oauth_definition_pinLength                                   : 4
 add_oauth_definition_tokenCharSet                                : "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+add_oauth_definition_oidc                                        : null
+
+
+# This would be a possible example on how to invoke this role
+#    - role: add_oauth_definition
+#      add_oauth_definition_name						: "myDefinition1"
+#      add_oauth_definition_description 					: "My test definition"
+#      add_oauth_definition_grantTypes						: ["AUTHORIZATION_CODE"]
+#      add_oauth_definition_tcmBehavior						: "NEVER_PROMPT"
+#      add_oauth_definition_accessTokenLifetime                         	: 3600
+#      add_oauth_definition_accessTokenLength                           	: 20
+#      add_oauth_definition_enforceSingleUseAuthorizationGrant          	: False
+#      add_oauth_definition_authorizationCodeLifetime                   	: 300
+#      add_oauth_definition_authorizationCodeLength                     	: 30
+#      add_oauth_definition_issueRefreshToken                           	: True
+#      add_oauth_definition_refreshTokenLength                          	: 40
+#      add_oauth_definition_maxAuthorizationGrantLifetime               	: 604800
+#      add_oauth_definition_enforceSingleAccessTokenPerGrant            	: False
+#      add_oauth_definition_enableMultipleRefreshTokensForFaultTolerance	: False
+#      add_oauth_definition_pinPolicyEnabled                            	: False
+#      add_oauth_definition_pinLength                                   	: 4
+#      add_oauth_definition_tokenCharSet                                	: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#      add_oauth_definition_oidc						:
+#        "enabled": True
+#        "alg": "RS256"
+#        "db": "rt_profile_keys"
+#        "cert": "server"
+#        "poc": "https://www.myWebSEAL.com"
+#        "lifetime": 3600
+#        "enc":
+#          "enabled":False
+#        "attributeSources":
+#          - {"attributeName": "exampleAttribute", "attributeSourceId": "1"}
