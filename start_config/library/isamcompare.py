@@ -5,7 +5,7 @@ import logging.config
 import sys
 import importlib
 from ansible.module_utils.basic import AnsibleModule
-from StringIO import StringIO
+from io import StringIO
 import datetime
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
@@ -13,6 +13,10 @@ from ibmsecurity.appliance.ibmappliance import IBMError
 from ibmsecurity.user.applianceuser import ApplianceUser
 
 logger = logging.getLogger(sys.argv[0])
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes)
 
 
 def main():
@@ -95,7 +99,7 @@ def main():
     # Create options string to pass to action method
     options = 'isamAppliance1=isam_server1, isamAppliance2=isam_server2'
     if isinstance(module.params['isamapi'], dict):
-        for key, value in module.params['isamapi'].iteritems():
+        for key, value in module.params['isamapi'].items():
             if isinstance(value, basestring):
                 options = options + ', ' + key + '="' + value + '"'
             else:
