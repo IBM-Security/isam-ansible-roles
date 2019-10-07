@@ -10,7 +10,11 @@
     isamapi:
       comment: "{{ config_policyserver_comment }}"
 
-- name: Configure Local Policy Server using Embedded LDAP
+# Configuring policy server does not require a commit. So flush handlers now 
+# to ensure not to loose any prior pending changes.
+- meta: flush_handlers
+
+- name: Configure Local Policy Server
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
