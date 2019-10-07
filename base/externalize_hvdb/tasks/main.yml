@@ -1,0 +1,24 @@
+# this role is based on the db2 role
+# however; I don't see why we'd need a separate role .
+# even the db2 specifics can be handled by when clauses .
+# not tested for db2, only for Oracle
+
+
+# Import CA certificates for HVDB Database
+# Currently only valid for DB2 (at least up to 9.0.6)
+- include_tasks: import_CA.yml
+  when: externalize_hvdb_hvdb_db_type == "db2"
+
+# set advanced parameters for Oracle .  Only do this if db type is oracle .
+- include_tasks: config_adv_tune_parms_oracle.yml
+  when: externalize_hvdb_hvdb_db_type == "oracle"
+
+# Configure external HVDB
+- include: config_external_hvdb.yml
+
+# Configure Advanced Tuning for faster/predictable DB2 failover - only for DB2
+- include_tasks: config_adv_tune_parms_db2.yml
+  when: externalize_hvdb_hvdb_db_type == "db2"
+
+# Commit all changes made to date
+- meta: flush_handlers
