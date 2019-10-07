@@ -60,7 +60,7 @@
       first_port                   : "{{ set_cluster_config_first_port }}"
       cfgdb_fs                     : "{{ set_cluster_config_cfgdb_fs }}"
       dsc_trace_level              : "{{ set_cluster_config_dsc_trace_level }}"
-  notify: 
+  notify:
     - Commit Changes
     - Restart AAC Runtime
 

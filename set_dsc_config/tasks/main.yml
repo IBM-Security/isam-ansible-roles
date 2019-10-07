@@ -1,0 +1,33 @@
+- name: Snapshot Appliance Before Configuring DSC
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment : "{{ set_dsc_config_comment }}"
+
+- name: Set DSC Configuration
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.dsc.set
+    isamapi:
+      service_port             : "{{ set_dsc_config_service_port }}"
+      replication_port         : "{{ set_dsc_config_replication_port }}"
+      worker_threads           : "{{ set_dsc_config_worker_threads }}"
+      max_session_lifetime     : "{{ set_dsc_config_max_session_lifetime }}"
+      client_grace             : "{{ set_dsc_config_client_grace }}"
+      servers                  : "{{ set_dsc_config_servers }}"
+  notify: 
+    - Commit Changes
+
+ # Commit activation of module before doing anything else
+- meta: flush_handlers

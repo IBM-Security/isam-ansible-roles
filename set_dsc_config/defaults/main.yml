@@ -1,0 +1,6 @@
+set_dsc_config_comment: "Execute snapshot before configuring DSC"
+
+set_dsc_config_port: null
+set_dsc_config_worker_threads: 64
+set_dsc_config_max_session_lifetime: 3600
+set_dsc_config_client_grace: 600
