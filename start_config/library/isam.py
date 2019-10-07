@@ -29,7 +29,7 @@ def main():
             action=dict(required=True),
             force=dict(required=False, default=False, type='bool'),
             username=dict(required=False),
-            password=dict(required=True),
+            password=dict(required=True, no_log=True),
             isamapi=dict(required=False, type='dict'),
             adminProxyProtocol=dict(required=False, default='https', choices=['http','https']),
             adminProxyHostname=dict(required=False),
