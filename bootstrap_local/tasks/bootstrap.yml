@@ -26,12 +26,12 @@
 - debug: var=cmd_out
 
 - name: create VM disk
-  shell: "{{ BS_vmdiskmgr }} -c -a lsilogic -s {{ BS_vm_hdd_size }}GB -t 0 {{ BS_vm_vmdk }}"
+  command: "{{ BS_vmdiskmgr }} -c -a lsilogic -s {{ BS_vm_hdd_size }}GB -t 0 {{ BS_vm_vmdk }}"
   register: cmd_out
 - debug: var=cmd_out
 
 - name: install ISAM ISO from image {{ BS_appliance_iso }}
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
 - debug: var=shell_out
 
@@ -85,12 +85,12 @@
 - debug: var=cmd_out
 
 - name: boot up again with bootstrap ISO
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
 - debug: var=shell_out
 
 - name: wait for LMI up
-  shell: 'curl -k -v -s -u "admin:admin" -H "Accept:application/json" https://"{{ BS_vm_mgmt_ip }}"'
+  command: 'curl -k -v -s -u "admin:admin" -H "Accept:application/json" https://"{{ BS_vm_mgmt_ip }}"'
   register: result
   until: result.stdout.find("302 Found") != -1
   retries: 50
@@ -121,6 +121,6 @@
 - debug: var=cmd_out
 
 - name: take a snapshot as baseline
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} snapshot {{ BS_vm_vmx }} baseline"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} snapshot {{ BS_vm_vmx }} baseline"
   register: shell_out
 - debug: var=shell_out

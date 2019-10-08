@@ -28,7 +28,7 @@
 
 # start the vm if it is not running
 - name: if vmx file exists but it is not running, start it up
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
   when: vm_running is not defined
 - debug: var=shell_out
