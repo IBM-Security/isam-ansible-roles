@@ -12,7 +12,7 @@ config_failover_cookie_enable_failover_cookie_for_domain:  "yes"
 config_failover_cookie_failover_cookie_name                       : "PD-ID"
 config_failover_cookie_failover_cookie_lifetime                   : 60
 config_failover_cookie_failover_auth                              : "https"
-config_failover_cookie_failover_cookie_keyfile                    : "{{config_failover_cookie_id}}"
+config_failover_cookie_failover_cookie_keyfile                    : "{{ config_failover_cookie_id }}"
 config_failover_cookie_failover_include_session_id                : "yes"
 config_failover_cookie_reissue_missing_failover_cookie            : "yes"
 config_failover_cookie_tagvalue_failover_amweb_session_id_add     : "add"

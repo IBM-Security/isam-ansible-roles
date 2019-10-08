@@ -1,7 +1,7 @@
 # Commit all changes made to date before configuring aac into reverse proxy
 - meta: flush_handlers
 
-- name: Configure Reverse Proxy {{config_reverseproxy_aac_instance_id}} for AAC
+- name: Configure Reverse Proxy {{ config_reverseproxy_aac_instance_id }} for AAC
   isam:
     appliance: "{{ inventory_hostname }}"
     username: "{{ username }}"

@@ -1,4 +1,4 @@
-- name: Change Embedded LDAP {{set_ldap_user_pwd_id}}'s password
+- name: Change Embedded LDAP {{ set_ldap_user_pwd_id }}'s password
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

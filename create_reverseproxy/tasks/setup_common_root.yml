@@ -9,7 +9,7 @@
     isamuser:  "{{ create_reverseproxy_admin_id }}"
     isampwd:   "{{ create_reverseproxy_admin_pwd }}"
     commands:
-    - "object create /WebSEAL/{{common_web_root}} \"{{common_web_root_description}}\" 5 ispolicyattachable yes"
+    - "object create /WebSEAL/{{ common_web_root }} \"{{ common_web_root_description }}\" 5 ispolicyattachable yes"
   ignore_errors: true
   when: common_web_root is defined and create_reverseproxy_admin_id is defined and create_reverseproxy_admin_pwd is defined
 

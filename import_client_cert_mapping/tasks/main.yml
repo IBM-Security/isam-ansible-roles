@@ -1,4 +1,4 @@
-- name: Import Client Certificate Mapping rule {{import_client_cert_mapping_id}}
+- name: Import Client Certificate Mapping rule {{ import_client_cert_mapping_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

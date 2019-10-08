@@ -1,4 +1,4 @@
-- name: Update Network Interface {{update_network_interface_vlan_label}} Vlan {{update_network_interface_vlan_vlanId}}
+- name: Update Network Interface {{ update_network_interface_vlan_label }} Vlan {{ update_network_interface_vlan_vlanId }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

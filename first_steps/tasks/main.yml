@@ -1,7 +1,7 @@
 # check whether ISAM appliance LMI is ready and accept default password
 - name: Check ISAM appliance for First Steps Execution
   uri:
-    url: "https://{{inventory_hostname}}/lmi"
+    url: "https://{{ inventory_hostname }}/lmi"
     user: admin
     password: admin
     method: GET
@@ -24,5 +24,5 @@
   when: result is defined and result.status == 200 and result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
-- include: "{{firststeps}}"
+- include: "{{ firststeps }}"
   dynamic: true

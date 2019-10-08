@@ -1,4 +1,4 @@
-- name: Set Current Point of Contact - {{set_current_point_of_contact_name}}
+- name: Set Current Point of Contact - {{ set_current_point_of_contact_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

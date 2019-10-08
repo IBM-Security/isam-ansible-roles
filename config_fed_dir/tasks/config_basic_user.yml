@@ -8,7 +8,7 @@
     force:     "{{ force }}"
     action    : ibmsecurity.isam.web.runtime.configuration.entry.update
     isamapi:
-      resource_id : "{{ item.resource}}"
+      resource_id : "{{ item.resource }}"
       stanza_id   : "{{ item.stanza }}"
       entry_id    : "{{ item.entry }}"
       value_id    : "{{ item.value }}"
@@ -16,11 +16,11 @@
   - resource : "ldap.conf"
     stanza   : "ldap"
     entry    : "basic-user-support"
-    value    : "{{config_fed_dir_basic_user_support | default('yes')}}"
+    value    : "{{ config_fed_dir_basic_user_support | default('yes') }}"
   - resource : "ldap.conf"
     stanza   : "ldap"
     entry    : "basic-user-pwd-policy"
-    value    : "{{config_fed_dir_basic_user_pwd_policy | default('no')}}"
+    value    : "{{ config_fed_dir_basic_user_pwd_policy | default('no') }}"
   notify:
   - Commit Changes
   - Restart Web Runtime

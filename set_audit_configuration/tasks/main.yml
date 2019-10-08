@@ -20,7 +20,7 @@
     force:     "{{ force }}"
     action: ibmsecurity.isam.base.audit_configuration.set
     isamapi:
-      id:      "{{ret_obj['data'][0]['id']}}"
+      id:      "{{ ret_obj['data'][0]['id'] }}"
       enabled: "{{ set_audit_configuration_enabled }}"
       type:    "{{ set_audit_configuration_type }}"
       config:  "{{ set_audit_configuration_config }}"

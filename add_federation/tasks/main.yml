@@ -1,4 +1,4 @@
-- name: Add a Federation - {{add_federation_name}}
+- name: Add a Federation - {{ add_federation_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

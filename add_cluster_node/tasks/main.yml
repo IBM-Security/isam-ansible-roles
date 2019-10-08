@@ -5,7 +5,7 @@
     get_md5: False
   register: signature_file
 
-- name: Add {{inventory_hostname}} to cluster
+- name: Add {{ inventory_hostname }} to cluster
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

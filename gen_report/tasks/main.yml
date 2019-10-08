@@ -1,7 +1,7 @@
-- name: Generate Report using template {{gen_report_template}}
+- name: Generate Report using template {{ gen_report_template }}
   template:
-    src : "{{role_path}}/files/{{gen_report_template}}"
-    dest: "{{gen_report_dir}}/{{gen_report_template.partition('.')[0]}}_{{ansible_date_time.date}}-{{ansible_date_time.hour}}-{{ansible_date_time.minute}}-{{ansible_date_time.second}}.html"
+    src : "{{ role_path }}/files/{{ gen_report_template }}"
+    dest: "{{ gen_report_dir }}/{{ gen_report_template.partition('.')[0] }}_{{ ansible_date_time.date }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}-{{ ansible_date_time.second }}.html"
   run_once: True
   changed_when: False
   when: gen_report_template is defined and gen_report_dir is defined

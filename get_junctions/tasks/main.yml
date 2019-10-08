@@ -8,7 +8,7 @@
     force:     "{{ force }}"
     action: ibmsecurity.isam.web.reverse_proxy.junctions.get_all
     isamapi:
-      reverseproxy_id: "{{item['id']}}"
+      reverseproxy_id: "{{ item['id'] }}"
   register: ret_obj
   when: reverseproxy_ret_obj is defined
   with_items: "{{ reverseproxy_ret_obj['data'] | default([]) }}"

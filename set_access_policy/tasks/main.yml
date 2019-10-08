@@ -1,5 +1,5 @@
 ---
-- name: Set an Access Policy - {{set_access_policy_name}}
+- name: Set an Access Policy - {{ set_access_policy_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

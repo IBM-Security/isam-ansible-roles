@@ -52,34 +52,34 @@
   register: shell_out
 
 - name: check tmp dir
-  stat: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata"
+  stat: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata"
   register: tmpdir
   ignore_errors: true
 
 - name: clean tmp dir and file
-  file: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata" state=absent
-        path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso" state=absent
+  file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=absent
+        path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso" state=absent
   when: tmpdir.stat.exists == true
 
 - name: create tmp dir
-  file: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata" state=directory mode=0755
+  file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=directory mode=0755
   register: shell_out
 - debug: var=shell_out
 
 - name: copy template
-  template: src="{{ role_path }}/templates/app-metadata" dest="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata"
+  template: src="{{ role_path }}/templates/app-metadata" dest="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata"
   register: cmd_out
 - debug: var=cmd_out
 
 - name: create metadata ISO
-  shell: "{{ BS_mkisofs }} {{ BS_mkisoflags }} {{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso {{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata  >/dev/null 2>&1"
+  shell: "{{ BS_mkisofs }} {{ BS_mkisoflags }} {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata  >/dev/null 2>&1"
   register: shell_out
 - debug: var=shell_out
 
 - name: replace the ISO image file entry in vmx
   lineinfile: dest={{ BS_vm_vmx }}
               regexp='^sata0:1.fileName'
-              line='sata0:1.fileName="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso"'
+              line='sata0:1.fileName="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso"'
               backrefs=yes
   register: cmd_out
 - debug: var=cmd_out

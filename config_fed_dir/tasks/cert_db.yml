@@ -1,4 +1,4 @@
-- name: Create Certificate Database for Federated Directory - {{config_fed_dir_kdb_name}}
+- name: Create Certificate Database for Federated Directory - {{ config_fed_dir_kdb_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -13,7 +13,7 @@
   notify:
   - Commit Changes
 
-- name: Load Self-Signed Certificates for Federated Directory - {{config_fed_dir_hostname}}
+- name: Load Self-Signed Certificates for Federated Directory - {{ config_fed_dir_hostname }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -31,7 +31,7 @@
   notify:
   - Commit Changes
 
-- name: Load CA Certificates for Federated Directory - {{config_fed_dir_hostname}}
+- name: Load CA Certificates for Federated Directory - {{ config_fed_dir_hostname }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

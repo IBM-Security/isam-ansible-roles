@@ -34,9 +34,9 @@
     lmi_port:  "{{ port | default(omit) }}"
     action: ibmsecurity.isam.base.fips.set
     isamapi:
-        fipsEnabled: "{{FIPS_cfg.fipsEnabled}}"
-        tlsv10Enabled: "{{FIPS_cfg.tlsv10Enabled}}"
-        tlsv11Enabled: "{{FIPS_cfg.tlsv11Enabled}}"
+        fipsEnabled: "{{ FIPS_cfg.fipsEnabled }}"
+        tlsv10Enabled: "{{ FIPS_cfg.tlsv10Enabled }}"
+        tlsv11Enabled: "{{ FIPS_cfg.tlsv11Enabled }}"
   register: ret_obj
   when: FIPS_cfg is defined and FIPS_cfg.fipsEnabled == true and first_steps_fips == true
 

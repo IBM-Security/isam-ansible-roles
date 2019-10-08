@@ -1,6 +1,6 @@
 # Provide a list of CA certs to import using a format like so:
 #   import_ca_certs_certandlabel:
-#     - { 'cert': "{{end_directory}}/cacerts/xyz.cer", 'label': "Verisign CA"}
+#     - { 'cert': "{{ end_directory }}/cacerts/xyz.cer", 'label': "Verisign CA"}
 
 # Chances are the CA certs may need to be loaded into pdsrv - but override as needed
 import_ca_certs_kdb_id: 'pdsrv'

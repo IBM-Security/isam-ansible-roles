@@ -12,7 +12,7 @@
       trapAddress: "{{ add_system_alerts_snmp_trapAddress }}"
       trapCommunity: "{{ add_system_alerts_snmp_trapCommunity }}"
       trapNotificationType: "{{ add_system_alerts_snmp_trapNotificationType }}"
-      trapVersion: "{{add_system_alerts_snmp_trapVersion}}"
+      trapVersion: "{{ add_system_alerts_snmp_trapVersion }}"
       trapPort: "{{ add_system_alerts_snmp_trapPort }}"
       username: "{{ username }}"
       authEnabled: "{{ add_system_alerts_snmp_authEnabled }}"
