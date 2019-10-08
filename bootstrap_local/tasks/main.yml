@@ -20,9 +20,9 @@
   ignore_errors: true
 - debug: var=shell_out
 
--name: set fact about target vm running
- set_fact:
-      vm_running: true
+- name: set fact about target vm running
+  set_fact:
+    vm_running: true
   when: "shell_out.rc == 0"
 - debug: var=vm_running
 

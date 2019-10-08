@@ -30,7 +30,11 @@
       instance_id: "{{ archive_logs_instance_id }}"
       file_id: "{{ item['id'] }}"
       filename: "{{ archive_logs_directory }}/{{ inventory_hostname }}_{{ item['id'] }}"
-  when: archive_logs_export and archive_logs_instance_id is defined and item['id'].startswith(archive_logs_filter) and item['id'][dt_start|int:dt_end|int] < past_dt.stdout
+  when:
+    - archive_logs_export
+    - archive_logs_instance_id is defined
+    - item['id'].startswith(archive_logs_filter)
+    - item['id'][dt_start|int:dt_end|int] < past_dt.stdout
   with_items: "{{ ret_obj['data'] }}"
   vars:
     dt_start: "{{ archive_logs_filter | length }}"
@@ -48,7 +52,11 @@
     isamapi:
       instance_id: "{{ archive_logs_instance_id }}"
       file_id: "{{ item['id'] }}"
-  when: archive_logs_delete and archive_logs_instance_id is defined and item['id'].startswith(archive_logs_filter) and item['id'][dt_start|int:dt_end|int] < past_dt.stdout
+  when:
+    - archive_logs_delete | bool
+    - archive_logs_instance_id is defined
+    - item['id'].startswith(archive_logs_filter)
+    - item['id'][dt_start|int:dt_end|int] < past_dt.stdout
   with_items: "{{ ret_obj['data'] }}"
   vars:
     dt_start: "{{ archive_logs_filter | length }}"

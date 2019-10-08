@@ -1,5 +1,4 @@
 # Add new entries / Stanzas to reverse proxy config file
-
 - name: Configure Reverse Proxy for AAC (Adds)
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -181,7 +180,12 @@
   - stanza: "session-http-headers"
     entries:
     - ['Authorization', 'https']
-  when: common_web_root is defined and execute_isamcfg_basic_auth_user is defined and execute_isamcfg_basic_auth_passwd is defined and execute_isamcfg_reverseproxy_id is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
+  when:
+    - common_web_root is defined
+    - execute_isamcfg_basic_auth_user is defined
+    - execute_isamcfg_basic_auth_passwd is defined
+    - execute_isamcfg_reverseproxy_id is defined
+    - execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
   notify:
   - Commit Changes
   - Restart Reverse Proxy

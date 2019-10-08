@@ -14,7 +14,13 @@
         role:            "{{ add_partner_role }}"
         configuration:   "{{ add_partner_configuration }}"
         templateName:    "{{ add_partner_templateName }}"
-   when: add_partner_federation_name is defined and add_partner_partner_name is defined and add_partner_enabled is defined and add_partner_role is defined and add_partner_configuration is defined and add_partner_templateName is defined
+   when:
+     - add_partner_federation_name is defined
+     - add_partner_partner_name is defined
+     - add_partner_enabled is defined
+     - add_partner_role is defined
+     - add_partner_configuration is defined
+     - add_partner_templateName is defined
    notify:
      - Commit Changes
      - Reload Liberty Runtime

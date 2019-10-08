@@ -27,4 +27,8 @@
       sms_environment:        "{{ add_junction_servers_sms_environment }}"
       vhost_label:            "{{ add_junction_servers_vhost_label }}"
   with_items: "{{ add_junction_servers }}"
-  when: add_junction_servers_junction_point is defined and add_junction_servers_reverseproxy_id is defined and add_junction_servers_junction_type is defined and add_junction_servers is defined
+  when:
+    - add_junction_servers_junction_point is defined
+    - add_junction_servers_reverseproxy_id is defined
+    - add_junction_servers_junction_type is defined
+    - add_junction_servers is defined

@@ -1,6 +1,9 @@
 galaxy_info:
   author: IFC
-  description: Role to update the management SSL certificate key store. The certificate container file must be PKCS12 format (.p12 file) and can contain only a single certificate.
+  description: >
+    Role to update the management SSL certificate key store.
+    The certificate container file must be PKCS12 format (.p12 file) and can contain only
+    a single certificate.
   company: IFC
 
   license: Apache
