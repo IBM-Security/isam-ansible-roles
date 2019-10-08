@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - create
   - directory
-  - template files
+  - templatefiles
 
 dependencies:
   - start_config

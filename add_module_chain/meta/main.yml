@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - sts
-  - module_chain
+  - modulechain
   - add
 
 dependencies:

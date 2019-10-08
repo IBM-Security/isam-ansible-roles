@@ -22,8 +22,8 @@ galaxy_info:
   galaxy_tags:
   - isam
   - ibm
-  - management_authentication
-  - management_authorization
+  - managementauthentication
+  - managementauthorization
   - switch
 
 dependencies:

@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - import
-  - runtime template
+  - runtimetemplate
   - files
 
 dependencies:

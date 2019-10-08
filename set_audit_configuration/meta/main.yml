@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - aac
-  - audit configuration
+  - auditconfiguration
   - set
 
 dependencies:

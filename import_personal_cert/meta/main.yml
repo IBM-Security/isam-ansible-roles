@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - certificates
   - import
-  - personal_certificates
+  - personalcertificates
 
 dependencies:
   - start_config

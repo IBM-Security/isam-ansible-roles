@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - certificates
   - load
-  - signer certificates
+  - signercertificates
 
 dependencies:
   - start_config

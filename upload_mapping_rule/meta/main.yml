@@ -23,7 +23,7 @@ galaxy_info:
   - ibm
   - upload
   - aac
-  - mapping rule
+  - mappingrule
 
 dependencies:
   - start_config

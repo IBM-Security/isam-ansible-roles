@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - password
-  - embedded_ldap
+  - embeddedldap
   - root
   - set
 

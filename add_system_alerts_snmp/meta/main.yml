@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - web
   - runtime
-  - policyserver:3
+  - policyserver
 
 dependencies:
   - start_config

@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - set
   - base
-  - management_authorization
+  - managementauthorization
 
 dependencies:
   - start_config

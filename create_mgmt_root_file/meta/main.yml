@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - reverseproxy
-  - management_root
+  - managementroot
   - file
   - create
 

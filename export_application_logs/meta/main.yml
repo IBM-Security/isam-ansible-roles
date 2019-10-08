@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - export
-  - application log files
+  - applicationlogfiles
 
 dependencies:
   - start_config

@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - sts
-  - chain_template
+  - chaintemplate
   - add
 
 dependencies:

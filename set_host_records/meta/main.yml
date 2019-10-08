@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - networking
-  - host records
+  - hostrecords
 
 dependencies:
   - start_config

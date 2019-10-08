@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - aac
-  - advanced configuration
+  - advancedconfiguration
   - update
 
 dependencies:

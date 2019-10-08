@@ -24,7 +24,7 @@ galaxy_info:
   - ibm
   - Database
   - externalize
-  - DB2
+  - db2
 
 dependencies:
   - start_config
