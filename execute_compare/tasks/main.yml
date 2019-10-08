@@ -32,8 +32,6 @@
 - include: compare_base.yml
   with_items: "{{ execute_compare_mga_or_fed_features }}"
   when: (execute_compare_fed and ('federation' in master_web_runtime['ansible_facts']['activations'])) or (execute_compare_mga and ('mga' in master_web_runtime['ansible_facts']['activations']))
-  tags:
-    - skip_ansible_lint
 
 # Compare runtime configuration files of an appliance
 - include: compare_runtime_config.yml
