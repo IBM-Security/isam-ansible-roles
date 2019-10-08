@@ -23,7 +23,7 @@ galaxy_info:
   - isam
   - ibm
   - networking
-  - static route
+  - staticroute
   - update
 
 dependencies:
