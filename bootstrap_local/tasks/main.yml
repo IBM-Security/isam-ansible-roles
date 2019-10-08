@@ -14,7 +14,7 @@
   when: vmxfile.stat.exists != true
 
 - name: Check if there is a vm with the destination name already running
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}/{{ BS_vm_hostname }}.vmx"
+  shell: "set -o pipefail && {{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}/{{ BS_vm_hostname }}.vmx"
   changed_when: False
   register: shell_out
   ignore_errors: true

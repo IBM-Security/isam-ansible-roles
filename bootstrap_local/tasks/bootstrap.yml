@@ -36,7 +36,7 @@
 - debug: var=shell_out
 
 - name: waiting for VM to install isam image and shutdown
-  shell: while ( {{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_vmx }} );
+  shell: set -o pipefail &&  while ( {{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_vmx }} );
          do
            echo -n . ;
            sleep 1;
@@ -44,7 +44,7 @@
   register: shell_out
 
 - name: wait for VM process to end
-  shell: while ( ps -ef | grep {{ BS_vm_vmx }} | grep -q -v grep );
+  shell: set -o pipefail &&  while ( ps -ef | grep {{ BS_vm_vmx }} | grep -q -v grep );
          do
            echo -n . ;
            sleep 1;
