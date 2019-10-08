@@ -3,7 +3,7 @@
 - name: Check the ISAM ISO file exists
   stat: path={{ BS_appliance_iso }}
   register: isofile
-  failed_when: "isofile.stat.exists == false"
+  failed_when: not isofile.stat.exists
 - debug: var=isofile.stat.exists
 
 - name: Check if the target VM directory exists
@@ -13,7 +13,7 @@
 
 - name: delete if the target VM directory exists
   file: path="{{ BS_vm_dest_dir }}" state=absent
-  when: vmdir.stat.exists == true
+  when: vmdir.stat.exists
 
 - name: create target VM directory
   file: path="{{ BS_vm_dest_dir }}" state=directory mode=0755
@@ -59,7 +59,7 @@
 - name: clean tmp dir and file
   file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=absent
         path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso" state=absent
-  when: tmpdir.stat.exists == true
+  when: tmpdir.stat.exists
 
 - name: create tmp dir
   file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=directory mode=0755

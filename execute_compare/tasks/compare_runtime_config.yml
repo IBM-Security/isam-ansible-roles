@@ -18,7 +18,7 @@
 - name: Show Differences - values do not match!
   debug: msg="{{ ret_obj['data']['difference'].split('\n') }}"
   ignore_errors: true
-  when: ret_obj['data']['matches'] == False
+  when: not ret_obj['data']['matches']
 
 - name: Show Log - command failed!
   debug: msg="{{ ret_obj['log'].split('\n') }}"
