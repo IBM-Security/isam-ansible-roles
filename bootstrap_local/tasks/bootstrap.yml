@@ -28,11 +28,13 @@
 - name: create VM disk
   command: "{{ BS_vmdiskmgr }} -c -a lsilogic -s {{ BS_vm_hdd_size }}GB -t 0 {{ BS_vm_vmdk }}"
   register: cmd_out
+  changed_when: true
 - debug: var=cmd_out
 
 - name: install ISAM ISO from image {{ BS_appliance_iso }}
   command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: waiting for VM to install isam image and shutdown
@@ -50,6 +52,7 @@
            sleep 1;
          done
   register: shell_out
+  changed_when: false
 
 - name: check tmp dir
   stat: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata"
@@ -74,6 +77,7 @@
 - name: create metadata ISO
   shell: "{{ BS_mkisofs }} {{ BS_mkisoflags }} {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata  >/dev/null 2>&1"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: replace the ISO image file entry in vmx
@@ -87,6 +91,7 @@
 - name: boot up again with bootstrap ISO
   command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: wait for LMI up
@@ -95,6 +100,7 @@
   until: result.stdout.find("302 Found") != -1
   retries: 50
   delay: 5
+  changed_when: false
 
 - name: take care of vmx file to remove ISO image
   lineinfile: dest={{ BS_vm_vmx }}
@@ -123,4 +129,5 @@
 - name: take a snapshot as baseline
   command: "{{ BS_vmrun }} {{ BS_vmrunflags }} snapshot {{ BS_vm_vmx }} baseline"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
