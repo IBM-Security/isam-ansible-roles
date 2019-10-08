@@ -12,10 +12,10 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: "ibmsecurity.isam.web.reverse_proxy.management_root.{{ item.1.type }}.delete"
-    isamapi: 
+    isamapi:
       id:             "{{ target }}"
       instance_id:    "{{ item.0.inst_name }}"
-  with_items: "{{ item.1.targets }}" 
+  with_items: "{{ item.1.targets }}"
   loop_control:
     loop_var: target
     label:  "(action: [{{ item.1.action }}], type: [{{ item.1.type }}], inst_name:[{{ item.0.inst_name }}], target:[{{ target }}])"

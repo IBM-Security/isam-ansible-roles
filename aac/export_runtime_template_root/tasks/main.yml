@@ -13,6 +13,6 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.root.export_file
-    isamapi: 
+    isamapi:
       filename: "{{ inventory_dir }}/{{ file }}"
   when: file is defined and file != 'none'

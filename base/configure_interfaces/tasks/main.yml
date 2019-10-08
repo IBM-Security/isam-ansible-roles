@@ -1,7 +1,7 @@
 ---
 # Configure interface with custom isamapi parameters
 # Therefore combining label with interface parameter:
-# Example: 
+# Example:
 #  interfaces:
 #    - label:  '1.1'
 #      addresses:
@@ -87,7 +87,7 @@
       address: "{{ item.1 }}"
       # vlanId: {{ item.1.vlanId }}
   when: item.1 is not in (interfaces | json_query(filter_current_interfaces)) and (delete_missing | upper) == 'TRUE'
-  with_subelements: 
+  with_subelements:
     - "{{ addresses_list_server }}"
     - addresses
   notify: Commit Changes

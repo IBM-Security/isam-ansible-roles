@@ -71,7 +71,7 @@
 
 # Change password
 - name: Change password for admin user
-  isam: 
+  isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
     adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"

@@ -1,6 +1,6 @@
 # Default variables for configuration of reverse proxy instances
 instances: []
-  
+
 # variables to control whether to configure one instance and/or a specific stanza at a time or everything from the configurations
 inst_name: "{{ item.0.inst_name }}"
 stanza_id: "{{ item.1.stanza_id }}"

@@ -1,5 +1,5 @@
 # Provide the name, connection, description, and locked flag for the Web Service connection
-# 
+#
 # ws_server_connection_name: "Web Service Connection"
 # ws_server_connection_connection: {"url": "https://someserver:443/someWebServiceURI", "user": "aUser", "password": "secret", "ssl": true, "sslTruststore": "trust.kdb", "sslAuthKey": "client_key"}
 # ws_server_connection_description: "This is a connection to a Web Service"

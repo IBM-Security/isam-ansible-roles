@@ -17,7 +17,7 @@ the policy files of a configured system.
       import_role:
        name: aac/set_accesscontrol_policies
       vars:
-       accesscontrol_policies: 
+       accesscontrol_policies:
         -  attributesrequired: false
            description: 'TOTP Policy'
            dialect: urn:oasis:names:tc:xacml:2.0:policy:schema:os
@@ -30,7 +30,7 @@ the policy files of a configured system.
 start_config
 
 ```
-The policy file (policy_file) needs to exist , in the correct xacml format . 
+The policy file (policy_file) needs to exist , in the correct xacml format .
 
 ```
 

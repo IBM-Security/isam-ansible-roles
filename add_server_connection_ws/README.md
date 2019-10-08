@@ -42,7 +42,7 @@ Here is an example of how to use this role:
            ws_server_connection_description: "This is a connection to a Web Service"
            ws_server_connection_locked: false
            ws_server_connection_connection_manager: {"connectTimeout": 300}
-           
+
 
 License
 -------

@@ -13,6 +13,6 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: "ibmsecurity.isam.base.advanced_tuning_parameters.{{ item.action }}"
-    isamapi: "{{ item | exclude('action') }}" 
+    isamapi: "{{ item | exclude('action') }}"
   with_items: "{{ advanced_tuning_parameters }}"
   notify: Commit Changes

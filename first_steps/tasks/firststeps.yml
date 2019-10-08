@@ -82,7 +82,7 @@
 
 # Change password
 - name: Change password for admin user
-  isam: 
+  isam:
       appliance: "{{inventory_hostname}}"
       password: "admin"
       action: ibmsecurity.isam.base.admin.set_pw

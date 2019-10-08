@@ -15,7 +15,7 @@
     action: ibmsecurity.isam.web.reverse_proxy.junctions.set
     isamapi: "{{ item.1 | exclude('servers') | combine(item.1.servers[0]) | combine({'reverseproxy_id':item.0.inst_name}) }}"
   register: ret_obj
- 
+
 - name: Add junction servers
   isam:
     appliance: "{{ inventory_hostname }}"

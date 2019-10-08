@@ -4,12 +4,12 @@
     prompt: |
       NAME
         set_host_records
-      
+
       DESCRIPTION
         task for setting host file entries
-      
+
       Examples
-      
+
       inventory:
       ==========
       host_records:
@@ -17,7 +17,7 @@
           hostnames:
             - isam.ibm.com
       ==========
-      
+
       INTERACTION
         ENTER         = continue
         Ctrl+C + 'C'  = continue

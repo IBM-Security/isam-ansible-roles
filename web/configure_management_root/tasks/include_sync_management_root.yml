@@ -25,7 +25,7 @@
     label: "{ inst_name=\"{{ item.0.inst_name }}\", path: \"{{ element.path }}\", type: \"{{ element.type }}\", name: \"{{ element.name }}\"}"
   register: locals
 
-- name: Delete missing local files on the server 
+- name: Delete missing local files on the server
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -59,7 +59,7 @@
     label: "{'action': 'create', 'type': \"{{ create.state }}\", 'target': \"{{ item.1.target +'/'+ create.path }}\" }"
   register: directory_update_result
 - name: consolidate update items in a list of updates [directory]
-  set_fact: 
+  set_fact:
     directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
 
 - name: list of file update items
@@ -73,7 +73,7 @@
   register: file_update_result
 
 - name: consolidate uptate items in a list of updates [file]
-  set_fact: 
+  set_fact:
     file_updates: "{{ file_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.file_update_item') | list }}"
 
 - vars:

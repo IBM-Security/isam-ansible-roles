@@ -14,4 +14,4 @@
 # Default values for adding an ipv4 address - override as needed
 #
 # possible values: [interfaces_ipv4, interfaces_ipv6, interfaces_vlan]
-add_interfaces_action: interfaces_ipv4 
+add_interfaces_action: interfaces_ipv4

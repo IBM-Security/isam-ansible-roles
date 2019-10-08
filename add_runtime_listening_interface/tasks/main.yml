@@ -1,4 +1,4 @@
-- name: Snapshot Appliance Before Adding Runtime Listening Interfaces 
+- name: Snapshot Appliance Before Adding Runtime Listening Interfaces
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

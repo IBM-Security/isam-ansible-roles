@@ -16,8 +16,8 @@ Provide the following values for role to succeed
 ```
   required
   set_access_policy_name:
-  
-  set_access_policy_file: 
+
+  set_access_policy_file:
   OR
   set_access_policy_content:
 

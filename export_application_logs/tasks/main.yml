@@ -20,12 +20,12 @@
     isamapi:
       flat_details: yes
   register: logs
-  
-- debug: 
+
+- debug:
     msg: "{{ item }}"
   when: path == item.path
   with_items: "{{ logs.data }}"
-  
+
 - name: Get application log files
   isam:
     appliance: "{{ inventory_hostname }}"

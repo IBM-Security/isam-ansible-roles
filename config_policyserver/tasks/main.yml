@@ -10,7 +10,7 @@
     isamapi:
       comment: "{{ config_policyserver_comment }}"
 
-# Configuring policy server does not require a commit. So flush handlers now 
+# Configuring policy server does not require a commit. So flush handlers now
 # to ensure not to loose any prior pending changes.
 - meta: flush_handlers
 

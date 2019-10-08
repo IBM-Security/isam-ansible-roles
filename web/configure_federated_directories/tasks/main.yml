@@ -2,12 +2,12 @@
 # Example:
 #   policyserver_runtime:
 #     federated_directories:
-#       - id: internal_ldap 
+#       - id: internal_ldap
 #         hostname: localhost
 #         port: 389
 #         bind_dn: "cn=root,secAuthority=Default"
 #         bind_pwd: ****
-#         suffix: 
+#         suffix:
 #           - id: "dc=isam-usc"
 ---
 - name: Configure federated directories
@@ -27,6 +27,6 @@
     isamapi: "{{ item }}"
   with_items: "{{ policyserver_runtime.federated_directories }}"
   when: policyserver_runtime.federated_directories is defined
-  notify: 
+  notify:
     - Commit Changes
     - Restart Web Runtime

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #  Example data to make management root directory structure from REST API call flat.
-#   Input: 
+#   Input:
 #       {
 #           "children": [
 #               {

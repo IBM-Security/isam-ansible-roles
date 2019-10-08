@@ -3,7 +3,7 @@
 #   access_control_policy_attachments:
 #     server: /WebSEAL/default
 #     resourceUri: /index.html
-#     attachments: 
+#     attachments:
 #       - name: test_access_policy
 #         type: policy
 #     action: set
@@ -25,7 +25,7 @@
     isamapi: "{{ item }}"
   when: item is defined
   with_items: "{{ access_control_policy_attachments }}"
-  
+
 - name: Publish access control policy attachments
   isam:
     appliance: "{{ inventory_hostname }}"

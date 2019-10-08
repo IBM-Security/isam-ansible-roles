@@ -1,6 +1,6 @@
 galaxy_info:
   author: IBM
-  description: Role to set host file entries 
+  description: Role to set host file entries
   company: IBM
 
   license: Apache

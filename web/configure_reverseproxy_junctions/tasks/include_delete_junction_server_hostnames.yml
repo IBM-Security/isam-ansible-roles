@@ -15,7 +15,7 @@
     action: ibmsecurity.isam.web.reverse_proxy.junctions.get
     isamapi:
       reverseproxy_id: "{{ item.0.inst_name }}"
-      junctionname: "{{ item.1.junction_point  }}"      
+      junctionname: "{{ item.1.junction_point  }}"
   register: ret_obj
 - name: Delete junction servers
   isam:

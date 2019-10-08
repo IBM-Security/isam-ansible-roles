@@ -1,4 +1,4 @@
-- name: Snapshot Appliance Before Setting Advanced Tuning Parameters 
+- name: Snapshot Appliance Before Setting Advanced Tuning Parameters
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

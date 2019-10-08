@@ -26,6 +26,6 @@
       value_id: "{{ item.value_id }}"
   with_items: "{{ policyserver_runtime.entries }}"
   when: policyserver_runtime.entries is defined
-  notify: 
+  notify:
     - Commit Changes
     - Restart Web Runtime

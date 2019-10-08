@@ -17,4 +17,4 @@
       type: "{{ type }}"
       version: "{{ version }}"
       release_date: "{{ release_date }}"
-  when: name is defined and type is defined and version is defined and release_date is defined 
+  when: name is defined and type is defined and version is defined and release_date is defined

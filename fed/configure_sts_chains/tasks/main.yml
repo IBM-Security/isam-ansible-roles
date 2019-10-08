@@ -11,9 +11,9 @@
 #         signResponses: false
 #         validateRequests: false
 #         properties:
-#           self: 
+#           self:
 #             - name: uuid98f91a2f-ede5-4440-8b2e-f0bc845d967e.map.rule.type
-#               value: 
+#               value:
 #                 - JAVASCRIPT
 #             - name: uuid98f91a2f-ede5-4440-8b2e-f0bc845d967e.map.rule.reference.ids
 #               value:

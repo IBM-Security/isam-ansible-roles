@@ -21,20 +21,20 @@
 - debug: var=shell_out
 
 # set fact about target vm running
-- set_fact: 
+- set_fact:
       vm_running: true
   when: "shell_out.rc == 0"
 - debug: var=vm_running
 
 # start the vm if it is not running
 - name: if vmx file exists but it is not running, start it up
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}" 
+  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
   when: vm_running is not defined
 - debug: var=shell_out
 
 # wait for system up, the speed depends on whether cold start or resume
-- wait_for: 
+- wait_for:
      host: "{{ BS_vm_mgmt_ip }}"
      port: 443
      delay: 5

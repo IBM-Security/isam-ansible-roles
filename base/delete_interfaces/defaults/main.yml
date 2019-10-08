@@ -15,4 +15,4 @@
 # Default values for deleting an ipv4 interface - override as needed
 #
 # possible values: [ipv4, ipv6, vlan]
-delete_interfaces_action: ipv4 
+delete_interfaces_action: ipv4
