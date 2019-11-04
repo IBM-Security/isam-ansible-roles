@@ -1,0 +1,14 @@
+- name: Get the certificate databases
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_databases.get_all
+  register: ret_obj
+
+- name: set a fact to be used by other components
+  set_fact:
+    get_certificate_databases_ret_obj: "{{ ret_obj['data'] }}"
