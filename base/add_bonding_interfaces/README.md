@@ -10,9 +10,9 @@ TODO: Does not currently include vlanId (not sure if that is even relevant for b
 Requirements
 ------------
 
-The other roles that also use the "interfaces" object , need to be modified that they use specific items instead of 
+The other roles that also use the "interfaces" object , need to be modified that they use specific items instead of
  isamapi: "{{ {} | combine(item.0) | combine(item.1) }}", instead it needs to be like this:
- 
+
  isamapi:
       label: "{{ item.0.label }}"
       address: "{{ item.1.address }}"

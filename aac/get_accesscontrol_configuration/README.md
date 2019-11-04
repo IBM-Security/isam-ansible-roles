@@ -4,7 +4,7 @@ Will download into a separate directory, a full dump of the AAC advanced access 
 These files can be used to configure the actual Ansible configuraiton.
 
 The role creates a randomly named directory to store all files in; in the access_control_output_dir you define .
-See defaults/main.yml for the default configuration. 
+See defaults/main.yml for the default configuration.
 
 It exports
 - the Access control policies, in the xml format required to upload them.

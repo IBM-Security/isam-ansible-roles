@@ -1,4 +1,4 @@
-- name: Import URL Mapping (dynurl) - {{import_url_mapping_id}}
+- name: Import URL Mapping (dynurl) - {{ import_url_mapping_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

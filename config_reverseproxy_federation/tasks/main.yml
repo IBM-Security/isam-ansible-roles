@@ -1,7 +1,7 @@
 # Commit all changes made to date before configuring federation into reverse proxy
 - meta: flush_handlers
 
-- name: Lookup a Federation ID - {{config_reverseproxy_federation_name}}
+- name: Lookup a Federation ID - {{ config_reverseproxy_federation_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -15,7 +15,7 @@
   register: ret_obj
   when: config_reverseproxy_federation_name is defined
 
-- name: Configure Reverse Proxy {{config_reverseproxy_federation_instanceid}} for Federation {{config_reverseproxy_federation_name}}
+- name: Configure Reverse Proxy {{ config_reverseproxy_federation_instanceid }} for Federation {{ config_reverseproxy_federation_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

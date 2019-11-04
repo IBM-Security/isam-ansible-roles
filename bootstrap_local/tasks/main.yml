@@ -1,6 +1,6 @@
 ---
-# tasks file for bootstrap_local
-- include_vars: "{{ ansible_os_family }}.yml"
+- name:  tasks file for bootstrap_local
+  include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Check if there is a vm with the destination name already exist
   stat: path={{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}/{{ BS_vm_hostname }}.vmx
@@ -8,33 +8,36 @@
   ignore_errors: true
 - debug: var=vmxfile
 
-# bootstrap a new vm if vmx file does not exist
-- include: bootstrap.yml
+- name: bootstrap a new vm if vmx file does not exist
+  include: bootstrap.yml
   dynamic: true
-  when: vmxfile.stat.exists != true
+  when: not vmxfile.stat.exists
 
 - name: Check if there is a vm with the destination name already running
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}/{{ BS_vm_hostname }}.vmx"
+  shell: |
+    set -o pipefail && \
+    {{ BS_vmrun }} {{ BS_vmrunflags }} list | \
+    grep -q {{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}/{{ BS_vm_hostname }}.vmx
   changed_when: False
   register: shell_out
   ignore_errors: true
 - debug: var=shell_out
 
-# set fact about target vm running
-- set_fact: 
-      vm_running: true
+- name: set fact about target vm running
+  set_fact:
+    vm_running: true
   when: "shell_out.rc == 0"
 - debug: var=vm_running
 
 # start the vm if it is not running
 - name: if vmx file exists but it is not running, start it up
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}" 
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
   when: vm_running is not defined
 - debug: var=shell_out
 
-# wait for system up, the speed depends on whether cold start or resume
-- wait_for: 
+- name: wait for system up, the speed depends on whether cold start or resume
+  wait_for:
      host: "{{ BS_vm_mgmt_ip }}"
      port: 443
      delay: 5

@@ -26,7 +26,7 @@
       max_session_lifetime     : "{{ set_dsc_config_max_session_lifetime }}"
       client_grace             : "{{ set_dsc_config_client_grace }}"
       servers                  : "{{ set_dsc_config_servers }}"
-  notify: 
+  notify:
     - Commit Changes
 
  # Commit activation of module before doing anything else

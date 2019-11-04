@@ -2,18 +2,18 @@
 bootstrap_local
 =========
 
-Bootstrap an ISAM virtual appliance on a local Linux/OS X system to be used with VMWare Workstation or VMWare Fusion. 
+Bootstrap an ISAM virtual appliance on a local Linux/OS X system to be used with VMWare Workstation or VMWare Fusion.
 
-It is useful for demo or proof of concept on the local machine, but not for production deployment into VMWare ESX infrastructure. 
+It is useful for demo or proof of concept on the local machine, but not for production deployment into VMWare ESX infrastructure.
 
-It will create a new VM if it does not exist, and create a baseline snapshot. If an existing VM with the same name is running, it does nothing. If an existing VM with the same name exists but not running, it will start the VM. 
+It will create a new VM if it does not exist, and create a baseline snapshot. If an existing VM with the same name is running, it does nothing. If an existing VM with the same name exists but not running, it will start the VM.
 
 
 
 Requirements
 ------------
 
-VMWare Fusion for Mac OS X or VMWare workstation for Linux must be installed. 
+VMWare Fusion for Mac OS X or VMWare workstation for Linux must be installed.
 
 
 Role Variables
@@ -48,7 +48,7 @@ None
 Example Playbook
 ----------------
 
-A sample playbook *test.yml* has been placed under *tests/* subdirectory. 
+A sample playbook *test.yml* has been placed under *tests/* subdirectory.
 
     - hosts: servers
       roles:

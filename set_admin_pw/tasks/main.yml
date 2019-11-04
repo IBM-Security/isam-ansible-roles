@@ -9,7 +9,7 @@
     action: ibmsecurity.isam.base.admin.set_pw
     isamapi:
       oldPassword: "{{ old_password }}"
-      newPassword: "{{ password}}"
+      newPassword: "{{ password }}"
   ignore_errors: true
   when: old_password is defined
   notify: Commit Changes

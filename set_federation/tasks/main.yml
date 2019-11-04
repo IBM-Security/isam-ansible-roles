@@ -1,4 +1,4 @@
-- name: Set a Federation - {{set_federation_name}}
+- name: Set a Federation - {{ set_federation_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -14,7 +14,12 @@
       configuration: "{{ set_federation_configuration }}"
       templateName:  "{{ set_federation_templateName }}"
       new_name:      "{{ set_federation_new_name }}"
-  when: set_federation_name is defined and set_federation_protocol is defined and set_federation_role is defined and set_federation_configuration is defined and set_federation_templateName is defined
+  when:
+    - set_federation_name is defined
+    - set_federation_protocol is defined
+    - set_federation_role is defined
+    - set_federation_configuration is defined
+    - set_federation_templateName is defined
   notify:
     - Commit Changes
     - Reload Liberty Runtime

@@ -1,4 +1,4 @@
-- name: Set Remote Syslog Forwarder {{set_rsyslog_forwarder_server}}:{{set_rsyslog_forwarder_port}}
+- name: Set Remote Syslog Forwarder {{ set_rsyslog_forwarder_server }}:{{ set_rsyslog_forwarder_port }}
   isam:
     appliance : "{{ inventory_hostname }}"
     username  : "{{ username }}"

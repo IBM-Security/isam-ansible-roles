@@ -1,4 +1,4 @@
-- name: Import HTTP Transformation rule - {{import_http_transformation_id}}
+- name: Import HTTP Transformation rule - {{ import_http_transformation_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

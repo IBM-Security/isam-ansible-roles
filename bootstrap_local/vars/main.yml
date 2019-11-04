@@ -1,7 +1,7 @@
 ---
 #
-# Static constants 
+# Static constants
 #
-BS_vm_dest_dir: '{{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix}}'
+BS_vm_dest_dir: '{{ BS_vm_path_root }}/{{ BS_vm_hostname }}{{ BS_vm_dir_suffix }}'
 BS_vm_vmx: '{{ BS_vm_dest_dir }}/{{ BS_vm_hostname }}.vmx'
 BS_vm_vmdk: '{{ BS_vm_dest_dir }}/{{ BS_vm_hostname }}.vmdk'

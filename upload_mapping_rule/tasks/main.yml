@@ -1,4 +1,4 @@
-- name: Upload Mapping Rule - {{upload_mapping_rule_name}}
+- name: Upload Mapping Rule - {{ upload_mapping_rule_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

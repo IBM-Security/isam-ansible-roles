@@ -1,7 +1,7 @@
 ---
 # Adding interface with custom isamapi parameters
 # Therefore combining label with interface parameter:
-# Example: 
+# Example:
 #  interfaces:
 #    - label:  '1.1'
 #      addresses:

@@ -39,4 +39,4 @@
       file: "{{ fix_pack_file if((fix_pack_file | regex_search('^/')) == '/') else (inventory_dir +'/'+ fix_pack_file) }}"
   when: fix_pack_file is defined
   register: result
-  fail_when: result.rc not in ["0"]  
+  fail_when: result.rc not in ["0"]

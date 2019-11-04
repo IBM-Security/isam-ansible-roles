@@ -6,8 +6,8 @@ Use this Role to Install the Product Support License with the ISAM Appliance.
 Requirements
 ------------
 
-start_config role is a required dependencies. It contains the Ansible Custom Modules 
-and handlers. It also requires a valid license support file which can be obtained 
+start_config role is a required dependencies. It contains the Ansible Custom Modules
+and handlers. It also requires a valid license support file which can be obtained
 from IBM Security Systems License Key Center at https://ibmss.flexnetoperations.com
 
 Role Variables

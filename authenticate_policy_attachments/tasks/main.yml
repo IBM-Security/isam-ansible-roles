@@ -1,4 +1,4 @@
-- name: Authenticate One Time Before Policy Attachments - as {{authenticate_policy_attachments_username}}
+- name: Authenticate One Time Before Policy Attachments - as {{ authenticate_policy_attachments_username }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

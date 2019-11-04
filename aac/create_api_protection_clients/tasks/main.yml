@@ -7,10 +7,10 @@
 #           grantTypes:
 #             - AUTHORIZATION_CODE
 #           tcmBehavior: NEVER_PROMPT
-#           clients: 
+#           clients:
 #             - name: TestApp
 #               companyName: IBM demo client for OAuth flows
-#               redirectUri: 
+#               redirectUri:
 #                 - https://localhost
 #               contractType: ADMINISTRATIVE
 #               definitionName: oauth-provider
@@ -31,7 +31,7 @@
     action: ibmsecurity.isam.aac.api_protection.clients.add
     isamapi: "{{ item.1 | combine({ 'definitionName': item.0.name }) }}"
   when: item.1.name == client_name
-  with_subelements: 
+  with_subelements:
     - "{{ api_protection.definitions | default([]) }}"
     - clients
     - skip_missing: True

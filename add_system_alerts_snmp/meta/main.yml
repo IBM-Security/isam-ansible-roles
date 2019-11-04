@@ -1,2 +1,30 @@
+galaxy_info:
+  author: IBM
+  description: Role that adds system alerts snmp
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+  platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
+    - name: EL
+      versions:
+        - 8
+        - 7
+        - 6
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - web
+  - runtime
+  - policyserver
+
 dependencies:
   - start_config

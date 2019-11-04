@@ -1,6 +1,6 @@
 # It is recommended to create a policy using LMI and export the XML file to use
 # in the "policy" attribute for this task
-- name: Set Authentication Policy - {{set_auth_policy_name}}
+- name: Set Authentication Policy - {{ set_auth_policy_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

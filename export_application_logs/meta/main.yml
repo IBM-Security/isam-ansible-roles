@@ -1,17 +1,31 @@
 galaxy_info:
   author: IBM
-  description: Role to export application log files. A downloads folder has to exist in the inventory folder. Inside the downloads folder a folder for each appliance hostname is necessary.
+  description: >
+    Role to export application log files. A downloads folder has to exist in the inventory folder.
+    Inside the downloads folder a folder for each appliance hostname is necessary.
   company: IBM
 
   license: Apache
 
   min_ansible_version: 2.2
+  platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
+    - name: EL
+      versions:
+        - 8
+        - 7
+        - 6
 
   galaxy_tags:
   - isam
   - ibm
   - export
-  - application log files
+  - applicationlogfiles
 
 dependencies:
   - start_config

@@ -42,7 +42,7 @@ Here is an example of how to use this role:
            ldap_server_connection_description: "This is a connection to an LDAP server"
            ldap_server_connection_locked: false
            ldap_server_connection_manager: {"connectTimeout": 300}
-           
+
 
 License
 -------

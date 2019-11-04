@@ -14,7 +14,7 @@
 # Default values for configuring an ipv4 address - override as needed
 #
 # possible values: [interfaces_ipv4, interfaces_ipv6, interfaces_vlan]
-configure_interfaces_action: interfaces_ipv4 
+configure_interfaces_action: interfaces_ipv4
 
 # variable to delete all IP addresses not listed in the inventories
 delete_missing: "FALSE"

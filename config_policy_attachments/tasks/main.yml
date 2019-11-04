@@ -1,4 +1,4 @@
-- name: Configure Policy Attachments - {{config_policy_attachments_name}}
+- name: Configure Policy Attachments - {{ config_policy_attachments_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -15,7 +15,7 @@
   when: config_policy_attachments_server is defined and config_policy_attachments_resourceUri is defined
   register: ret_obj
 
-- name: Publish Policy Attachments - {{config_policy_attachments_resourceUri}}
+- name: Publish Policy Attachments - {{ config_policy_attachments_resourceUri }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

@@ -12,7 +12,7 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.aac.runtime_template.root.import_file
-    isamapi: 
+    isamapi:
       filename: "{{ inventory_dir }}/{{ item.file }}"
       delete_missing: "{{ item.delete_missing | default(delete_missing) }}"
   when: item.file is defined

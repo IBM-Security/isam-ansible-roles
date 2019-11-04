@@ -5,7 +5,7 @@
   when: execute_compare_base
 
 # Get runtime status for Master
-- name: Get all reverse proxies in {{master_hostname}}
+- name: Get all reverse proxies in {{ master_hostname }}
   isam:
     appliance: "{{ master_hostname }}"
     username:  "{{ master_username }}"
@@ -44,7 +44,7 @@
   when: execute_compare_web_runtime and master_web_runtime['data']['modecode'] != '-1'
 
 # Get all reverse proxies in master appliance
-- name: Get all reverse proxies in {{master_hostname}}
+- name: Get all reverse proxies in {{ master_hostname }}
   isam:
     appliance: "{{ master_hostname }}"
     username:  "{{ master_username }}"
@@ -65,7 +65,7 @@
   when: execute_compare_reverseproxy and master_web_runtime['data']['modecode'] != '-1' and ('wga' in master_web_runtime['ansible_facts']['activations'])
 
 # Get all Certificate Databases in master appliance
-- name: Get all certificate stores in {{master_hostname}}
+- name: Get all certificate stores in {{ master_hostname }}
   isam:
     appliance: "{{ master_hostname }}"
     username:  "{{ master_username }}"

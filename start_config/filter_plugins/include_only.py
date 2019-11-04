@@ -5,7 +5,7 @@ filter plugin with following features:
   1. filter takes a list 'a' and removes every tuple if the first value in the tuple matches a string 'b'
   2. filter takes a dict 'a' and recursivly calls himself to remove every tuple in a list matching 'b'
 
-  e.g. 
+  e.g.
     - b='test'  |  [['test','value'], ['another','value']] ==> [['test','value']]
     - b=''      |  [['test','value'], ['another','value']] ==> [['test','value'], ['another','value']]
     - b='value' |  [['test','value'], ['another','value']] ==> []

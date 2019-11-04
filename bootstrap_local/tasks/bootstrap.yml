@@ -3,7 +3,7 @@
 - name: Check the ISAM ISO file exists
   stat: path={{ BS_appliance_iso }}
   register: isofile
-  failed_when: "isofile.stat.exists == false"
+  failed_when: not isofile.stat.exists
 - debug: var=isofile.stat.exists
 
 - name: Check if the target VM directory exists
@@ -13,7 +13,7 @@
 
 - name: delete if the target VM directory exists
   file: path="{{ BS_vm_dest_dir }}" state=absent
-  when: vmdir.stat.exists == true
+  when: vmdir.stat.exists
 
 - name: create target VM directory
   file: path="{{ BS_vm_dest_dir }}" state=directory mode=0755
@@ -26,17 +26,19 @@
 - debug: var=cmd_out
 
 - name: create VM disk
-  shell: "{{ BS_vmdiskmgr }} -c -a lsilogic -s {{ BS_vm_hdd_size }}GB -t 0 {{ BS_vm_vmdk }}"
+  command: "{{ BS_vmdiskmgr }} -c -a lsilogic -s {{ BS_vm_hdd_size }}GB -t 0 {{ BS_vm_vmdk }}"
   register: cmd_out
+  changed_when: true
 - debug: var=cmd_out
 
 - name: install ISAM ISO from image {{ BS_appliance_iso }}
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: waiting for VM to install isam image and shutdown
-  shell: while ( {{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_vmx }} );
+  shell: set -o pipefail &&  while ( {{ BS_vmrun }} {{ BS_vmrunflags }} list | grep -q {{ BS_vm_vmx }} );
          do
            echo -n . ;
            sleep 1;
@@ -44,57 +46,61 @@
   register: shell_out
 
 - name: wait for VM process to end
-  shell: while ( ps -ef | grep {{ BS_vm_vmx }} | grep -q -v grep );
+  shell: set -o pipefail &&  while ( ps -ef | grep {{ BS_vm_vmx }} | grep -q -v grep );
          do
            echo -n . ;
            sleep 1;
          done
   register: shell_out
+  changed_when: false
 
 - name: check tmp dir
-  stat: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata"
+  stat: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata"
   register: tmpdir
   ignore_errors: true
 
 - name: clean tmp dir and file
-  file: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata" state=absent
-        path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso" state=absent
-  when: tmpdir.stat.exists == true
+  file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=absent
+        path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso" state=absent
+  when: tmpdir.stat.exists
 
 - name: create tmp dir
-  file: path="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata" state=directory mode=0755
+  file: path="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata" state=directory mode=0755
   register: shell_out
 - debug: var=shell_out
 
 - name: copy template
-  template: src="{{ role_path }}/templates/app-metadata" dest="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata"
+  template: src="{{ role_path }}/templates/app-metadata" dest="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata"
   register: cmd_out
 - debug: var=cmd_out
 
 - name: create metadata ISO
-  shell: "{{ BS_mkisofs }} {{ BS_mkisoflags }} {{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso {{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata  >/dev/null 2>&1"
+  shell: "{{ BS_mkisofs }} {{ BS_mkisoflags }} {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso {{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata  >/dev/null 2>&1"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: replace the ISO image file entry in vmx
   lineinfile: dest={{ BS_vm_vmx }}
               regexp='^sata0:1.fileName'
-              line='sata0:1.fileName="{{BS_tmpdir}}/{{ BS_vm_hostname }}-metadata.iso"'
+              line='sata0:1.fileName="{{ BS_tmpdir }}/{{ BS_vm_hostname }}-metadata.iso"'
               backrefs=yes
   register: cmd_out
 - debug: var=cmd_out
 
 - name: boot up again with bootstrap ISO
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} start {{ BS_vm_vmx }}"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out
 
 - name: wait for LMI up
-  shell: 'curl -k -v -s -u "admin:admin" -H "Accept:application/json" https://"{{ BS_vm_mgmt_ip }}"'
+  command: 'curl -k -v -s -u "admin:admin" -H "Accept:application/json" https://"{{ BS_vm_mgmt_ip }}"'
   register: result
   until: result.stdout.find("302 Found") != -1
   retries: 50
   delay: 5
+  changed_when: false
 
 - name: take care of vmx file to remove ISO image
   lineinfile: dest={{ BS_vm_vmx }}
@@ -121,6 +127,7 @@
 - debug: var=cmd_out
 
 - name: take a snapshot as baseline
-  shell: "{{ BS_vmrun }} {{ BS_vmrunflags }} snapshot {{ BS_vm_vmx }} baseline"
+  command: "{{ BS_vmrun }} {{ BS_vmrunflags }} snapshot {{ BS_vm_vmx }} baseline"
   register: shell_out
+  changed_when: true
 - debug: var=shell_out

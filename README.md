@@ -1,7 +1,7 @@
 # IBM Sample Code
 
-This repository contains Ansible Custom Modules and Roles for automating ISAM Appliance tasks. Custom Modules provide the 
-interface to python idempotent functions in ibmsecurity package. Handlers are coded into the roles to ensure changes are 
+This repository contains Ansible Custom Modules and Roles for automating ISAM Appliance tasks. Custom Modules provide the
+interface to python idempotent functions in ibmsecurity package. Handlers are coded into the roles to ensure changes are
 committed (deployed) and relevant processes restarted.
 
 ## Requirements
@@ -12,7 +12,7 @@ The following Python Packages are required (including their dependencies):
 1. ibmsecurity
 2. ansible
 
-Appliances need to have an ip address defined for their LMI. This may mean that appliances have had their initial setup 
+Appliances need to have an ip address defined for their LMI. This may mean that appliances have had their initial setup
 done with license acceptance.
 
 ## Get Started
@@ -32,16 +32,16 @@ roles_path = <dest dir>
 
 git tag will be used to indicate version numbers. The version numbers will be based on date. For example: "2017.03.20.0"
 
-It is the date when the package is released with a sequence number at the end to handle when there are 
+It is the date when the package is released with a sequence number at the end to handle when there are
 multiple releases in one day (expected to be uncommon).
 
 ## Features
 
-The `start_config` role is a requirement for every playbok. It contains the custom modules and all handlers. All other 
+The `start_config` role is a requirement for every playbok. It contains the custom modules and all handlers. All other
 roles have a dependency on it and `start_config` will get automatically invoked as needed.This repository contains a small selection of roles - users are encouraged to add more as needed.
 
 ### Custom Modules
-_”Modules (also referred to as “task plugins” or “library plugins”) are the ones that do the actual work in ansible, 
+_”Modules (also referred to as “task plugins” or “library plugins”) are the ones that do the actual work in ansible,
 they are what gets executed in each playbook task. But you can also run a single one using the ‘ansible’ command.”_
 http://docs.ansible.com/ansible/modules_intro.html
 
@@ -57,22 +57,22 @@ the JSON data from one appliance is comapared against another.
 
 ### Handlers
 After a change happens, ansible can be set to execute "handlers" to commit changes and/or restart processes. Handlers
-are just other tasks. Handlers execute based on the sequence in which they are listed. See `start_config` role for 
+are just other tasks. Handlers execute based on the sequence in which they are listed. See `start_config` role for
 details.
 
 ### Roles
-“Roles in Ansible build on the idea of include files and combine them to form clean, reusable abstractions – they allow 
+“Roles in Ansible build on the idea of include files and combine them to form clean, reusable abstractions – they allow
 you to focus more on the big picture and only dive down into the details when needed.”
 http://docs.ansible.com/ansible/playbooks_roles.html
 
-Using roles allows one to concentrate on describing the business needs in a playbook. The actual call to the python 
+Using roles allows one to concentrate on describing the business needs in a playbook. The actual call to the python
 function and the need to deploy and restart processes is taken care of isnide the role.
 
 ## Naming of Roles and variables
-Roles start with a verb like "set" or "add" followed by a name that describes either the task or the python function 
+Roles start with a verb like "set" or "add" followed by a name that describes either the task or the python function
 being called. This depends on whether the role contains a single tasks or a combination of tasks.
 
-Preference should be given to using "set" roles versus ones that do an "add" or "update". This allows for the role to 
+Preference should be given to using "set" roles versus ones that do an "add" or "update". This allows for the role to
 either do an add or an update as the situation demands.
 
 # License

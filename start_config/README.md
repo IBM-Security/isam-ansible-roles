@@ -2,26 +2,26 @@
 start_config
 =========
 
-This role contains the ISAM Ansible module files under the *library* subdirectory, and notification handlers that can be used by all other roles. Always reference this role before other ISAM Ansible roles. 
+This role contains the ISAM Ansible module files under the *library* subdirectory, and notification handlers that can be used by all other roles. Always reference this role before other ISAM Ansible roles.
 
-This role also takes care of the first steps set up of an ISAM appliance, set up FIPS configuration for LMI, and change the default password. It is to be run once only. 
+This role also takes care of the first steps set up of an ISAM appliance, set up FIPS configuration for LMI, and change the default password. It is to be run once only.
 
 Requirements
 ------------
 
-An ISAM appliance needs to be bootstrapped with LMI interface up and running. 
+An ISAM appliance needs to be bootstrapped with LMI interface up and running.
 
 Role Variables
 --------------
 
 The variables for this role can be passed via role directly, or inventory file, or playbook vars/main.yml.
 
-All required variables are defined in *defaults/main.yml* file except for the *inventory_hostname*. 
+All required variables are defined in *defaults/main.yml* file except for the *inventory_hostname*.
 
 Required variables must be provided:
 
 **inventory_hostname**: hostname or IP address of the LMI interface
-**password**: LMI admin password to be set 
+**password**: LMI admin password to be set
 
 Variables with default values set, define them only if you want to change the default values:
 
@@ -42,7 +42,7 @@ None
 Example Playbook
 ----------------
 
-A sample playbook *test.yml* has been placed under *tests/* subdirectory. 
+A sample playbook *test.yml* has been placed under *tests/* subdirectory.
 
     - hosts: servers
       roles:

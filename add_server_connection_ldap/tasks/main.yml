@@ -25,6 +25,11 @@
       description: "{{ ldap_server_connection_description }}"
       locked: "{{ ldap_server_connection_locked }}"
       connectionManager: "{{ ldap_server_connection_manager }}"
-  when: ldap_server_connection_name is defined and ldap_server_connection_connection is defined and ldap_server_connection_description is defined and ldap_server_connection_locked is defined and ldap_server_connection_manager is defined
+  when:
+    - ldap_server_connection_name is defined
+    - ldap_server_connection_connection is defined
+    - ldap_server_connection_description is defined
+    - ldap_server_connection_locked is defined
+    - ldap_server_connection_manager is defined
   notify: Commit Changes
 

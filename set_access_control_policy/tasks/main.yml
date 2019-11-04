@@ -1,6 +1,6 @@
 # It is recommended to create a policy using LMI and export the XML file to use
 # in the "policy" attribute for this task
-- name: Set Access Control Policy - {{set_access_control_policy_name}}
+- name: Set Access Control Policy - {{ set_access_control_policy_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -17,5 +17,8 @@
       dialect:            "{{ set_access_control_policy_dialect }}"
       predefined:         "{{ set_access_control_policy_predefined }}"
       new_name:           "{{ set_access_control_policy_new_name }}"
-  when: set_access_control_policy_name is defined and set_access_control_policy_policy_file is defined and set_access_control_policy_attributesrequired is defined
+  when:
+    - set_access_control_policy_name is defined
+    - set_access_control_policy_policy_file is defined
+    - set_access_control_policy_attributesrequired is defined
   notify: Commit Changes

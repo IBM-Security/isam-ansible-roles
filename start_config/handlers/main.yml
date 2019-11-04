@@ -175,7 +175,7 @@
     timeout: "{{ start_config_wait_time }}"
     state: started
   when: not ansible_check_mode
-  
+
 - name: Restart LMI and wait
   isam:
     appliance: "{{ inventory_hostname }}"

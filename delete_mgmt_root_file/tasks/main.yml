@@ -10,7 +10,7 @@
     isamapi:
       instance_id: "{{ delete_mgmt_root_file_instance_id }}"
       id         : "{{ item }}"
-  with_items: "{{delete_mgmt_root_file_ids}}"
+  with_items: "{{ delete_mgmt_root_file_ids }}"
   when: delete_mgmt_root_file_instance_id is defined and delete_mgmt_root_file_ids is defined
   notify:
   - Commit Changes

@@ -1,4 +1,4 @@
-- name: List all the logs from reverse proxy {{archive_logs_instance_id}}
+- name: List all the logs from reverse proxy {{ archive_logs_instance_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -12,12 +12,12 @@
   when: archive_logs_instance_id is defined
   register: ret_obj
 
-- name: Get date from {{archive_logs_grace_days}} days ago
-  command: "python -c \"import datetime;print (datetime.datetime.now()-datetime.timedelta(days={{archive_logs_grace_days}})).date()\""
+- name: Get date from {{ archive_logs_grace_days }} days ago
+  command: "python -c \"import datetime;print (datetime.datetime.now()-datetime.timedelta(days={{ archive_logs_grace_days }})).date()\""
   register: past_dt
   changed_when: False
 
-- name: Export logs from reverse proxy {{archive_logs_instance_id}}
+- name: Export logs from reverse proxy {{ archive_logs_instance_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -29,14 +29,18 @@
     isamapi:
       instance_id: "{{ archive_logs_instance_id }}"
       file_id: "{{ item['id'] }}"
-      filename: "{{archive_logs_directory}}/{{inventory_hostname}}_{{item['id']}}"
-  when: archive_logs_export and archive_logs_instance_id is defined and item['id'].startswith(archive_logs_filter) and item['id'][dt_start|int:dt_end|int] < past_dt.stdout
-  with_items: "{{ret_obj['data']}}"
+      filename: "{{ archive_logs_directory }}/{{ inventory_hostname }}_{{ item['id'] }}"
+  when:
+    - archive_logs_export
+    - archive_logs_instance_id is defined
+    - item['id'].startswith(archive_logs_filter)
+    - item['id'][dt_start|int:dt_end|int] < past_dt.stdout
+  with_items: "{{ ret_obj['data'] }}"
   vars:
-    dt_start: "{{archive_logs_filter | length}}"
-    dt_end: "{{dt_start|int + 10}}"
+    dt_start: "{{ archive_logs_filter | length }}"
+    dt_end: "{{ dt_start|int + 10 }}"
 
-- name: Delete logs from reverse proxy {{archive_logs_instance_id}}
+- name: Delete logs from reverse proxy {{ archive_logs_instance_id }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -48,8 +52,12 @@
     isamapi:
       instance_id: "{{ archive_logs_instance_id }}"
       file_id: "{{ item['id'] }}"
-  when: archive_logs_delete and archive_logs_instance_id is defined and item['id'].startswith(archive_logs_filter) and item['id'][dt_start|int:dt_end|int] < past_dt.stdout
-  with_items: "{{ret_obj['data']}}"
+  when:
+    - archive_logs_delete | bool
+    - archive_logs_instance_id is defined
+    - item['id'].startswith(archive_logs_filter)
+    - item['id'][dt_start|int:dt_end|int] < past_dt.stdout
+  with_items: "{{ ret_obj['data'] }}"
   vars:
-    dt_start: "{{archive_logs_filter | length}}"
-    dt_end: "{{dt_start|int + 10}}"
+    dt_start: "{{ archive_logs_filter | length }}"
+    dt_end: "{{ dt_start|int + 10 }}"

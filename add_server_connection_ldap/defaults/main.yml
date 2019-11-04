@@ -1,5 +1,5 @@
 # Provide the name, connection, description, locked flag, and connection manager for the LDAP server connection
-# 
+#
 # ldap_server_connection_name: "LDAP Connection"
 # ldap_server_connection_connection: {"hostName": "ldap.int", "hostPort": "636", "bindDN": "cn=root", "bindPwd": "secret", "ssl": true, "sslTruststore": "trust.kdb", "sslAuthKey": "client_key"}
 # ldap_server_connection_description: "This is a connection to an LDAP server"

@@ -25,7 +25,7 @@
     loop_var: element
   register: locals
 
-- name: Delete missing local files on the server 
+- name: Delete missing local files on the server
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -50,20 +50,20 @@
   notify: Commit Changes
 
 - name: list of directory update items
-  set_fact: 
+  set_fact:
     directory_update_item: "{{ {'action': 'create', 'type': create.state, 'path': ((item.target+'/'+create.path) | dirname) if (item.target != '') else (create.path | dirname), 'name': (create.path | basename) } }}"
   when: create.state == "directory"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
   loop_control:
     loop_var: create
     label: "{{ {'action': 'create', 'type': create.state, 'path': ((item.target+'/'+create.path) | dirname) if (item.target != '') else (create.path | dirname), 'name': (create.path | basename) } }}"
-  register: directory_update_result  
+  register: directory_update_result
 - name: consolidate uptate items in a list of updates [directory]
-  set_fact: 
+  set_fact:
     directory_updates: "{{ directory_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.directory_update_item') | list }}"
 
 - name: list of file update items
-  set_fact: 
+  set_fact:
     file_update_item: "{{ {'action': 'upload', 'target': (item.target+'/'+ upload.path) if (item.target != '') else (upload.path), 'type': upload.state, 'file': upload.src } }}"
   when: upload.state == "file"
   with_filetree: "{{ inventory_dir }}/{{ item.directory }}"
@@ -73,7 +73,7 @@
   register: file_update_result
 
 - name: consolidate uptate items in a list of updates [files]
-  set_fact: 
+  set_fact:
     file_updates: "{{ file_update_result.results | selectattr('ansible_facts','defined') | map(attribute='ansible_facts.file_update_item') | list }}"
 
 - set_fact:

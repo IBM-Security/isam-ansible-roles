@@ -1,7 +1,7 @@
 # Commit all changes made to date before configuring oauth into reverse proxy
 - meta: flush_handlers
 
-- name: Configure Reverse Proxy {{config_reverseproxy_oauth_instance_id}} for Oauth
+- name: Configure Reverse Proxy {{ config_reverseproxy_oauth_instance_id }} for Oauth
   isam:
     appliance: "{{ inventory_hostname }}"
     username: "{{ username }}"

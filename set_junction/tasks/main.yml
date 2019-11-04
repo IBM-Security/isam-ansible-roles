@@ -1,4 +1,4 @@
-- name: Update a Junction - {{set_junction_junction_point}}
+- name: Update a Junction - {{ set_junction_junction_point }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
@@ -55,5 +55,10 @@
       insert_ltpa_cookies:              "{{ set_junction_insert_ltpa_cookies }}"
       http2_junction:                   "{{ set_junction_http2_junction }}"
       http2_proxy:                      "{{ set_junction_http2_proxy }}"
-      sni_name:                         "{{ set_junction_sni_name }}"            
-  when: set_junction_junction_point is defined and set_junction_junction_type is defined and set_junction_reverseproxy_id is defined and set_junction_server_hostname is defined and set_junction_server_port is defined
+      sni_name:                         "{{ set_junction_sni_name }}"
+  when:
+    - set_junction_junction_point is defined
+    - set_junction_junction_type is defined
+    - set_junction_reverseproxy_id is defined
+    - set_junction_server_hostname is defined
+    - set_junction_server_port is defined

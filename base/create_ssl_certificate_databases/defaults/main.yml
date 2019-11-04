@@ -1,2 +1,2 @@
 # Default variables for create ssl certificate database
-create_certificate_databases: []  
+create_certificate_databases: []

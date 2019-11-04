@@ -1,4 +1,4 @@
-- name: Set Remote Syslog Forwarder Sources {{set_rsyslog_forwarder_sources_server}}:{{set_rsyslog_forwarder_sources_port}}
+- name: Set Remote Syslog Forwarder Sources {{ set_rsyslog_forwarder_sources_server }}:{{ set_rsyslog_forwarder_sources_port }}
   isam:
     appliance : "{{ inventory_hostname }}"
     username  : "{{ username }}"
@@ -8,13 +8,13 @@
     force     : "{{ force }}"
     action: ibmsecurity.isam.base.remote_syslog.forwarder_sources.set
     isamapi:
-      server:   "{{item.server   }}"
-      port:     "{{item.port     }}"
-      protocol: "{{item.protocol }}"
-      name:     "{{item.name     }}"
-      tag:      "{{item.tag      }}"
-      facility: "{{item.facility }}"
-      severity: "{{item.severity }}"
+      server:   "{{ item.server   }}"
+      port:     "{{ item.port     }}"
+      protocol: "{{ item.protocol }}"
+      name:     "{{ item.name     }}"
+      tag:      "{{ item.tag      }}"
+      facility: "{{ item.facility }}"
+      severity: "{{ item.severity }}"
   when: set_rsyslog_forwarder_sources is defined
-  with_items: "{{set_rsyslog_forwarder_sources | default([])}}"
+  with_items: "{{ set_rsyslog_forwarder_sources | default([]) }}"
   notify: Commit Changes

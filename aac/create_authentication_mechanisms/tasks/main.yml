@@ -5,7 +5,7 @@
 #         uri: "urn:ibm:security:authentication:asf:mechanism:mappingRule1"
 #         description: "Mapping Rule 1"
 #         typeName: InfoMapAuthenticationName
-#         properties:     
+#         properties:
 #           - key: infoMap.HTMLPage
 #             value: ""
 #           - key: infoMap.JSRule

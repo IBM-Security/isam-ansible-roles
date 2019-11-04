@@ -8,8 +8,8 @@
     force:     "{{ force }}"
     action: ibmsecurity.isam.web.reverse_proxy.junctions.get
     isamapi:
-      reverseproxy_id: "{{item.0.item.id}}"
-      junctionname: "{{item.1.id}}"
+      reverseproxy_id: "{{ item.0.item.id }}"
+      junctionname: "{{ item.1.id }}"
   register: ret_obj
   when: junction_ret_obj is defined
   with_subelements:

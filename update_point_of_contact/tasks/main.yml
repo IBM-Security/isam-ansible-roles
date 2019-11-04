@@ -16,6 +16,6 @@
       signInCallbacks: "{{ update_point_of_contact_signInCallbacks }}"
       signOutCallbacks: "{{ update_point_of_contact_signOutCallbacks }}"
   when: update_point_of_contact_name is defined
-  notify: 
+  notify:
     - Commit Changes
     - Restart AAC Runtime

@@ -35,7 +35,9 @@
     action: ibmsecurity.isam.web.sso_keys.add
     isamapi:
        ssokey_name: "{{ config_failover_cookie_id }}"
-  when: failover.stat.exists == False and config_failover_cookie_id is defined
+  when:
+    - not failover.stat.exists
+    - config_failover_cookie_id is defined
   notify: Commit Changes
 
 # Commit changes before proceeding
@@ -55,7 +57,11 @@
       id:       "{{ config_failover_cookie_id }}"
       filename: "{{ config_failover_cookie_filename }}"
   # Check mode means key would not be created - so check for it
-  when: failover.stat.exists == False and not ansible_check_mode and config_failover_cookie_id is defined and config_failover_cookie_filename is defined
+  when:
+    - not failover.stat.exists
+    - not ansible_check_mode
+    - config_failover_cookie_id is defined
+    - config_failover_cookie_filename is defined
   notify: Commit Changes
 
 # Configure Reverse Proxy configuration to support failover cookies
@@ -76,34 +82,34 @@
   with_items:
   - stanza: "session-cookie-domains"
     entry: "domain"
-    value: "{{config_failover_cookie_domain}}"
+    value: "{{ config_failover_cookie_domain }}"
   - stanza: "failover"
     entry: "failover-cookie-name"
-    value: "{{config_failover_cookie_failover_cookie_name}}"
+    value: "{{ config_failover_cookie_failover_cookie_name }}"
   - stanza: "failover"
     entry: "failover-cookie-lifetime"
-    value: "{{config_failover_cookie_failover_cookie_lifetime}}"
+    value: "{{ config_failover_cookie_failover_cookie_lifetime }}"
   - stanza: "failover"
     entry: "failover-auth"
-    value: "{{config_failover_cookie_failover_auth}}"
+    value: "{{ config_failover_cookie_failover_auth }}"
   - stanza: "failover"
     entry: "failover-cookies-keyfile"
-    value: "{{config_failover_cookie_id}}"
+    value: "{{ config_failover_cookie_id }}"
   - stanza: "failover"
     entry: "enable-failover-cookie-for-domain"
-    value: "{{config_failover_cookie_enable_failover_cookie_for_domain}}"
+    value: "{{ config_failover_cookie_enable_failover_cookie_for_domain }}"
   - stanza: "failover"
     entry: "failover-include-session-id"
-    value: "{{config_failover_cookie_failover_include_session_id}}"
+    value: "{{ config_failover_cookie_failover_include_session_id }}"
   - stanza: "failover"
     entry: "reissue-missing-failover-cookie"
-    value: "{{config_failover_cookie_reissue_missing_failover_cookie}}"
+    value: "{{ config_failover_cookie_reissue_missing_failover_cookie }}"
   - stanza: "failover-add-attributes"
     entry: "tagvalue_failover_amweb_session_id"
-    value: "{{config_failover_cookie_tagvalue_failover_amweb_session_id_add}}"
+    value: "{{ config_failover_cookie_tagvalue_failover_amweb_session_id_add }}"
   - stanza: "failover-restore-attributes"
     entry: "tagvalue_failover_amweb_session_id"
-    value: "{{config_failover_cookie_tagvalue_failover_amweb_session_id_preserve}}"
+    value: "{{ config_failover_cookie_tagvalue_failover_amweb_session_id_preserve }}"
   when: config_failover_cookie_domain is defined
   notify:
   - Commit Changes

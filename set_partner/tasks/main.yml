@@ -1,4 +1,4 @@
- - name: Set Federation Partner - {{set_partner_partner_name}}
+ - name: Set Federation Partner - {{ set_partner_partner_name }}
    isam:
      appliance: "{{ inventory_hostname }}"
      username:  "{{ username }}"
@@ -7,14 +7,20 @@
      log:       "{{ log_level }}"
      force:     "{{ force }}"
      action: ibmsecurity.isam.fed.partners.set
-     isamapi: 
+     isamapi:
        federation_name: "{{ set_partner_federation_name }}"
        partner_name:    "{{ set_partner_partner_name }}"
        enabled:         "{{ set_partner_enabled }}"
        role:            "{{ set_partner_role }}"
        configuration:   "{{ set_partner_configuration }}"
        templateName:    "{{ set_partner_templateName }}"
-   when: set_partner_federation_name is defined and set_partner_partner_name is defined and set_partner_enabled is defined and set_partner_role is defined and set_partner_configuration is defined and set_partner_templateName is defined
-   notify: 
+   when:
+     - set_partner_federation_name is defined
+     - set_partner_partner_name is defined
+     - set_partner_enabled is defined
+     - set_partner_role is defined
+     - set_partner_configuration is defined
+     - set_partner_templateName is defined
+   notify:
      - Commit Changes
      - Reload Liberty Runtime

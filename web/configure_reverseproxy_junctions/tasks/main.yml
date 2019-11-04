@@ -18,10 +18,10 @@
   when: item[1].junction_point == (junction_point | default(item[1].junction_point)) and item[0].inst_name == (inst_name | default(item[0].inst_name))
   loop_control:
     label: "{inst_name: {{ item[0].inst_name }}, junction_point: {{ item[1].junction_point }}}"
-    
+
 - name: Include to delete undefined junctions
   include: include_delete_junctions.yml
   with_items: "{{ instances }}"
-  when: delete_junctions == true
+  when: delete_junctions
   loop_control:
     label: "{inst_name: {{ item.inst_name }}, delete_junctions: {{ delete_junctions }}}"

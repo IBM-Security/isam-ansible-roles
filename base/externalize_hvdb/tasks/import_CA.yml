@@ -12,7 +12,7 @@
       label:  "{{ externalize_hvdb_db2_ca_label }}"
       server: "{{ externalize_hvdb_db2_hvdb_address }}"
       port:   "{{ externalize_hvdb_db2_hvdb_port }}"
-  with_items: "{{externalize_hvdb_db2_keystores}}"
+  with_items: "{{ externalize_hvdb_db2_keystores }}"
   when: externalize_hvdb_db2_keystores is defined and externalize_hvdb_db2_ca_label is defined
   notify: Commit Changes
 
@@ -30,7 +30,7 @@
       cert   : "{{ item[1].cert }}"
       label  : "{{ item[1].label }}"
   with_nested:
-    - "{{externalize_hvdb_db2_keystores | default([]) }}"
-    - "{{externalize_hvdb_db2_ca_certandlabel | default([]) }}"
+    - "{{ externalize_hvdb_db2_keystores | default([]) }}"
+    - "{{ externalize_hvdb_db2_ca_certandlabel | default([]) }}"
   when: externalize_hvdb_db2_keystores is defined and externalize_hvdb_db2_ca_certandlabel is defined
   notify: Commit Changes

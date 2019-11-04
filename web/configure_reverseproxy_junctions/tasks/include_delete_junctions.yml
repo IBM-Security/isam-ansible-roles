@@ -17,7 +17,7 @@
       reverseproxy_id: "{{ item.inst_name }}"
   when: item.inst_name == inst_name
   register: ret_obj
-- name: Delete junction 
+- name: Delete junction
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"

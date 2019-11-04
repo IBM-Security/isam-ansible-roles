@@ -22,4 +22,7 @@
       scripting_support:  "{{ execute_isamcfg_scripting_support }}"
       junction_cookie_javascript_block: "{{ execute_isamcfg_junction_cookie_javascript_block }}"
       query_contents:     "{{ execute_isamcfg_query_contents }}"
-  when: execute_isamcfg_reverseproxy_id is defined and execute_isamcfg_server is defined and execute_isamcfg_port is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list
+  when:
+    - execute_isamcfg_reverseproxy_id is defined
+    - execute_isamcfg_server is defined
+    - execute_isamcfg_port is defined and execute_isamcfg_reverseproxy_id in execute_isamcfg_reverseproxy_list

@@ -1,4 +1,4 @@
-- name: Set a Mapping Rule - {{set_mapping_rule_name}}
+- name: Set a Mapping Rule - {{ set_mapping_rule_name }}
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"

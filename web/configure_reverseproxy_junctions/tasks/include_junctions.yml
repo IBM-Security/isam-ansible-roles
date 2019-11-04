@@ -6,10 +6,10 @@
     # junction_type: "{{ item.1.junction_type }}"
     # servers: "{{ item.1.servers }}"
     # inst_name: "{{ item.0.inst_name }}"
-   
+
 - name: Include Create Junctions
   include: include_create_junctions.yml
 
 - name: "Include to delete undefined junction server hostnames [delete_junction_server: {{ delete_junction_server }}, inst_name: {{ item[0].inst_name }}, junction_point: {{ item[1].junction_point }}]"
   include: include_delete_junction_server_hostnames.yml
-  when: delete_junction_server == true
+  when: delete_junction_server

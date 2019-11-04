@@ -70,7 +70,7 @@ Here is an example of how to use this role:
         identityMapping:
           activeDelegateId: "default-map"
           properties:
-            identityMappingRuleReference: "{{search_mapping_rule['data']}}"
+            identityMappingRuleReference: "{{ search_mapping_rule['data'] }}"
             ruleType: "JAVASCRIPT"
         issuerIdentifier: "https://ibm.com"
         refreshTokenLength: 50

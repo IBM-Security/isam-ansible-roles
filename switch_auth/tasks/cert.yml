@@ -57,6 +57,6 @@
       kdb_id : "{{ switch_auth_key_database }}"
       cert   : "{{ item.cert }}"
       label  : "{{ item.label }}"
-  with_items: "{{switch_auth_ca_certandlabel | default([]) }}"
+  with_items: "{{ switch_auth_ca_certandlabel | default([]) }}"
   when: switch_auth_key_database is defined and switch_auth_ca_certandlabel is defined
   notify: Commit Changes

@@ -2,7 +2,7 @@
 set_ldap_user_attr
 =========
 
-Set LDAP user attribute 
+Set LDAP user attribute
 
 Requirements
 ------------
@@ -26,7 +26,7 @@ Required variables are:
 ```
   present: all given values will be added if they are missing
   absent: all given values will be removed if present.
-  exact: the set of values will be forced to exactly those provided and no others. 
+  exact: the set of values will be forced to exactly those provided and no others.
 ```
 
 **ldap_user_attributes**: This is a JSON object which contains 'dn' string and a JSON array 'attributes'. For example:
@@ -41,14 +41,14 @@ Required variables are:
 Dependencies
 ------------
 
-This role depends on the Ansible module ldap-attr which will be part of Ansible 2.3, not official released yet. We have included it under the /library directory. Once it is officially released by Ansible we will remove it from this role. 
+This role depends on the Ansible module ldap-attr which will be part of Ansible 2.3, not official released yet. We have included it under the /library directory. Once it is officially released by Ansible we will remove it from this role.
 
 https://docs.ansible.com/ansible/ldap_attr_module.html
 
 Example Playbook
 ----------------
 
-A sample playbook *test.yml* has been placed under *tests/* subdirectory. 
+A sample playbook *test.yml* has been placed under *tests/* subdirectory.
 
 ```
 ---

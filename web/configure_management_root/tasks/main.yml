@@ -14,7 +14,7 @@
 #             type: directory
 #           - action: delete
 #             type: directory
-#             targets: 
+#             targets:
 #               - errors/de
 #               - errors/fr
 #           - action: sync_up
@@ -98,7 +98,7 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: "ibmsecurity.isam.web.reverse_proxy.management_root.{{ item.1.type }}.delete"
-    isamapi: 
+    isamapi:
       id:             "{{ item.1.target }}"
       instance_id:    "{{ item.0.inst_name }}"
   when: item.1.action == 'delete' and item.1.target is defined and item.1.type is defined and (item.1.type == 'file' or item.1.type == 'directory') and item.0.inst_name == inst_name and item.1.target == target
@@ -119,7 +119,7 @@
   loop_control:
     label:  "(action=\"{{ item.1.action }}\", type=\"{{ item.1.type | default('file') }}\", inst_name=\"{{ item.0.inst_name }}\", target=\"{{ item.1.target | default('none') }}\")"
   notify: Commit Changes
-  
+
 - name: Import management root zip files
   include: include_import_management_root.yml
   when: item.1.action == 'import_file' and item.0.inst_name == inst_name and (skip_imports | upper) != "TRUE"
@@ -144,7 +144,7 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.management_root.all.import_zip
-    isamapi: 
+    isamapi:
       filename: "{{ inventory_dir }}/{{ file }}"
       instance_id: "{{ inst_name }}"
       delete_missing: "{{ delete_missing }}"
