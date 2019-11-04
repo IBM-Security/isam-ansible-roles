@@ -10,4 +10,4 @@
     isamapi:
       name: "{{ search_attribute_source_name }}"
   when: search_attribute_source_name is defined
-  register: "{{ search_attribute_source_register }}"
+  register: search_attribute_source_register
