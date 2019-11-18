@@ -1,0 +1,36 @@
+---
+- name: List and show objects in Policy Server
+  isamadmin:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    action: ibmsecurity.isam.web.runtime.object.get_all
+    isamuser:  "{{ admin_id }}"
+    isampwd:   "{{ admin_pwd }}"
+    isamapi:
+      object: "{{ isam_object }}"
+      admin_domain: "{{ admin_domain }}"
+  ignore_errors: true
+  loop: "{{ isam_objects }}"
+  loop_control:
+    label: "List and show : {{ isam_object }}"
+    loop_var: isam_object
+  register: ret_obj_listandshow
+
+- name: Output of List and Show
+  debug:
+    msg: "{{ item.data | to_nice_yaml }}"
+  when:
+    - ret_obj_listandshow is defined
+  loop: "{{ ret_obj_listandshow['results'] }}"
+  loop_control:
+    label: "Object: {{ item.isam_object | default('missing') }}"
+
+
