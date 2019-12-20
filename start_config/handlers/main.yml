@@ -57,7 +57,7 @@
     action: ibmsecurity.isam.web.runtime.process.execute
     isamapi:
       operation: "restart"
-    when: not ansible_facts.model == "Docker"
+  when: not ansible_facts.model == "Docker"
 
 # This is a two part handler - first one gets all reverse proxies, second one restarts all of them
 # Get all reverse proxies in appliance - also set changed flag to trigegr next handler
