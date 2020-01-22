@@ -97,7 +97,7 @@
     isamapi:
       id:        "{{ item.id }}"
       operation: "restart"
-  when: reverseproxy_list is defined and 'data' in reverseproxy_list and not ansible_facts.model == "Docker"
+  when: reverseproxy_list is defined and 'data' in reverseproxy_list or not ansible_facts.model == "Docker"
   with_items: "{{ reverseproxy_list['data'] }}"
 
 - name: Reload Liberty Runtime
@@ -116,7 +116,7 @@
     action: ibmsecurity.isam.base.runtime.process.execute
     isamapi:
       operation: "reload"
-  when: not ansible_check_mode and not ansible_facts.model == "Docker"
+  when: not ansible_check_mode or not ansible_facts.model == "Docker"
 
 - name: Restart AAC Runtime
   isam:
@@ -134,7 +134,7 @@
     action: ibmsecurity.isam.base.runtime.process.execute
     isamapi:
       operation: "restart"
-  when: not ansible_check_mode and not ansible_facts.model == "Docker"
+  when: not ansible_check_mode or not ansible_facts.model == "Docker"
 
 - name: Reboot Appliance
   isam:
@@ -151,7 +151,7 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.appliance.reboot
   notify: Await Appliance LMI Response
-  when: not ansible_check_mode and not ansible_facts.model == "Docker"
+  when: not ansible_check_mode or not ansible_facts.model == "Docker"
 
 - name: Restart LMI
   isam:
