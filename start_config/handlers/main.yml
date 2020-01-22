@@ -134,7 +134,7 @@
     action: ibmsecurity.isam.base.runtime.process.execute
     isamapi:
       operation: "restart"
-  when: not ansible_check_mode
+  when: not ansible_check_mode and not ansible_facts.model == "Docker"
 
 - name: Reboot Appliance
   isam:
@@ -151,7 +151,7 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.appliance.reboot
   notify: Await Appliance LMI Response
-  when: not ansible_check_mode
+  when: not ansible_check_mode and not ansible_facts.model == "Docker"
 
 - name: Restart LMI
   isam:
