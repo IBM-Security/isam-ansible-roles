@@ -2,19 +2,7 @@
 #   http://docs.ansible.com/ansible/glossary.html#notify
 # <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
 - name: Commit Changes
-  isam:
-    appliance: "{{ inventory_hostname }}"
-    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
-    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
-    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
-    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
-    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
-    username:  "{{ username }}"
-    password:  "{{ password }}"
-    lmi_port:  "{{ port | default(omit) }}"
-    log:       "{{ log_level | default(omit) }}"
-    force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.appliance.commit
+  include_tasks: commit.yml
 
 - name: Commit Changes and Restart
   isam:

@@ -1,0 +1,35 @@
+# Important: The order of handlers is crucial. See documentation:
+#   http://docs.ansible.com/ansible/glossary.html#notify
+# <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
+- name: Commit Changes (appliance)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.appliance.commit
+  when: not ansible_facts.model == "Docker"
+
+- name: Commit Changes (docker)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.docker.publish.publish_changes
+  when: ansible_facts.model == "Docker"
+
