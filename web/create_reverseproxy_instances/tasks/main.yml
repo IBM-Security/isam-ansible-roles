@@ -32,24 +32,8 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.instance.add
-    isamapi:
-      inst_name: "{{ item.inst_name }}"
-      host: "{{ item.host }}"
-      listening_port: "{{ item.listening_port }}"
-      domain: "{{ item.domain | default('default') }}"
-      admin_id: "{{ item.admin_id }}"
-      admin_pwd: "{{ item.admin_pwd }}"
-      ssl_yn: "{{ item.ssl_yn | default('None') }}"
-      key_file: "{{ item.key_file | default('None') }}"
-      cert_label: "{{ item.cert_label | default('None') }}"
-      ssl_port: "{{ item.ssl_port | default('None') }}"
-      http_yn: "{{ item.http_yn | default('no') }}"
-      http_port: "{{ item.http_port | default(80) }}"
-      https_yn: "{{ item.https_yn | default('no') }}"
-      https_port: "{{ item.https_port | default(443) }}"
-      nw_interface_yn: "{{ item.nw_interface_yn | default('None') }}"
-      ip_address: "{{ item.ip_address }}"
+    isamapi: "{{ item | exclude('junctions') | exclude('entries') }}"
   with_items: "{{ instances }}"
   loop_control:
-   label: "Creating (( item.inst_name )) with ip address (( item.ip_address ))"
+   label: "Creating {{ item.inst_name }} with ip address {{ item.ip_address | default('docker') }}"
   notify: Commit Changes
