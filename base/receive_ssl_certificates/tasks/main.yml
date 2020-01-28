@@ -12,6 +12,6 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.base.ssl_certificates.personal_certificates.receive
+    action: ibmsecurity.isam.base.ssl_certificates.personal_certificate.receive
     isamapi: "{{ item }}"
   with_items: "{{ receive_ssl_certificates }}"
