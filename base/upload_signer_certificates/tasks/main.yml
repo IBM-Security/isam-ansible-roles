@@ -21,7 +21,7 @@
     action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
     isamapi:
       kdb_id: "{{ item.kdb_id }}"
-      cert: "{{ inventory_dir }}/{{ item.cert  }}"
+      cert: "{{ item.cert  }}"
       label: "{{ item.label }}"
   with_items: "{{ upload_signer_certificates }}"
   notify: Commit Changes
