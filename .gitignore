@@ -5,3 +5,4 @@
 *.retry
 *.pyc
 *.bak
+.vscode
