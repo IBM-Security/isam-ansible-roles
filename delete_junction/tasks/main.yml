@@ -1,0 +1,15 @@
+- name: Delete junction - {{ delete_junction_junction_name }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.junctions.delete
+    isamapi:
+      junctionname           : "{{ delete_junction_junction_name }}"
+      reverseproxy_id       : "{{ delete_junction_reverse_proxy_id }}"
+  when: delete_junction_junction_name is defined and delete_junction_reverse_proxy_id is defined
+  notify:
+    - Commit Changes
