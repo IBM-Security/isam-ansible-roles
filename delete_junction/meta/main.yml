@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to delete a junction
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - delete
+  - web
+  - junctions
+
+dependencies:
+  - start_config
