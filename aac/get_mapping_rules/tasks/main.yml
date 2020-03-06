@@ -9,5 +9,5 @@
     log:       "{{ log_level }}"
     force:     "{{ force }}"
     action: ibmsecurity.isam.aac.mapping_rules.get_all
-    isamapi: 
+    isamapi:
   register: mapping_rules_obj
