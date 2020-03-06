@@ -1,8 +1,15 @@
-# main task to configure authentication policies
+# main task to upload access policies
 #   Example:
-#     access_policies:
-#  def set(isamAppliance, name, file=None, content=None, type='JavaScript', category='OIDC', check_mode=False,
-#        force=False):
+#
+#    - name: Upload Access Policies
+#      tags: ["access-policy"]
+#      include_role:
+#        name: aac/set_access_policies
+#      vars:
+#        access_policies:
+#          - name: "MyAccessPolicy"
+#            file: "files/access-policies/MyAccessPolicy.js"
+#
 ---
 - name: Set access policies
   isam:

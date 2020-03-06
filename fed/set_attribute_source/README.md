@@ -68,5 +68,5 @@ Apache
 
 Author Information
 ------------------
-
-Ryan Dunn (rdunn1121@gmail.com)
+Based on work by : Ryan Dunn (rdunn1121@gmail.com)
+Tom Bosmans: tom.bosmans@be.ibm.com

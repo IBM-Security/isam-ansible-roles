@@ -1,5 +1,8 @@
+# This role will disable ALL authentication policies EXCEPT:
+#  - the ones in the list "whitelist_authentication_policies"
+#  - the ones in the variable "authentication_policies"
+#
 ---
-# get_all(isamAppliance, start=None, count=None, filter=None, sortBy=None, check_mode=False, force=False):
 - name: Retrieve the Current Authentication Policies
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -17,16 +20,13 @@
     isamapi:
   register: definedPolicies
 
-#def activate(isamAppliance, name, enabled=True, check_mode=False, force=False):
-# {{ list1 | difference(list2) }}
-
 - name: Debug defined policies
   debug:
     msg: "{{ definedPolicies.data | default([]) | to_nice_yaml }}"
     verbosity: 2
   when: definedPolicies is defined
 
-- name: Do the list magic.  Combine.
+- name: Do the list magic.  Combine the explicit whitelist with the authentication policies you defined elsewhere
   set_fact:
     filtered_definedPolicies: "{{ definedPolicies.data | json_query('[*].name') }}"
     filtered_authentication_policies: "{{ authentication_policies | union( whitelist_authentication_policies ) | json_query('[*].name') }}"
@@ -43,7 +43,7 @@
     verbosity: 2
   when: filtered_authentication_policies is defined
 
-- name: Do the list magic.  Difference, so outcome is all policies to disable
+- name: Do the list magic.  The outcome is all policies to disable
   set_fact:
     filtered_difference: "{{ filtered_definedPolicies | difference(filtered_authentication_policies) }}"
 

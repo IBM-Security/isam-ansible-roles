@@ -1,6 +1,6 @@
 galaxy_info:
   author: IBM
-  description: Role to create obligation
+  description: Role to create obligations
   company: IBM
 
   license: Apache

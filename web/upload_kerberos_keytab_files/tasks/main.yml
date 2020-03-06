@@ -1,10 +1,19 @@
 # main task to upload keytab files
 # Example:
-# keytab_files
-# -  id: keytab.tab
-#    file: /path/to/keytab.tab
-# -  id: keytab2.tab
-#    file: /path/to/keytab2.tab
+# - hosts: "all"
+#   connection: local
+#   gather_facts: no
+#   tasks:
+#    - name: Upload keytabs
+#      tags: ["keytab"]
+#      import_role:
+#        name: web/upload_kerberos_keytab_files
+#      vars:
+#        keytab_files
+#        -  id: keytab.tab
+#           file: /path/to/keytab.tab
+#        -  id: keytab2.tab
+#           file: /path/to/keytab2.tab
 #
 ---
 - name: Upload keytab files

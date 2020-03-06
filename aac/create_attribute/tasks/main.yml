@@ -1,7 +1,29 @@
-# main task for creation of obligation
+# main task for creation of attribute
+#
 # Example:
-#def set(isamAppliance, name, description, attributeURI, type, category, datatype, predefined, issuer, matcher, storageDomain,
-#        new_name=False, check_mode=False, force=False):
+#   - name: Create custom attributes
+#     tags: ["oidc", "rba"]
+#     import_role:
+#        name: aac/create_attribute
+#      vars:
+#        accesscontrol_attributes:
+#            - name: "someAttribute"
+#              predefined:false
+#              description:""
+#              attributeURI: "someAttribute"
+#              type:
+#                 policy: true
+#                 risk: false
+#              issuer: ""
+#              datatype: String
+#              category: Subject
+#              matcher: 1
+#              storageDomain:
+#                device: false
+#                session: false
+#                behavior: false
+#
+#
 ---
 - name: Create attribute
   isam:

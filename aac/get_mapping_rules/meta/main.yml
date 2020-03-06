@@ -1,11 +1,11 @@
 galaxy_info:
   author: IBM
-  description: Role that searches for a Mapping Rule (for ID lookup)
+  description: Role that searches for a Mapping Rule (for ID lookup) and returns mapping_rules_obj
   company: IBM
 
   license: Apache
 
-  min_ansible_version: 2.2
+  min_ansible_version: 2.7
 
   galaxy_tags:
   - isam

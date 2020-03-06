@@ -1,28 +1,9 @@
-# Default variables for krb5 configuration
+# Default variables for krb5 merging
 #
-#krb_defaults:
-#  - name: "default_realm"
-#    value: "AD.COM"
-#  - name: "default_tgs_enctypes"
-#    value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
-#  - name: "default_tkt_enctypes"
-#    value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+# The keytabs need to exist already in ISAM !
 #
-# krb_realms:
-#  - realm: "AD.COM"
-#    properties:
-#      - name: "admin_server"
-#        value: "kdc.ad.com"
-#      - name: "kdc"
-#        value: "kdc.ad.com:88"
-#
-# A Test is only executed when a user and password are defined
-#
-# krb_test_user
-# krb_test_user
-krb_defaults: []
-krb_realms: []
-krb_domains: []
-
-# action
-kdc_realm_property_action: "add"
+#keytab_files_to_merge:
+#  - id: combined.keytab
+#    merged_id:
+#      - keytab1.keytab
+#      - keytab2.keytab

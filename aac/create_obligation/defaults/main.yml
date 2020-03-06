@@ -1,4 +1,4 @@
-# Default variables for creation of authentication policies
+# Default variables for creation of obligations
 authentication_obligations: []
 
 # Example

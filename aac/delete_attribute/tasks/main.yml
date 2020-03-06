@@ -1,7 +1,16 @@
-# main task for creation of obligation
+# main task for deletion of attributes
+#
 # Example:
-#def set(isamAppliance, name, description, attributeURI, type, category, datatype, predefined, issuer, matcher, storageDomain,
-#        new_name=False, check_mode=False, force=False):
+#  - name: Delete custom attributes
+#    tags: ["oidc", "rba"]
+#    import_role:
+#        name: aac/delete_attribute
+#    vars:
+#        accesscontrol_delete_attributes:
+#           - name: "attributeToDelete"
+#           - name: "anotherAttributeToDelete"
+#
+#
 ---
 - name: Delete attribute
   isam:

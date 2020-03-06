@@ -1,5 +1,18 @@
+# Role to merge keytab files into a new one
+#
+# Example:
+#   - name: Run the combine keytabs
+#     tags: ["krb", "keytab"]
+#     import_role:
+#       name: web/merge_keytabs
+#     vars:
+#       keytab_files_to_merge:
+#         - id: combined.keytab
+#           merged_id:
+#             - keytab1.keytab
+#             - keytab2.keytab
 ---
-- name         : get configuration
+- name         : Get krb configuration
   isam         :
     appliance                   : "{{ inventory_hostname }}"
     adminProxyProtocol          : "{{ adminProxyProtocol | default(omit) }}"
@@ -16,18 +29,12 @@
     isamapi                     :
   register     : ret_obj
   ignore_errors: True
-  #notify: Commit Changes
-
-- name : Debug
-  debug:
-    msg      : "ALL {{ ret_obj.data | to_json }} "
-    verbosity: 1
 
 # TODO: test if the keyfiles to merge are there
 # TODO: check if the combined keyfile is there (if there already, delete ?)
-#def combine(isamAppliance, newname, keytab_files, check_mode=False, force=False):
-- name        : Merge keytabs
-  isam        :
+
+- name: Merge keytabs
+  isam:
     appliance                   : "{{ inventory_hostname }}"
     adminProxyProtocol          : "{{ adminProxyProtocol | default(omit) }}"
     adminProxyHostname          : "{{ adminProxyHostname | default(omit) }}"
@@ -47,8 +54,10 @@
   loop_control:
     loop_var: krb5
     label: "merging: {{ krb5.id }}"
-  when        : keytab_files_to_merge is defined and (keytab_files_to_merge | length>0 )
-  notify      : Commit Changes
+  when:
+    - keytab_files_to_merge is defined
+    - keytab_files_to_merge | length>0
+  notify: Commit Changes
 
 
 

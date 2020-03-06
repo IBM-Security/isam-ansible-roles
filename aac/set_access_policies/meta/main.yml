@@ -1,6 +1,6 @@
 galaxy_info:
   author: IBM
-  description: Role to configure access policies
+  description: Role to upload access policies
   company: IBM
 
   license: Apache

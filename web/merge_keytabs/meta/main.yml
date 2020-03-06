@@ -1,6 +1,6 @@
 galaxy_info:
   author: IBM
-  description: Role to configure krb5 kerberos
+  description: Role to merge keytab files for krb5 kerberos
   company: IBM
 
   license: Apache

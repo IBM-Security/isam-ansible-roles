@@ -1,4 +1,6 @@
-- name: Search for a Mapping Rule
+# Get all mapping rules and register the mapping_rules_obj, to use in other roles/playbooks
+---
+- name: Get all Mapping Rules
   isam:
     appliance: "{{ inventory_hostname }}"
     username:  "{{ username }}"
