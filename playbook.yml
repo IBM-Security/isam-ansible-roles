@@ -5,7 +5,12 @@
   gather_facts: false
 
   roles:
-    - aac
+    - aac/create_attribute
+    - aac/create_obligation
+    - aac/delete_attribute
+    - aac/disable_authentication_policies
+    - aac/get_mapping_rules
+    - aac/set_access_policies
     - activate_module
     - add_attribute_source
     - add_chain_template
@@ -60,8 +65,8 @@
     - export_application_logs
     - export_cluster_sign
     - externalize_hvdb_db2
-    - fed
     - first_steps
+    - fed/set_attribute_source
     - gen_report
     - get_federation
     - get_firmware
@@ -128,4 +133,5 @@
     - upload_extension
     - upload_ltpa_key
     - upload_mapping_rule
-    - web
+    - web/merge_keytabs
+    - web/upload_kerberos_keytab_files
