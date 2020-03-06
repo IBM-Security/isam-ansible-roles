@@ -1,0 +1,6 @@
+# Default variables for enabling and updating risk profiles
+authentication_riskprofiles: []
+
+# Example
+#authentication_riskprofiles:
+

@@ -1,0 +1,103 @@
+---
+# get_all(isamAppliance, start=None, count=None, filter=None, sortBy=None, check_mode=False, force=False):
+- name: Retrieve the Current Authentication Policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.policies.get_all
+    isamapi:
+  register: definedPolicies
+
+#def activate(isamAppliance, name, enabled=True, check_mode=False, force=False):
+# {{ list1 | difference(list2) }}
+
+- name: Debug defined policies
+  debug:
+    msg: "{{ definedPolicies.data | default([]) | to_nice_yaml }}"
+    verbosity: 2
+  when: definedPolicies is defined
+
+- name: Do the list magic.  Combine.
+  set_fact:
+    filtered_definedPolicies: "{{ definedPolicies.data | json_query('[*].name') }}"
+    filtered_authentication_policies: "{{ authentication_policies | union( whitelist_authentication_policies ) | json_query('[*].name') }}"
+
+- name: Debug defined policies after json_query
+  debug:
+    msg: "{{ filtered_definedPolicies| default([]) | to_nice_yaml }}"
+    verbosity: 2
+  when: filtered_definedPolicies is defined
+
+- name: Debug authentication policies
+  debug:
+    msg: "{{ filtered_authentication_policies| default([]) | to_nice_yaml }}"
+    verbosity: 2
+  when: filtered_authentication_policies is defined
+
+- name: Do the list magic.  Difference, so outcome is all policies to disable
+  set_fact:
+    filtered_difference: "{{ filtered_definedPolicies | difference(filtered_authentication_policies) }}"
+
+- name: Debug the outcome of the difference.  These policies will be disabled.
+  debug:
+    msg: "{{ filtered_difference| default([]) | to_nice_yaml }}"
+  when: filtered_difference is defined
+
+- name: Disable authentication policies that are not whitelisted
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.policies.activate
+    isamapi:
+        name: "{{ item }}"
+        enabled: false
+  loop: "{{ filtered_difference | default([]) }}"
+  loop_control:
+     label: "Disabling {{ item | default('...') }}"
+  notify: Commit Changes
+  when:
+    - filtered_difference is defined
+    - item is defined
+
+- name: Explicitely enabling all defined and whitelisted authentication policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.authentication.policies.activate
+    isamapi:
+        name: "{{ item }}"
+        enabled: true
+  loop: "{{ filtered_authentication_policies | default([]) }}"
+  loop_control:
+     label: "Enabling {{ item | default('...') }}"
+  notify: Commit Changes
+  when:
+    - filtered_authentication_policies is defined
+    - item is defined

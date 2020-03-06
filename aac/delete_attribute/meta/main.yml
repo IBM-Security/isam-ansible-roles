@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to delete an access control attribute
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - delete
+  - access_control
+  - attribute
+
+dependencies:
+  - start_config

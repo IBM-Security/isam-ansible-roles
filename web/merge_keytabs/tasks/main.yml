@@ -1,0 +1,54 @@
+---
+- name         : get configuration
+  isam         :
+    appliance                   : "{{ inventory_hostname }}"
+    adminProxyProtocol          : "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname          : "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort              : "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy              : "{{ omitAdminProxy | default(omit) }}"
+    username                    :  "{{ username }}"
+    password                    :  "{{ password }}"
+    lmi_port                    :  "{{ port | default(omit) }}"
+    log                         :       "{{ log_level | default(omit) }}"
+    force                       :     "{{ force | default(omit) }}"
+    action                      : ibmsecurity.isam.web.kerberos_configuration.keyfiles.get
+    isamapi                     :
+  register     : ret_obj
+  ignore_errors: True
+  #notify: Commit Changes
+
+- name : Debug
+  debug:
+    msg      : "ALL {{ ret_obj.data | to_json }} "
+    verbosity: 1
+
+# TODO: test if the keyfiles to merge are there
+# TODO: check if the combined keyfile is there (if there already, delete ?)
+#def combine(isamAppliance, newname, keytab_files, check_mode=False, force=False):
+- name        : Merge keytabs
+  isam        :
+    appliance                   : "{{ inventory_hostname }}"
+    adminProxyProtocol          : "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname          : "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort              : "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy              : "{{ omitAdminProxy | default(omit) }}"
+    username                    :  "{{ username }}"
+    password                    :  "{{ password }}"
+    lmi_port                    :  "{{ port | default(omit) }}"
+    log                         :       "{{ log_level | default(omit) }}"
+    force                       :     "{{ force | default(omit) }}"
+    action                      : ibmsecurity.isam.web.kerberos_configuration.keyfiles.combine
+    isamapi                     :
+      newname : "{{ krb5.id }}"
+      keytab_files: "{{ krb5.merged_id }}"
+  loop: "{{ keytab_files_to_merge }}"
+  loop_control:
+    loop_var: krb5
+    label: "merging: {{ krb5.id }}"
+  when        : keytab_files_to_merge is defined and (keytab_files_to_merge | length>0 )
+  notify      : Commit Changes
+
+
+

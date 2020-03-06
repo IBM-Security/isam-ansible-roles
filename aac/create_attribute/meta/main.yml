@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to create obligation
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - create
+  - access_control
+  - attribute
+
+dependencies:
+  - start_config

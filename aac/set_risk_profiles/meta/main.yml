@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to set risk profiles
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - set
+  - risk
+
+
+dependencies:
+  - start_config

@@ -1,0 +1,20 @@
+# Default variables for creation of authentication policies
+accesscontrol_attributes: []
+#
+# Example:
+#  - name: "colruytAuthLevel"
+#    predefined:false
+#    description:""
+#    attributeURI: "colruytAuthLevel"
+#    type:
+#       policy: true
+#       risk: false
+#    issuer: ""
+#    datatype: String
+#    category: Subject
+#    matcher: 1
+#    storageDomain:
+#      device: false
+#      session: false
+#      behavior: false
+

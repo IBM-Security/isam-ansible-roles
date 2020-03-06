@@ -1,0 +1,2 @@
+# Default variables for configuration of oidc access policies
+access_policies: []
