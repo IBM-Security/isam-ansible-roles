@@ -5,11 +5,12 @@ galaxy_info:
 
   license: Apache
 
-  min_ansible_version: 2.2
+  min_ansible_version: 2.8
 
   galaxy_tags:
-  - isam
-  - ibm
+    - v1.0.2
+    - isam
+    - ibm
 
 dependencies:
   - start_config
