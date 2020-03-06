@@ -33,6 +33,11 @@
     - archive_logs
     - authenticate_policy_attachments
     - base
+    - base/activate_modules
+    - base/add_bonding_interfaces
+    - base/add_interfaces
+    - base/apply_snapshot
+    - base/first_steps
     - bootstrap_local
     - config_dns
     - config_failover_cookie
