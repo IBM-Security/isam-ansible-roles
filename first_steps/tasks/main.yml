@@ -9,7 +9,8 @@
     force_basic_auth: yes
     status_code: 200, 403
     validate_certs: false
-    HEADER_Accept: "application/json"
+    headers:
+     "Accept": "application/json"
   check_mode: no
   register: result
 
@@ -21,8 +22,13 @@
 - name: Initiate logic if First Steps Required
   set_fact:
     firststeps: "firststeps.yml"
-  when: result is defined and result.status == 200 and result.json.sla is defined
+  when:
+    - result is defined
+    - result.status == 200
+    - result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
-- include: "{{ firststeps }}"
-  dynamic: true
+- name: "Execute {{ firststeps }}"
+  include: "{{ firststeps }}"
+  when:
+    - firststeps == 'firststeps.yml'
