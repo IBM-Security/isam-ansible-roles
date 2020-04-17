@@ -1,0 +1,19 @@
+galaxy_info:
+  author: IFC
+  description: Role that gets support files
+  company: IFC
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - support
+  - files
+  - get
+
+dependencies:
+  - start_config
+
