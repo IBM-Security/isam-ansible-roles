@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to remove a LMI user
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - remove
+  - LMI
+  - user
+
+dependencies:
+  - start_config
