@@ -1,6 +1,0 @@
-# Provide entries in the following format. Create an array for each value to be updated.
-#
-#set_managementauthorization_role_name: "System Administrator"
-#set_managementauthorization_role_entries:
-#  - { feature_name: "webseal_instances", access: "w" }
-#
