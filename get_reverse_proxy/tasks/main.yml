@@ -1,0 +1,15 @@
+- name: Get the reverse proxy namespaces
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.instance.get
+  register: ret_obj
+
+- name: set a fact to be used by other components
+  set_fact:
+    get_reverse_proxy_ret_obj: "{{ ret_obj['data'] }}"
+
