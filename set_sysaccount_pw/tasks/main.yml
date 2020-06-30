@@ -1,0 +1,15 @@
+- name: Change LMI password
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.sysaccount.users.modify
+    isamapi:
+      id: "{{ set_sysaccount_id }}"
+      password: "{{ set_sysaccount_password }}"
+  ignore_errors: true
+  when: set_sysaccount_id is defined and set_sysaccount_password is defined
+  notify: Commit Changes
