@@ -1,0 +1,27 @@
+- name: Getting uuid of System Alert Rsyslog to delete
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.rsyslog.search
+    isamapi:
+      collector: "{{ system_alerts_rsyslog_collector }}"
+  when: system_alerts_rsyslog_collector is defined
+  register: sysalerts_rsyslog
+
+- name: Deleting {{ system_alerts_rsyslog_collector }} from rsyslog system alerts
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.rsyslog.delete
+    isamapi:
+      uuid: "{{ sysalerts_rsyslog['data'] }}"
+  when: sysalerts_rsyslog['data'] is defined
+  notify: Commit Changes
