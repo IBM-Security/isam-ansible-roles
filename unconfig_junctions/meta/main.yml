@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IFC
+  description: Role to unconfigure all junctions to a reverse proxy
+  company: IFC
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - reverse proxy
+  - junction
+  - unconfig
+
+dependencies:
+  - start_config
