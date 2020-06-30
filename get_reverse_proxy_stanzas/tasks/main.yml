@@ -1,0 +1,17 @@
+- name: Get a reverse proxy stanza
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.entry.get_all
+    isamapi:
+      reverseproxy_id: "{{ get_reverse_proxy_stanzas_reverseproxy_id }}"
+      stanza_id: "{{ get_reverse_proxy_stanzas_stanza_id }}"
+  register: ret_obj
+
+- name: set a fact to be used by other components
+  set_fact:
+    get_reverse_proxy_stanzas_ret_obj: "{{ ret_obj['data'] }}"
