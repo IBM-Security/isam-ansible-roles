@@ -1,7 +1,7 @@
 galaxy_info:
-  author: IFC
+  author: IBM
   description: Role to unconfigure all junctions to a reverse proxy
-  company: IFC
+  company: IBM
 
   license: Apache
 

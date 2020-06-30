@@ -1,7 +1,7 @@
 galaxy_info:
-  author: IFC
+  author: IBM
   description: Role to set runtime uproxy configuration file with given stanza/entries
-  company: IFC
+  company: IBM
 
   license: Apache
 

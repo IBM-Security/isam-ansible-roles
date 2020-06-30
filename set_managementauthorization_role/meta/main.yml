@@ -1,7 +1,7 @@
 galaxy_info:
-  author: IFC
+  author: IBM
   description: Role to set a new or existing authorization role with given name and features associated
-  company: IFC
+  company: IBM
 
   license: Apache
 
