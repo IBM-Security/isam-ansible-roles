@@ -1,0 +1,15 @@
+- name: Delete Management Root File/folder {{ delete_management_root_file_filename }} from {{ delete_management_root_file_instance_id }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.management_root.directory.delete
+    isamapi:
+      instance_id: "{{ delete_management_root_file_instance_id }}"
+      id: "{{ delete_management_root_file_filename }}"
+  when: delete_management_root_file_instance_id is defined and delete_management_root_file_filename is defined
+  notify:
+  - Commit Changes
