@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role to delete system alerts SNMP
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.2
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - delete
+  - alerts
+  - snmp
+
+dependencies:
+  - start_config
