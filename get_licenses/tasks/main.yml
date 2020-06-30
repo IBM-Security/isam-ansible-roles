@@ -1,0 +1,14 @@
+- name: Get Support License installed
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.license.get_all
+  register: ret_obj
+
+- name: Set variable for use by rest of playbook
+  set_fact:
+    licenses_ret_obj: "{{ ret_obj }}"
