@@ -1,0 +1,24 @@
+- name: Get all the mapping rules
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.mapping_rules.get_all
+  register: mapping_rule_objects
+
+- name: Initialize mapping rules array
+  set_fact:
+    mapping_rules_ret_obj: []
+
+- name: Export the mapping rules to an array
+  set_fact:
+    mapping_rules_ret_obj: "{{ mapping_rules_ret_obj + [ item ] }}"
+  with_items: "{{ mapping_rule_objects['data'] }}"
+  no_log: True
+
+- name: set a variable to be used by the other playbooks
+  set_fact:
+    mappingrules_ret_obj: "{{ mapping_rules_ret_obj }}"
