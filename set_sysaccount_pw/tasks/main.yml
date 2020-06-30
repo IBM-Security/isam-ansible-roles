@@ -10,6 +10,6 @@
     isamapi:
       id: "{{ set_sysaccount_id }}"
       password: "{{ set_sysaccount_password }}"
-  ignore_errors: true
+  ignore_errors: True
   when: set_sysaccount_id is defined and set_sysaccount_password is defined
   notify: Commit Changes
