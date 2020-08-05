@@ -1,21 +1,6 @@
 # Important: The order of handlers is crucial. See documentation:
 #   http://docs.ansible.com/ansible/glossary.html#notify
 # <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
-- name: Commit Changes
-  isam:
-    appliance: "{{ inventory_hostname }}"
-    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
-    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
-    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
-    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
-    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
-    username:  "{{ username }}"
-    password:  "{{ password }}"
-    lmi_port:  "{{ port | default(omit) }}"
-    log:       "{{ log_level | default(omit) }}"
-    force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.appliance.commit
-
 - name: Commit Changes and Restart
   isam:
     appliance: "{{ inventory_hostname }}"
@@ -32,6 +17,22 @@
     action: ibmsecurity.isam.appliance.commit_and_restart_and_wait
 
 # Commit and Restart may cause LMI to restart - so wait to be safe
+
+- name: Commit Changes
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.appliance.commit
+
 - name: Await Appliance Commit LMI Response
   wait_for:
     host: "{{ inventory_hostname }}"
