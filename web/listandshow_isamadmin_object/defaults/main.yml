@@ -1,0 +1,12 @@
+# Provide a list of objects to list-and-show
+#isam_objects:
+#  - "/WebSEAL"
+#  - "/WebSEAL/default-instance"
+# admin_id and admin_pwd need to be set to the sec_master's username and password
+
+# Use Default domain, override as needed
+admin_domain: Default
+isam_objects:
+  - "/"
+admin_id: sec_master
+admin_pwd: passw0rd
