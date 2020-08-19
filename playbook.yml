@@ -5,6 +5,12 @@
   gather_facts: false
 
   roles:
+    - aac/create_attribute
+    - aac/create_obligation
+    - aac/delete_attribute
+    - aac/disable_authentication_policies
+    - aac/get_mapping_rules
+    - aac/set_access_policies
     - aac/configure_access_control_attributes
     - aac/configure_access_control_policies
     - aac/configure_access_control_policy_attachments
@@ -130,6 +136,7 @@
     - fed/get_federations
     - fed/set_runtime_certificates
     - first_steps
+    - fed/set_attribute_source
     - gen_report
     - get_federation
     - get_firmware
@@ -196,6 +203,8 @@
     - upload_extension
     - upload_ltpa_key
     - upload_mapping_rule
+    - web/merge_keytabs
+    - web/upload_kerberos_keytab_files
     - web/configure_federated_directories
     - web/configure_management_root
     - web/configure_policyserver

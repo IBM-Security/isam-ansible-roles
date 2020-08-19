@@ -1,0 +1,32 @@
+galaxy_info:
+  author: IBM
+  description: Role to merge keytab files for krb5 kerberos
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
+    - name: EL
+      versions:
+        - 8
+        - 7
+        - 6
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - upload
+  - keytab
+  - krb5
+  - krb
+
+dependencies:
+  - start_config

@@ -1,0 +1,32 @@
+# main task for creation of obligation
+# Example:
+---
+- name: Create obligations
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.obligations.set
+    isamapi:
+      name: "{{ item.name }}"
+      description: "{{ item.description | default('') }}"
+      obligationURI: "{{ item.obligationURI }}"
+      parameters: "{{ item.parameters | default([]) }}"
+      type: "{{ item.type | default('Obligation') }}"
+      typeId: "{{ item.typeId | default('1') }}"
+      properties: "{{ item.properties | default([]) }}"
+      new_name: "{{ item.new_name | default(omit) }}"
+  loop: "{{ authentication_obligations }}"
+  loop_control:
+    label: "Obligation: {{ item.name }}"
+  when: authentication_obligations is defined
+  notify: Commit Changes
+

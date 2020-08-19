@@ -1,0 +1,30 @@
+galaxy_info:
+  author: IBM
+  description: Role to add one or more attribute sources to ISAM
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
+    - name: EL
+      versions:
+        - 8
+        - 7
+        - 6
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - attributesource
+  - set
+
+dependencies:
+  - start_config

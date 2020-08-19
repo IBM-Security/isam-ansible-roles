@@ -1,0 +1,9 @@
+# Default variables for krb5 merging
+#
+# The keytabs need to exist already in ISAM !
+#
+#keytab_files_to_merge:
+#  - id: combined.keytab
+#    merged_id:
+#      - keytab1.keytab
+#      - keytab2.keytab

@@ -1,0 +1,14 @@
+# Default variables for creation of obligations
+authentication_obligations: []
+
+# Example
+#authentication_obligations:
+#    - name         : "obligation"
+#      description  : "some obligation"
+#      obligationURI: "urn:ibm:obligation:myobligation"
+# These are optional parameters:
+#    parameters   : []
+#    type         : 'Obligation'
+#    typeId       : '1'
+#    properties   : []
+#    new_name     : "new_obiligation_name"
