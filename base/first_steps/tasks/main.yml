@@ -22,8 +22,13 @@
 - name: Initiate logic if First Steps Required
   set_fact:
     firststeps: "firststeps.yml"
-  when: result is defined and result.status == 200 and result.json.sla is defined
+  when:
+    - result is defined
+    - result.status == 200
+    - result.json.sla is defined
 
 # Go through basic set up to accept license and set up FIPS only needed
-- include: "{{ firststeps }}"
-  dynamic: true
+- name: "Execute {{ firststeps }}"
+  include: "{{ firststeps }}"
+  when:
+    - firststeps == 'firststeps.yml'
