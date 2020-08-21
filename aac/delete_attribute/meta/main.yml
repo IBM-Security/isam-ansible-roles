@@ -1,0 +1,31 @@
+galaxy_info:
+  author: IBM
+  description: Role to delete an access control attribute
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
+    - name: EL
+      versions:
+        - 8
+        - 7
+        - 6
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - delete
+  - accesscontrol
+  - attribute
+
+dependencies:
+  - start_config

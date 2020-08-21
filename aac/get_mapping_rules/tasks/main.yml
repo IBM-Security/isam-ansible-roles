@@ -1,0 +1,13 @@
+# Get all mapping rules and register the mapping_rules_obj, to use in other roles/playbooks
+---
+- name: Get all Mapping Rules
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.aac.mapping_rules.get_all
+    isamapi:
+  register: mapping_rules_obj

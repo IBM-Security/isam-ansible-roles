@@ -1,0 +1,59 @@
+# main task for creation of attribute
+#
+# Example:
+#   - name: Create custom attributes
+#     tags: ["oidc", "rba"]
+#     import_role:
+#        name: aac/create_attribute
+#      vars:
+#        accesscontrol_attributes:
+#            - name: "someAttribute"
+#              predefined:false
+#              description:""
+#              attributeURI: "someAttribute"
+#              type:
+#                 policy: true
+#                 risk: false
+#              issuer: ""
+#              datatype: String
+#              category: Subject
+#              matcher: 1
+#              storageDomain:
+#                device: false
+#                session: false
+#                behavior: false
+#
+#
+---
+- name: Create attribute
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.attributes.set
+    isamapi:
+      name: "{{ item.name }}"
+      description: "{{ item.description | default('') }}"
+      attributeURI: "{{ item.attributeURI | default([]) }}"
+      type: "{{ item.type | default([]) }}"
+      category: "{{ item.category | default('Subject') }}"
+      datatype: "{{ item.datatype | default('String') }}"
+      predefined: "{{ item.predefined | default(false) }}"
+      issuer: "{{ item.issuer | default('') }}"
+      matcher: "{{ item.matcher | default('1') }}"
+      storageDomain: "{{ item.storageDomain | default([]) }}"
+      new_name: "{{ item.new_name | default(omit) }}"
+  loop: "{{ accesscontrol_attributes }}"
+  loop_control:
+    label: "Setting Attribute: {{ item.name }}"
+  when: accesscontrol_attributes is defined
+  notify: Commit Changes
+

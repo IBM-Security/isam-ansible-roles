@@ -5,14 +5,9 @@ galaxy_info:
 
   license: Apache
 
-  min_ansible_version: 2.2
+  min_ansible_version: 2.8
+
   platforms:
-    - name: Fedora
-      versions:
-        - 30
-        - 29
-        - 28
-        - 27
     - name: EL
       versions:
         - 8
@@ -20,8 +15,8 @@ galaxy_info:
         - 6
 
   galaxy_tags:
-  - isam
-  - ibm
+    - isam
+    - ibm
 
 dependencies:
   - start_config

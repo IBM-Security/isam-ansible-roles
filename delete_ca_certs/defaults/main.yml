@@ -1,0 +1,10 @@
+# Provide a list of CA certs IDs to delete using a format like so:
+#   delete_ca_certs:
+#     - 'Thawte Primary Root CA'
+#     - 'VeriSign Class 1 Public Primary Certification Authority'
+#     - 'DeleteMe CA'
+
+# The above IDs show as "label" when viewed using the LMI.
+
+# Chances are the CA certs may need to be loaded into pdsrv - but override as needed
+delete_ca_certs_kdb_id: 'pdsrv'

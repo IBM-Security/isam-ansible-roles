@@ -5,8 +5,12 @@ import logging.config
 import sys
 import importlib
 from ansible.module_utils.basic import AnsibleModule
-from io import StringIO
 import datetime
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 from ibmsecurity.appliance.isamappliance import ISAMAppliance
 from ibmsecurity.appliance.isamappliance_adminproxy import ISAMApplianceAdminProxy

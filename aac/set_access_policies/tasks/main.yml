@@ -1,0 +1,33 @@
+# main task to upload access policies
+#   Example:
+#
+#    - name: Upload Access Policies
+#      tags: ["access-policy"]
+#      include_role:
+#        name: aac/set_access_policies
+#      vars:
+#        access_policies:
+#          - name: "MyAccessPolicy"
+#            file: "files/access-policies/MyAccessPolicy.js"
+#
+---
+- name: Set access policies
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.aac.access_policy.set
+    isamapi:
+      name: "{{ item.name }}"
+      file: "{{ item.file | default(omit) }}"
+      content: "{{ item.content | default(omit) }}"
+  with_items: "{{ access_policies }}"
+  notify: Commit Changes
