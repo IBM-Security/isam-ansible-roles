@@ -1,0 +1,11 @@
+- name: download latest snapshot from appliance
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action    : ibmsecurity.isam.base.snapshots.download_latest
+    isamapi:
+      dir : "{{ download_latest_snapshot_dir }}"

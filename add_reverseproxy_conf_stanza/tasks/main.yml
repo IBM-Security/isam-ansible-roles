@@ -1,0 +1,17 @@
+# Update existing stanza(s)/entries in reverse proxy config file
+- name: Configure Reverse Proxy stanza(s) (Adds)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.stanza.add
+    isamapi:
+      reverseproxy_id: "{{ add_reverseproxy_conf_stanza_reverseproxy_id }}"
+      stanza_id:       "{{ item.stanza_id }}"
+  with_items:          "{{ add_reverseproxy_conf_stanza_stanzas }}"
+  when: add_reverseproxy_conf_stanza_stanzas is defined and add_reverseproxy_conf_stanza_reverseproxy_id is defined
+  notify:
+  - Commit Changes

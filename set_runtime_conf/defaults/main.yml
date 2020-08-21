@@ -1,0 +1,14 @@
+# Provide entries in the following format. Create an array for each value to be updated.
+#
+#set_runtime_conf_entries:
+#  - resource_id: ldap.conf
+#    stanza_id: "ldap"
+#    entries:  "[['key', 'value']]"
+# #or for multiple values
+#    entries:  "[['key', 'value1'], ['key', 'value2'], ['key', 'value3']]"
+#
+# or use the single line syntax:
+#
+#set_runtime_conf_entries:
+#  - { resource_id: "ldap.conf", stanza_id: "ldap", entries: "[['key','value1']]" }
+#

@@ -1,0 +1,47 @@
+- name: snapshot before management authorization role update
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    lmi_port: "{{ lmi_port }}"
+    log: "{{ log_level }}"
+    force: "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "Snapshot Before Management Authorization Role Update"
+
+- name: add management authorization roles
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.management_authorization.role.add
+    isamapi:
+      name  : "{{ item.name }}"
+  with_items: "{{ set_managementauthorization_role_list }}"
+  when: item.name is defined
+
+# Commit changes before next step
+- meta: flush_handlers
+
+- name: set features for management authorization roles
+  isam:
+   appliance: "{{ inventory_hostname }}"
+   username:  "{{ username }}"
+   password:  "{{ password }}"
+   lmi_port:  "{{ lmi_port }}"
+   log:       "{{ log_level }}"
+   force:     "{{ force }}"
+   action: ibmsecurity.isam.base.management_authorization.role_feature.set
+   isamapi:
+     name: "{{ item.0.name }}"
+     feature_name: "{{ item.1.feature_name }}"
+     access: "{{ item.1.access }}"
+  with_subelements:
+    - "{{ set_managementauthorization_role_list }}"
+    - entries
+  when: set_managementauthorization_role_list is defined
+  notify: Commit Changes

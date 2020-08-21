@@ -1,0 +1,17 @@
+- name: Delete stanzas
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.reverse_proxy.configuration.stanza.delete
+    isamapi:
+      stanza_id           : "{{ item.stanza_id }}"
+      reverseproxy_id       : "{{ delete_reverseproxy_conf_stanza_reverseproxy_id }}"
+  with_items: "{{ delete_reverseproxy_conf_stanza_entries }}"
+  when: delete_reverseproxy_conf_stanza_entries is defined and delete_reverseproxy_conf_stanza_reverseproxy_id is defined
+  notify:
+    - Commit Changes
+    - Restart Reverse Proxy

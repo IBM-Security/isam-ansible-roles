@@ -1,0 +1,50 @@
+- name: Getting UUIDs of SNMP trapAddresses
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.snmp.get_all
+  register: snmp_objects
+
+- name: Initialize UUIDs array
+  set_fact:
+    snmp_uuids_to_delete: []
+
+- name: Gettings UUIDs to delete
+  set_fact:
+    snmp_uuids_to_delete: "{{ snmp_uuids_to_delete + [item.uuid] }}"
+  with_items: "{{ snmp_objects['data']['snmpObjects'] }}"
+  when: delete_system_alerts_snmp_trapAddress is defined and item.trapAddress in delete_system_alerts_snmp_trapAddress
+
+- name: Disable System Alerts SNMP before deleting
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.alerts.disable
+    isamapi:
+      uuid: "{{ item }}"
+  with_items: "{{ snmp_uuids_to_delete }}"
+  when: snmp_uuids_to_delete is defined
+  notify: Commit Changes
+
+- name: Delete System Alerts SNMP
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.system_alerts.snmp.delete
+    isamapi:
+      uuid: "{{ item }}"
+  with_items: "{{ snmp_uuids_to_delete }}"
+  when: snmp_uuids_to_delete is defined
+  notify: Commit Changes

@@ -1,0 +1,19 @@
+# Set existing stanza(s)/entries in runtime config file
+- name: Configure Runtime stanza(s) entries (Set)
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.web.runtime.configuration.entry.set
+    isamapi:
+      resource_id : "{{ item.resource_id }}"
+      stanza_id:    "{{ item.stanza_id }}"
+      entries:      "{{ item.entries }}"
+  with_items:       "{{ set_runtime_conf_entries }}"
+  when: set_runtime_conf_entries is defined
+  notify:
+  - Commit Changes
+  - Restart Web Runtime

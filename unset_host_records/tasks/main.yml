@@ -1,0 +1,14 @@
+- name: Unset Host Records
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.host.records.delete
+    isamapi:
+      host_address: "{{ item.addr }}"
+  when: unset_host_records is defined
+  with_items: "{{ unset_host_records }}"
+  notify: Commit Changes

@@ -1,0 +1,15 @@
+- name: Deleting "{{ delete_rsyslog_fowarder_server }}:{{ delete_rsyslog_fowarder_port }}" from Rsyslog Forwarder
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.remote_syslog.forwarder.delete
+    isamapi:
+      server:   "{{ delete_rsyslog_fowarder_server }}"
+      port:     "{{ delete_rsyslog_fowarder_port }}"
+      protocol: "{{ delete_rsyslog_fowarder_protocol }}"
+  when: delete_rsyslog_fowarder_server is defined and delete_rsyslog_fowarder_port is defined and delete_rsyslog_fowarder_protocol is defined
+  notify: Commit Changes

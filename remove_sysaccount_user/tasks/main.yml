@@ -1,0 +1,12 @@
+- name: Remove LMI user
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.sysaccount.users.delete
+    isamapi:
+      id: "{{ lmi_user_name }}"
+  notify: Commit Changes

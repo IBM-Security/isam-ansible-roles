@@ -1,0 +1,14 @@
+- name: Get Activated Modules
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.activation.get
+  register: ret_obj
+
+- name: Set variable for use by rest of playbook
+  set_fact:
+    modules_ret_obj: "{{ ret_obj }}"
