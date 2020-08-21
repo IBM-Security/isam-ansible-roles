@@ -5,7 +5,37 @@
   gather_facts: false
 
   roles:
-    - aac
+    - aac/create_attribute
+    - aac/create_obligation
+    - aac/delete_attribute
+    - aac/disable_authentication_policies
+    - aac/get_mapping_rules
+    - aac/set_access_policies
+    - aac/configure_access_control_attributes
+    - aac/configure_access_control_policies
+    - aac/configure_access_control_policy_attachments
+    - aac/configure_access_control_policy_resources
+    - aac/configure_api_protection_clients
+    - aac/configure_api_protection_definitions
+    - aac/configure_authentication_mechanisms
+    - aac/configure_authentication_policies
+    - aac/configure_mapping_rules
+    - aac/configure_runtime_template_root
+    - aac/configure_scim
+    - aac/configure_server_connections
+    - aac/configure_user_registry
+    - aac/create_api_protection_clients
+    - aac/create_api_protection_definitions
+    - aac/create_authentication_mechanisms
+    - aac/create_authentication_policies
+    - aac/create_user_registry_user
+    - aac/disable_all_authentication_policies
+    - aac/export_runtime_template_root
+    - aac/get_accesscontrol_configuration
+    - aac/set_accesscontrol_policies
+    - aac/set_accesscontrol_policyattachment
+    - aac/update_advanced_configurations
+    - aac/update_api_protection_clients
     - activate_module
     - add_attribute_source
     - add_chain_template
@@ -32,7 +62,44 @@
     - add_system_alerts_snmp
     - archive_logs
     - authenticate_policy_attachments
-    - base
+    - base/activate_modules
+    - base/add_bonding_interfaces
+    - base/add_interfaces
+    - base/apply_snapshot
+    - base/backup_firmware
+    - base/bonding_interfaces
+    - base/change_admin_password
+    - base/configure_advanced_tuning_parameters
+    - base/configure_cluster
+    - base/configure_dhcp
+    - base/configure_interfaces
+    - base/configure_runtime_tunings
+    - base/configure_time
+    - base/create_snapshot
+    - base/create_ssl_certificate_databases
+    - base/create_sysaccounts
+    - base/delete_interfaces
+    - base/delete_snapshots
+    - base/download_snapshots
+    - base/export_certificates
+    - base/externalize_hvdb
+    - base/extract_certificates
+    - base/first_steps
+    - base/generate_self_signed_certificates
+    - base/get_certificate_databases
+    - base/get_personal_certificates
+    - base/get_signer_certificates
+    - base/import_personal_certificates
+    - base/import_signer_certificates
+    - base/install_fixpacks
+    - base/install_update
+    - base/load_signer_certificates
+    - base/set_host_records
+    - base/set_listening_interfaces
+    - base/swap_firmware
+    - base/upload_signer_certificates
+    - base/upload_snapshot
+    - base/upload_updates
     - bootstrap_local
     - config_dns
     - config_failover_cookie
@@ -60,8 +127,16 @@
     - export_application_logs
     - export_cluster_sign
     - externalize_hvdb_db2
-    - fed
+    - fed/configure_instance_federations
+    - fed/configure_sts_chains
+    - fed/configure_sts_chain_templates
+    - fed/create_federation_partners
+    - fed/create_federations
+    - fed/get_federation_partners
+    - fed/get_federations
+    - fed/set_runtime_certificates
     - first_steps
+    - fed/set_attribute_source
     - gen_report
     - get_federation
     - get_firmware
@@ -128,4 +203,27 @@
     - upload_extension
     - upload_ltpa_key
     - upload_mapping_rule
-    - web
+    - web/merge_keytabs
+    - web/upload_kerberos_keytab_files
+    - web/configure_federated_directories
+    - web/configure_management_root
+    - web/configure_policyserver
+    - web/configure_reverseproxy_instances
+    - web/configure_reverseproxy_junctions
+    - web/configure_runtime_components
+    - web/create_reverseproxy_instances
+    - web/create_sso_keys
+    - web/execute_pdadmin
+    - web/export_sso_keys
+    - web/import_certificate_mapping_files
+    - web/import_sso_keys
+    - web/restart_reverseproxy_instance
+    - web/set_embedded_ldap_admin_pw
+    - web/set_runtime_components
+    - web/update_jmt_files
+    - web/upload_dynurl_files
+    - web/upload_http_transformation_files
+    - web/upload_jmt_files
+    - web/upload_ltpa_files
+    - web/upload_management_root_files
+    - web/upload_runtime_components

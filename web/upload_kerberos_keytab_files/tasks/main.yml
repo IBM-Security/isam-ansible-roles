@@ -1,0 +1,37 @@
+# main task to upload keytab files
+# Example:
+# - hosts: "all"
+#   connection: local
+#   gather_facts: no
+#   tasks:
+#    - name: Upload keytabs
+#      tags: ["keytab"]
+#      import_role:
+#        name: web/upload_kerberos_keytab_files
+#      vars:
+#        keytab_files
+#        -  id: keytab.tab
+#           file: /path/to/keytab.tab
+#        -  id: keytab2.tab
+#           file: /path/to/keytab2.tab
+#
+---
+- name: Upload keytab files
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
+    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
+    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
+    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
+    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ port | default(omit) }}"
+    log:       "{{ log_level | default(omit) }}"
+    force:     "{{ force | default(omit) }}"
+    action: ibmsecurity.isam.web.kerberos_configuration.keyfiles.import_keytab
+    isamapi:
+      id: "{{ item.id }}"
+      file: "{{ item.file }}"
+  with_items: "{{ keytab_files }}"
+  notify: Commit Changes

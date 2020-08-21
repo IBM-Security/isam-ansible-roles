@@ -6,7 +6,7 @@ committed (deployed) and relevant processes restarted.
 
 ## Requirements
 
-Python v2.7.10 and above is required for this package.
+Python v2.7.10 or v3.7.0 and above is required for this package.
 
 The following Python Packages are required (including their dependencies):
 1. ibmsecurity

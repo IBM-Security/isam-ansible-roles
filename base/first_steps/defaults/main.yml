@@ -1,3 +1,4 @@
+#
 lmi_port: 443
 username: admin
 password: admin
@@ -6,6 +7,7 @@ force: false
 
 # LMI FIPS options
 FIPS_cfg: { fipsEnabled: true, tlsv10Enabled: false, tlsv11Enabled: true }
+fips_restart_wait_time: 1
 
 lmi_session_timeout: 720
 

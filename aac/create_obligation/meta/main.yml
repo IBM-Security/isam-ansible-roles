@@ -1,9 +1,6 @@
-#
-# Use base/first_steps instead
-#
 galaxy_info:
   author: IBM
-  description: Role that executes first steps on an appliance that has just been built
+  description: Role to create obligations
   company: IBM
 
   license: Apache
@@ -11,6 +8,12 @@ galaxy_info:
   min_ansible_version: 2.7
 
   platforms:
+    - name: Fedora
+      versions:
+        - 30
+        - 29
+        - 28
+        - 27
     - name: EL
       versions:
         - 8
@@ -18,8 +21,10 @@ galaxy_info:
         - 6
 
   galaxy_tags:
-    - isam
-    - ibm
+  - isam
+  - ibm
+  - create
+  - authenticationpolicy
 
 dependencies:
   - start_config

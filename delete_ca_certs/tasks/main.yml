@@ -1,0 +1,16 @@
+- name: Delete CA Certs from {{ delete_ca_certs_kdb_id }}
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.delete
+    isamapi:
+      kdb_id : "{{ delete_ca_certs_kdb_id }}"
+      cert_id: "{{ item }}"
+  with_items : "{{ delete_ca_certs }}"
+  when: delete_ca_certs_kdb_id is defined and delete_ca_certs is defined
+  notify:
+  - Commit Changes

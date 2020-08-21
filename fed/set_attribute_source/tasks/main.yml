@@ -1,0 +1,31 @@
+- name: Snapshot Appliance Before Adding Attribute Sources
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.base.snapshots.create
+    isamapi:
+      comment: "{{ add_attribute_source_comment }}"
+  when: add_attribute_source_snapshot|bool
+
+- name: Set Attribute Sources
+  isam:
+    appliance: "{{ inventory_hostname }}"
+    username:  "{{ username }}"
+    password:  "{{ password }}"
+    lmi_port:  "{{ lmi_port }}"
+    log:       "{{ log_level }}"
+    force:     "{{ force }}"
+    action: ibmsecurity.isam.fed.attribute_source.set
+    isamapi:
+      name: "{{ item.attribute_source_name }}"
+      type: "{{ item.attribute_source_type }}"
+      value: "{{ item.attribute_source_value }}"
+      properties: "{{ item.attribute_source_properties | default([]) }}"
+  with_items: "{{ attribute_sources }}"
+  when: attribute_sources is defined
+  notify: Commit Changes
+

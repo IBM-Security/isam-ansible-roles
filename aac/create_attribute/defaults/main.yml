@@ -1,0 +1,20 @@
+# Default variables for creation of attributes
+accesscontrol_attributes: []
+#
+# Example:
+#  - name: "someAttribute"
+#    predefined:false
+#    description:""
+#    attributeURI: "someAttribute"
+#    type:
+#       policy: true
+#       risk: false
+#    issuer: ""
+#    datatype: String
+#    category: Subject
+#    matcher: 1
+#    storageDomain:
+#      device: false
+#      session: false
+#      behavior: false
+

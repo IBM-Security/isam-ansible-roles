@@ -1,0 +1,8 @@
+# Default variables for deletion of access control attributes
+# you cannot delete pre-defined attributes
+accesscontrol_delete_attributes: []
+#
+# Example:
+#  - name: "attributeToDelete"
+#
+

@@ -1,0 +1,45 @@
+# Default variables for disabling of authentication policies
+# This variable needs to point to your authentication policies as used in aac/configure_authentication_policies
+#   Example:
+#     authentication_policies:
+#       - name: InfoMapAuthenticationName
+#         description: test
+#         predefined:	false
+#         properties:
+#           - key: infoMap.JSRule
+#             value:	test
+#           - key: infoMap.HTMLPage
+#             value:	test.html
+#         typeName: InfoMapAuthenticationName
+#         uri:	urn:ibm:security:authentication:asf:mechanism:test
+authentication_policies: []
+#
+# This variable points to a list names of authentication policies you want to keep enabled.
+#   This is meant to include the out of the box policies you need.
+#   You do not need to include the "authentication_policies", the 2 lists are combined into 1
+#     This mean that if you already have configured the variable authentication_policies elsewhere , as in
+#       aac/create_authentication_policies
+#     These will be automatically excluded from disabling
+#
+# Example:
+#   whitelist_authentication_policies:
+#    - name: MMFA User Presence Authentication
+#    - name: Consent Register Device
+whitelist_authentication_policies:
+  - name: Consent Register Device
+  - name: QR Code Login Initiate
+  - name: MMFA User Presence Authentication
+
+# Example :
+# - hosts: "all"
+#  connection: local
+#  gather_facts: yes
+#  tasks:
+#     - name: Disable authentication policies
+#       import_role:
+#         name: aac/disable_authentication_policies
+#       vars       :
+#         authentication_policies: "{{ mga_authentication_policies }}"
+#         whitelist_authentication_policies:
+#           - name: MMFA User Presence Authentication
+#       when: mga_authentication_policies is defined
