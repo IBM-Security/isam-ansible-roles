@@ -32,7 +32,7 @@
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.web.reverse_proxy.instance.add
-    isamapi: "{{ item | exclude('junctions') | exclude('entries') }}"
+    isamapi: "{{ item | exclude('junctions') | exclude('entries') | exclude('management_root')}}"
   with_items: "{{ instances }}"
   loop_control:
    label: "Creating {{ item.inst_name }} with ip address {{ item.ip_address | default('docker') }}"
