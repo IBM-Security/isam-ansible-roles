@@ -1,0 +1,2 @@
+# default variables to receive certificates
+receive_ssl_certificates: []
