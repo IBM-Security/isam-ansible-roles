@@ -17,7 +17,7 @@ add_oauth_definition_pinPolicyEnabled                            : False
 add_oauth_definition_pinLength                                   : 4
 add_oauth_definition_tokenCharSet                                : "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 add_oauth_definition_oidc                                        : null
-
+add_oauth_definition_accessPolicyName                            : null
 
 # This would be a possible example on how to invoke this role
 #    - role: add_oauth_definition

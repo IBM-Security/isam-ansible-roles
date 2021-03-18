@@ -26,6 +26,8 @@
       pinLength                                   : "{{ add_oauth_definition_pinLength }}"
       tokenCharSet                                : "{{ add_oauth_definition_tokenCharSet }}"
       oidc                                        : "{{ add_oauth_definition_oidc }}"
+      accessPolicyName                            : "{{ add_oauth_definition_accessPolicyName }}"
   when: add_oauth_definition_name is defined
   notify:
   - Commit Changes
+  - Reload Liberty Runtime
