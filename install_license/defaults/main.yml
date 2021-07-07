@@ -4,4 +4,4 @@
 
 # Comment to be used for creating a snapshot file
 install_license_comment: "Automated Snapshot Before Installing Product Support License"
-install_license_file: null
+#install_license_file: null
