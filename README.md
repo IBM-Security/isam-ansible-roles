@@ -4,6 +4,19 @@ This repository contains Ansible Custom Modules and Roles for automating ISAM Ap
 interface to python idempotent functions in ibmsecurity package. Handlers are coded into the roles to ensure changes are
 committed (deployed) and relevant processes restarted.
 
+## DEPRECATED
+
+This repository is no longer maintained nor monitored. 
+It's only here for reference, as-is.
+
+**The modules and roles in here do not work anymore with recent Ansible versions.**
+
+The roles and modules have been included in the ISAM Ansible Collection (https://github.com/IBM-Security/isam-ansible-collection)
+There is a small guide how to migrate from using isam-ansible-roles to the ISAM Ansible Collection.
+
+To submit issues, please use the ISAM Ansible Collection issues (https://github.com/IBM-Security/isam-ansible-collection/issues)
+
+
 ## Requirements
 
 Python v2.7.10 or v3.7.0 and above is required for this package.
