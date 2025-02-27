@@ -1,11 +1,5 @@
-# main task to upload signer certificates
-#   Example:
-#      upload_signer_certificates:
-#         -   kdb_id: "{{ item.kdb_id }}"
-#             cert: "{{ inventory_dir }}/{{ item.cert  }}"
-#             label: "{{ item.label }}"
----
-- name: Upload signer certificates
+# main task to create a certificate request
+- name: Create certificate request
   isam:
     appliance: "{{ inventory_hostname }}"
     adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
@@ -18,10 +12,6 @@
     lmi_port:  "{{ port | default(omit) }}"
     log:       "{{ log_level | default(omit) }}"
     force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.base.ssl_certificates.signer_certificate.import_cert
-    isamapi:
-      kdb_id: "{{ item.kdb_id }}"
-      cert: "{{ item.cert  }}"
-      label: "{{ item.label }}"
-  with_items: "{{ upload_signer_certificates }}"
-  notify: Commit Changes
+    action: ibmsecurity.isam.base.ssl_certificates.certificate_requests.add
+    isamapi: "{{ item }}"
+  with_items: "{{ certificate_requests }}"

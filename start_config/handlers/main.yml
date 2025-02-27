@@ -2,19 +2,7 @@
 #   http://docs.ansible.com/ansible/glossary.html#notify
 # <cut>Handlers are run in the order they are listed, not in the order that they are notified.</cut>
 - name: Commit Changes
-  isam:
-    appliance: "{{ inventory_hostname }}"
-    adminProxyProtocol: "{{ adminProxyProtocol | default(omit) }}"
-    adminProxyHostname: "{{ adminProxyHostname | default(omit) }}"
-    adminProxyPort: "{{ adminProxyPort | default(omit) }}"
-    adminProxyApplianceShortName: "{{ adminProxyApplianceShortName | default(omit) }}"
-    omitAdminProxy: "{{ omitAdminProxy | default(omit) }}"
-    username:  "{{ username }}"
-    password:  "{{ password }}"
-    lmi_port:  "{{ port | default(omit) }}"
-    log:       "{{ log_level | default(omit) }}"
-    force:     "{{ force | default(omit) }}"
-    action: ibmsecurity.isam.appliance.commit
+  include_tasks: commit.yml
 
 - name: Commit Changes and Restart
   isam:
@@ -57,6 +45,7 @@
     action: ibmsecurity.isam.web.runtime.process.execute
     isamapi:
       operation: "restart"
+  when: '"model" not in ansible_facts or ("model" in ansible_facts and not ansible_facts.model == "Docker")'
 
 # This is a two part handler - first one gets all reverse proxies, second one restarts all of them
 # Get all reverse proxies in appliance - also set changed flag to trigegr next handler
@@ -96,7 +85,7 @@
     isamapi:
       id:        "{{ item.id }}"
       operation: "restart"
-  when: reverseproxy_list is defined and 'data' in reverseproxy_list
+  when: 'reverseproxy_list is defined and "data" in reverseproxy_list and ("model" not in ansible_facts or ("model" in ansible_facts and not ansible_facts.model == "Docker"))'
   with_items: "{{ reverseproxy_list['data'] }}"
 
 - name: Reload Liberty Runtime
@@ -115,7 +104,7 @@
     action: ibmsecurity.isam.base.runtime.process.execute
     isamapi:
       operation: "reload"
-  when: not ansible_check_mode
+  when: 'not ansible_check_mode and ("model" not in ansible_facts or ("model" in ansible_facts and not ansible_facts.model == "Docker"))'
 
 - name: Restart AAC Runtime
   isam:
@@ -133,7 +122,7 @@
     action: ibmsecurity.isam.base.runtime.process.execute
     isamapi:
       operation: "restart"
-  when: not ansible_check_mode
+  when: 'not ansible_check_mode and ("model" not in ansible_facts or ("model" in ansible_facts and not ansible_facts.model == "Docker"))'
 
 - name: Reboot Appliance
   isam:
@@ -150,7 +139,7 @@
     force:     "{{ force | default(omit) }}"
     action: ibmsecurity.isam.appliance.reboot
   notify: Await Appliance LMI Response
-  when: not ansible_check_mode
+  when: 'not ansible_check_mode and ("model" not in ansible_facts or ("model" in ansible_facts and not ansible_facts.model == "Docker"))'
 
 - name: Restart LMI
   isam:

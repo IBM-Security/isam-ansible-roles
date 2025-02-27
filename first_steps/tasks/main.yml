@@ -14,6 +14,20 @@
   check_mode: no
   register: result
 
+- name: Check ISAM docker for First Steps Execution
+  uri:
+    url: "https://{{ inventory_hostname }}/lmi"
+    user: "{{ username }}"
+    password: "{{ password }}"
+    method: GET
+    return_content: yes
+    force_basic_auth: yes
+    status_code: 200, 403
+    validate_certs: false
+    HEADER_Accept: "application/json"
+  check_mode: no
+  register: docker_result
+
 - name: Assume First Steps Executed
   set_fact:
     firststeps: "skip_fs.yml"

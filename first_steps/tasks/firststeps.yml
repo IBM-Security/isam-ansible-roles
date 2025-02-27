@@ -5,34 +5,50 @@
 #     set up LMI FIPS
 #     restart LMI
 #     change password
-#
+
+- name: Determine if docker
+  set_fact:
+    is_docker: docker_result.status == 200 and docker_result.json.sla is defined
+
+- name: Set default password
+  set_fact:
+    default_password: admin
+
+- name: Change default password when docker
+  set_fact:
+    default_password: "{{ password }}"
+  when: is_docker
+
+
 # accept service agreements
 - name: Accept Service Agreements
   isam:
     appliance: "{{ inventory_hostname }}"
     username: admin
-    password: admin
+    password: "{{ default_password }}"
     action: ibmsecurity.isam.base.service_agreement.set
 
 - name: Get Last Boot Timestamp
   isam:
     appliance: "{{ inventory_hostname }}"
     username: admin
-    password: admin
+    password: "{{ default_password }}"
     action: ibmsecurity.isam.base.firmware.get
   check_mode: no
   register: ret_obj
+  when: not is_docker
 
 - name: Extract Last Boot Timestamp
   set_fact:
     last_boot: "{{ ret_obj.data[0].last_boot }}"
+  when: not is_docker
 
 # set up LMI FIPS
 - name: Setup FIPS Mode
   isam:
     appliance: "{{ inventory_hostname }}"
     username: admin
-    password: admin
+    password: "{{ default_password }}"
     action: ibmsecurity.isam.base.fips.set
     isamapi:
       fipsEnabled: "{{ FIPS_cfg.fipsEnabled }}"
@@ -47,12 +63,13 @@
   isam:
       appliance: "{{ inventory_hostname }}"
       username: admin
-      password: admin
+      password: "{{ default_password }}"
       action: ibmsecurity.isam.base.fips.restart
   when:
     - first_steps_fips
     - ret_obj.data.reboot is defined
     - ret_obj.data.reboot
+    - not is_docker
 
 - name: Pause for Reboot {{ fips_restart_wait_time }}mins
   pause:
@@ -61,13 +78,14 @@
     - first_steps_fips
     - ret_obj.data.reboot is defined
     - ret_obj.data.reboot
+    - not is_docker
 
 # Make sure system restarted
 - name: Check FIPS settings for System Online Status
   isam:
     appliance: "{{ inventory_hostname }}"
     username: admin
-    password: admin
+    password: "{{ default_password }}"
     action: ibmsecurity.isam.base.firmware.get
   register: result
   retries: 5
@@ -84,7 +102,7 @@
   isam:
     appliance: "{{ inventory_hostname }}"
     username: admin
-    password: admin
+    password: "{{ default_password }}"
     action: ibmsecurity.isam.base.setup_complete.set
   register: ret_obj
 - debug: var=ret_obj
@@ -99,7 +117,7 @@
           'oldPassword': 'admin'
           'newPassword': "{{ password }}"
           'sessionTimeout': "{{ lmi_session_timeout }}"
-  when: first_steps_admin_pwd
+  when: first_steps_admin_pwd and not is_docker
 
 - name: Get LMI Last Restart Timestamp
   isam:
@@ -112,11 +130,12 @@
     action: ibmsecurity.isam.base.lmi.get
   check_mode: no
   register: ret_obj
+  when: not is_docker
 
 - name: Extract LMI Restart Timestamp
   set_fact:
     old_start_time: "{{ ret_obj.data[0].start_time }}"
-  when: not ansible_check_mode
+  when: not ansible_check_mode and not is_docker
 
 - name: Commit Changes and Restart LMI
   isam:
@@ -127,7 +146,7 @@
     log:       "{{ log_level }}"
     force:     "{{ force }}"
     action: ibmsecurity.isam.appliance.commit_and_restart
-  when: not ansible_check_mode
+  when: not ansible_check_mode and not is_docker
 
 - name: Wait for 1 minute
   pause:
