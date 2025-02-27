@@ -11,4 +11,8 @@
       certificate   : "{{ update_management_ssl_cert_cert }}"
       password      : "{{ update_management_ssl_cert_pwd }}"
   when: update_management_ssl_cert_cert is defined and update_management_ssl_cert_pwd is defined
-  notify: Commit Changes
+  notify: 
+    - Commit Changes
+    - Restart LMI
+    - Await Appliance LMI Response
+
