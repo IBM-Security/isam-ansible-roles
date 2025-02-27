@@ -1,0 +1,18 @@
+galaxy_info:
+  author: IBM
+  description: Role that gets object data from Policy Server
+  company: IBM
+
+  license: Apache
+
+  min_ansible_version: 2.5
+
+  galaxy_tags:
+  - isam
+  - ibm
+  - policy_server
+  - object
+  - show
+
+dependencies:
+  - start_config
