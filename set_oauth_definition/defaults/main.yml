@@ -17,3 +17,4 @@ set_oauth_definition_pinPolicyEnabled                            : False
 set_oauth_definition_pinLength                                   : 4
 set_oauth_definition_tokenCharSet                                : "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 set_oauth_definition_oidc                                        : None
+set_oauth_definition_accessPolicyName                            : None

@@ -30,3 +30,4 @@
   when: set_oauth_definition_name is defined
   notify:
   - Commit Changes
+  - Reload Liberty Runtime
